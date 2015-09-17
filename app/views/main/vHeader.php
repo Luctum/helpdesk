@@ -2,7 +2,7 @@
 <html>
 <head>
 <base href="<?php echo $config["siteUrl"]?>">
-<title>Helpdesk</title>
+<title>Helpdesk - H&M</title>
 <script type="text/javascript" src="assets/js/jquery.min.js"></script>
 <script type="text/javascript" src="assets/js/bootstrap.min.js"></script>
 <script type="text/javascript" src="assets/js/ckeditor/ckeditor.js"></script>
@@ -28,11 +28,11 @@
 			<div class="collapse navbar-collapse" id="collapse-mainNav">
 				<ul class="nav navbar-nav navbar-nav">
 					<li id='mainNav-navzone-1-li-1'><a id='mainNav-navzone-1-link-1'
-						href="#">Créer un ticket</a></li>
+						href="tickets/frm">Créer un ticket</a></li>
 					<li id='mainNav-navzone-1-li-2'><a id='mainNav-navzone-1-link-2'
-						href="#">Tickets</a></li>
+						href="tickets/">Tickets</a></li>
 					<li id='mainNav-navzone-1-li-3'><a id='mainNav-navzone-1-link-3'
-						href="#">Foire aux questions</a></li>
+						href="FAQs/">Foire aux questions</a></li>
 				</ul>
 			</div>
 			<!-- /.navbar-collapse -->
@@ -42,7 +42,7 @@
 	<div class="bs-docs-header">
 		<div class="container">
 			<div class="header">
-				<h1>HelpDesk</h1>
+				<h1>HelpDesk - H&M</h1>
 				<p>Assistance, support et gestion des incidents.</p>
 				<div class="pull-right">
 					<?php
