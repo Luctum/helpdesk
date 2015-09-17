@@ -1,3 +1,8 @@
+
+# Helpdesk - H&M version
+Made by Hugo and Maxime
+
+
 ![HelpDesk](http://angular.kobject.net/git/phalconist/helpdesk.png "HelpDesk")
 # helpdesk
 A Helpdesk Application for educational purposes using a micro-framework
@@ -10,7 +15,3 @@ A Helpdesk Application for educational purposes using a micro-framework
 - [x] consult the micro-framework api : [documentation](http://api.kobject.net/micro-framework/)
 
 
-# Helpdesk - H&M version
-Made by Hugo and Maxime
-
-l
