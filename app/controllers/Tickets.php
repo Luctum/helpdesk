@@ -51,6 +51,11 @@ class Tickets extends \_DefaultController {
 	
 	public function messages($id){
 		$ticket=DAO::getOne("Ticket", $id[0]);
+		if(Auth::getUser() != $ticket->getUser() && Auth::isAdmin() != true){
+				$ticket = null;
+				echo "Veuillez vous assurez que votre compte possede les droits suffisants pour acceder a cette ressource";
+				echo "<br/><a class='btn btn-primary' href='".get_class($this)."'>Retour</a>";
+		}
 		if($ticket!=NULL){
 			echo "<h2>".$ticket."</h2>";
 			$messages=DAO::getOneToMany($ticket, "messages");
