@@ -53,28 +53,39 @@ class Tickets extends \_DefaultController {
 		$ticket=DAO::getOne("Ticket", $id[0]);
 		if(Auth::getUser() != $ticket->getUser() && Auth::isAdmin() != true){
 				$ticket = null;
-				echo "Veuillez vous assurez que votre compte possede les droits suffisants pour acceder a cette ressource";
+				echo "Veuillez vous assurez que votre compte posséde les droits suffisants pour accéder à cette ressource";
 				echo "<br/><a class='btn btn-primary' href='".get_class($this)."'>Retour</a>";
 		}
-		if($ticket!=NULL){
-			echo "<h2>".$ticket."</h2>";
-			$messages=DAO::getOneToMany($ticket, "messages");
-			echo "<table class='table table-striped'>";
-			echo "<thead><tr><th>Messages</th></tr></thead>";
-			echo "<tbody>";
-			foreach ($messages as $msg){
-				echo "<tr>";
-				echo "<td title='message' data-content='".htmlentities($msg->getContenu())."' data-container='body' data-toggle='popover' data-placement='bottom'>".$msg->toString()."</td>";
-				echo "</tr>";
-			}
-			echo "</tbody>";
-			echo "</table>";
-			echo Jquery::execute("$(function () {
-					  $('[data-toggle=\"popover\"]').popover({'trigger':'hover','html':true})
-				})");
+		
+		echo "<h2>".$ticket."</h2>";
+		$messages=DAO::getOneToMany($ticket, "messages");
+		echo "<div id='messageList'></div>";
+		echo "<h3>Reponses</h3>";
+		echo "<div id='messages' class='container'>";
+		
+		
+		foreach($messages as $msg){
+			echo "Le ".$msg->getDate().", ".$msg->getUser()." dit : ";
+			echo "<br/>";
+			echo $msg->getContenu();
+			echo "<br/>";
+			echo "<br/>";
 		}
+		
+		echo "</table'>";
+		echo "</div>";
+		
+		$this->frmMsg($id,$ticket);
 	}
 
+	//Formulaire d'envoi de message pour répondre aux tickets 
+	public function frmMsg($id =NULL, $ticket){
+		if($ticket!=NULL){	
+			$this->loadView("message/vAdd", array("ticket"=>$ticket));
+			echo Jquery::execute("CKEDITOR.replace( 'contenu');");
+		}
+	}
+	
 	public function frm($id=NULL){
 		$ticket=$this->getInstance($id);
 		$categories=DAO::getAll("Categorie");
@@ -90,6 +101,8 @@ class Tickets extends \_DefaultController {
 		echo Jquery::execute("CKEDITOR.replace( 'description');");
 	}
 
+
+	
 	/* (non-PHPdoc)
 	 * @see _DefaultController::setValuesToObject()
 	 */
