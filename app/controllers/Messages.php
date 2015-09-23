@@ -26,6 +26,7 @@ class Messages extends \_DefaultController {
 	
 	public function update($params=null){
 		if(RequestUtils::isPost()){
+            global $config;
 			$className=$this->model;
 			$object=new $className();
 			$this->setValuesToObject($object);
@@ -36,15 +37,15 @@ class Messages extends \_DefaultController {
 				}catch(Exception $e){
 					$msg=new DisplayedMessage("Impossible de modifier l'instance de ".$this->model,"danger");
 				}
-			}else{
-				try{
-					DAO::insert($object);
-					$msg=new DisplayedMessage("Instance de ".$this->model." `{$object->toString()}` ajoutée");
-				}catch(Exception $e){
-					$msg=new DisplayedMessage("Impossible d'ajouter l'instance de ".$this->model,"danger");
-				}
-			}
-			$this->forward(get_class($params),"messages/$params",$msg);
+			}else {
+                try {
+                    DAO::insert($object);
+                    $msg = new DisplayedMessage("Instance de " . $this->model . " `{$object->toString()}` ajoutée");
+                } catch (Exception $e) {
+                    $msg = new DisplayedMessage("Impossible d'ajouter l'instance de " . $this->model, "danger");
+                }
+            }
+            header("Location: ".$config["siteUrl"]."tickets/messages/".$params[0]);
 		}
 	}
 	
