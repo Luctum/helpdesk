@@ -45,7 +45,8 @@ class Messages extends \_DefaultController {
                     $msg = new DisplayedMessage("Impossible d'ajouter l'instance de " . $this->model, "danger");
                 }
             }
-            header("Location: ".$config["siteUrl"]."tickets/messages/".$params[0]);
+            
+            //header("Location: ".$config["siteUrl"]."tickets/messages/".$params[0]);
 		}
 	}
 	

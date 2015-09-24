@@ -58,31 +58,51 @@ class Tickets extends \_DefaultController {
 		}
 		
 		echo "<h2>".$ticket."</h2>";
-		$messages=DAO::getOneToMany($ticket, "messages");
-		echo "<div id='messageList'></div>";
 		echo "<h3>Reponses</h3>";
 		echo "<div id='messages' class='container'>";
 		
 		
-		foreach($messages as $msg){
-			echo "Le ".$msg->getDate().", ".$msg->getUser()." dit : ";
-			echo "<br/>";
-			echo $msg->getContenu();
-			echo "<br/>";
-			echo "<br/>";
-		}
+		$this->afficheDiscussion($id);
 		
-		echo "</table'>";
+		echo "</div>";
+		echo "<div id='newMsg' class='container'>";
 		echo "</div>";
 		
 		$this->frmMsg($id,$ticket);
+		echo Jquery::executeOn("#submitMsg", "click", "CKEDITOR.instances['contenu'].updateElement();");
+		echo Jquery::postFormOn("click","#submitMsg","messages/update", "formMsg","#newMsg", false, Jquery::_get('tickets/afficheDiscussion/'.$id[0],'#messages'));
 	}
 
+	public function afficheDiscussion($id){
+		
+		$ticket=DAO::getOne("Ticket", $id[0]);
+		$messages=DAO::getOneToMany($ticket, "messages");
+		foreach($messages as $msg){
+			echo "<div class='msg-box'>";
+			if($msg->getUser()->getId() == $ticket->getUser()->getId()){
+				echo "<div class='msg-rank-u'>";
+			}
+			else{
+				echo "<div class='msg-rank-a'>";
+				
+			}
+			echo "Le ".$msg->getDate().", ".$msg->getUser()." dit : ";
+			echo "</div>";
+			echo "<div class='msg-text'>";
+			echo "<br/>";
+			echo $msg->getContenu();
+			echo "<br/>";
+			echo "</div>";
+			
+			echo "</div>";
+		}
+	}
+	
 	//Formulaire d'envoi de message pour répondre aux tickets 
 	public function frmMsg($id =NULL, $ticket){
 		if($ticket!=NULL){	
 			$this->loadView("message/vAdd", array("ticket"=>$ticket));
-			echo Jquery::execute("CKEDITOR.replace( 'contenu');");
+			echo Jquery::execute("CKEDITOR.replace('contenu');");
 		}
 	}
 	
