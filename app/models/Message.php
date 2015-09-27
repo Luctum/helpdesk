@@ -12,6 +12,7 @@ class Message extends Base{
 	private $id;
 	private $date;
 	private $contenu;
+    private $lu;
 	/**
 	 * @ManyToOne
 	 * @JoinColumn(name="idUser",className="User",nullable=false)
@@ -67,6 +68,15 @@ class Message extends Base{
 		$this->ticket=$ticket;
 		return $this;
 	}
+
+    public function getLu() {
+        return $this->ticket;
+    }
+
+    public function setLu($lu){
+        $this->lu=$lu;
+        return $this;
+    }
 
 	/* (non-PHPdoc)
 	 * @see Base::toString()
