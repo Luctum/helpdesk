@@ -6,8 +6,8 @@
 	<a class="btn btn-default" href="<?php echo $config["siteUrl"]?>tickets">Annuler</a>
 </div>
 <div class="alert alert-info">Ticket : <?php echo $ticket->toString()?></div>
-<input type="hidden" id="idCategorie" name="idCategorie" value="<?php $ticket->getCategorie()->getId()?>">
-<input type="hidden" id="idStatut" name="idStatut" value="<?php $ticket->getStatut()->getId()?>">
+<input type="hidden" id="idCategorie" name="idCategorie" >
+<input type="hidden" id="idStatut" name="idStatut" >
 <input type="hidden" id="idUser" name="idUser" value="<?php $ticket->getUser()->getId()?>">
 <?php if (Auth::isAdmin() == true) {?>
 	<div class="form-group">
