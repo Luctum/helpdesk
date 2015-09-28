@@ -26,6 +26,7 @@ class Tickets extends \_DefaultController {
 			$this->_showDisplayedMessage($message);
 		}
 		$objects=DAO::getAll($this->model);
+        $notifications = DAO::getAll("Notification");
 		echo "<table class='table table-striped'>";
 		echo "<thead><tr><th>".$this->model."</th></tr></thead>";
 		echo "<tbody>";
@@ -36,20 +37,20 @@ class Tickets extends \_DefaultController {
 				if(is_callable(array($object,"getUser"))){
 					echo "<td>".$object->getUser()."</td>";
 				}
-				if($object->getNotif() == 0){
-					//error_reporting(0);
-					//xdebug_disable();
-					
-					echo "<td class='btn-warning'></td>";
-	
-					$object->setNotif(1);
-					DAO::update($object);
+                $button = "<td class='btn-success'></td>";
+                foreach($notifications as $n){
 
-					//xdebug_enable();
-					//error_reporting(-1);
-				}else{
-					echo "<td class='btn-success'></td>";
-				}
+                    if($n->getIdTicket() == $object->getId() && $n->getIdUser() != Auth::getUser()) {
+                        //error_reporting(0);
+                        //xdebug_disable();
+
+                        $button = "<td class='btn-warning'></td>";
+
+                        //xdebug_enable();
+                        //error_reporting(-1);
+                    }
+                }
+                echo $button;
 				echo "<td class='td-center'><a class='btn btn-primary btn-xs' href='".$baseHref."/frm/".$object->getId()."'><span class='glyphicon glyphicon-edit' aria-hidden='true'></span></a></td>".
 				"<td class='td-center'><a class='btn btn-warning btn-xs' href='".$baseHref."/delete/".$object->getId()."'><span class='glyphicon glyphicon-remove' aria-hidden='true'></span></a></td>".
 				"<td class='td-center'><a class='btn btn-info btn-xs' href='".$baseHref."/messages/".$object->getId()."'><span class='glyphicon glyphicon-play' aria-hidden='true'></span></a></td>";
@@ -70,7 +71,7 @@ class Tickets extends \_DefaultController {
 				echo "Veuillez vous assurez que votre compte posséde les droits suffisants pour accéder à cette ressource";
 				echo "<br/><a class='btn btn-primary' href='".get_class($this)."'>Retour</a>";
 		}
-		
+
 		echo "<h2>".$ticket."</h2>";
 		echo "<h3>Reponses</h3>";
 		echo "<div id='messages' class='container'>";
@@ -85,10 +86,11 @@ class Tickets extends \_DefaultController {
 		$this->frmMsg($id,$ticket);
 		echo Jquery::executeOn("#submitMsg", "click", "CKEDITOR.instances['contenu'].updateElement();");
 		echo Jquery::postFormOn("click","#submitMsg","messages/update", "formMsg","#newMsg", false, Jquery::_get('tickets/afficheDiscussion/'.$id[0],'#messages'));
+
 	}
 
 	public function afficheDiscussion($id){
-		
+
 		$ticket=DAO::getOne("Ticket", $id[0]);
 		$messages=DAO::getOneToMany($ticket, "messages");
 		foreach($messages as $msg){
@@ -101,7 +103,6 @@ class Tickets extends \_DefaultController {
 			}                     
 			if($msg->getLu() == 0 && Auth::getUser() != $msg->getUser()){
 				echo "<span class='msg-new btn btn-warning'>NEW</span>";
-
 			}
 			//error_reporting(0);
 			//xdebug_disable();
@@ -116,10 +117,9 @@ class Tickets extends \_DefaultController {
 			echo "</div>"; 
 			
 			if($msg->getLu() == 0 && Auth::getUser() != $msg->getUser()){
-				$msg->setLu(1);
-				DAO::update($msg);
-			
-			}
+                $msg->setLu(1);
+                DAO::update($msg);
+            }
 			//xdebug_enable();
 			//error_reporting(-1);
 		}                                                                                    
