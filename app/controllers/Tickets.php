@@ -37,15 +37,16 @@ class Tickets extends \_DefaultController {
 					echo "<td>".$object->getUser()."</td>";
 				}
 				if($object->getNotif() == 0){
-					error_reporting(0);
-					xdebug_disable();
+					//error_reporting(0);
+					//xdebug_disable();
 					
 					echo "<td class='btn-warning'></td>";
 	
 					$object->setNotif(1);
 					DAO::update($object);
-					xdebug_enable();
-					error_reporting(-1);
+
+					//xdebug_enable();
+					//error_reporting(-1);
 				}else{
 					echo "<td class='btn-success'></td>";
 				}
@@ -102,8 +103,8 @@ class Tickets extends \_DefaultController {
 				echo "<span class='msg-new btn btn-warning'>NEW</span>";
 
 			}
-			error_reporting(0);
-			xdebug_disable();
+			//error_reporting(0);
+			//xdebug_disable();
 			
 			echo "Le ".$msg->getDate().", ".$msg->getUser()." dit : ";                                                                                       
 			echo "</div>";                                                                                                                                                       
@@ -119,8 +120,8 @@ class Tickets extends \_DefaultController {
 				DAO::update($msg);
 			
 			}
-			xdebug_enable();
-			error_reporting(-1);
+			//xdebug_enable();
+			//error_reporting(-1);
 		}                                                                                    
 	}                                                                                        
 	                                                                                         
