@@ -70,7 +70,7 @@ class Message extends Base{
 	}
 
     public function getLu() {
-        return $this->lu;
+        return $this->ticket;
     }
 
     public function setLu($lu){

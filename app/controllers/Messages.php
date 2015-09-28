@@ -22,7 +22,6 @@ class Messages extends \_DefaultController {
 		$object->setUser(Auth::getUser());
 		$ticket=DAO::getOne("Ticket", $_POST["idTicket"]);
 		$object->setTicket($ticket);
-		$object->setLu('0');
 	}
 	
 	public function update($params=null){
@@ -46,7 +45,8 @@ class Messages extends \_DefaultController {
                     $msg = new DisplayedMessage("Impossible d'ajouter l'instance de " . $this->model, "danger");
                 }
             }
-
+            
+            //header("Location: ".$config["siteUrl"]."tickets/messages/".$params[0]);
 		}
 	}
 	
