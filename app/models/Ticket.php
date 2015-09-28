@@ -14,6 +14,7 @@ class Ticket extends Base{
 	private $titre;
 	private $description;
 	private $dateCreation;
+	private $notif;
 	/**
 	 * @ManyToOne
 	 * @JoinColumn(name="idCategorie",className="Categorie",nullable=true)
@@ -136,6 +137,15 @@ class Ticket extends Base{
 
 	public function setMessages($messages) {
 		$this->messages=$messages;
+		return $this;
+	}
+	
+public function getNotif() {
+		return $this->notif;
+	}
+
+	public function setNotif($notif) {
+		$this->notif=$notif;
 		return $this;
 	}
 

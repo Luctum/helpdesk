@@ -92,10 +92,6 @@ body{
 	display: inline-block;
 }
 
-.msg-box h5{
-	color: blue;
-}
-
 .msg-rank-a{
 	background-color: #A3CCB9;
 	width: 100%;
@@ -113,3 +109,9 @@ body{
 	border-top-right-radius: 5px;
 	padding: 3px;
 }
+
+.msg-new{
+
+float: right;
+}
+
