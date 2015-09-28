@@ -37,9 +37,8 @@ class Tickets extends \_DefaultController {
 					echo "<td>".$object->getUser()."</td>";
 				}
 				if($object->getNotif() == 0){
-					error_reporting(0);
 					xdebug_disable();
-					
+					error_reporting(0);
 					echo "<td class='btn-warning'></td>";
 	
 					$object->setNotif(1);
@@ -101,10 +100,9 @@ class Tickets extends \_DefaultController {
 			if($msg->getLu() == 0 && Auth::getUser() != $msg->getUser()){
 				echo "<span class='msg-new btn btn-warning'>NEW</span>";
 
-			}
-			error_reporting(0);
+			}        
 			xdebug_disable();
-			
+			error_reporting(0);
 			echo "Le ".$msg->getDate().", ".$msg->getUser()." dit : ";                                                                                       
 			echo "</div>";                                                                                                                                                       
 			echo "<div class='msg-text'>";                                                                                                                                   
