@@ -117,7 +117,16 @@ class Tickets extends \_DefaultController {
 		$listCat=Gui::select($categories,$cat,"Sélectionner une catégorie ...");
 		$listType=Gui::select(array("demande","intervention"),$ticket->getType(),"Sélectionner un type ...");
 
-		$this->loadView("ticket/vAdd",array("ticket"=>$ticket,"listCat"=>$listCat,"listType"=>$listType));
+		$statuts=DAO::getAll("Statut");
+		if ($ticket->getStatut() == NULL) {
+			$stat = -1;
+		} else {
+			$stat = $ticket->getStatut()->getId();
+		}
+		$listStatuts=Gui::select($statuts,$stat);
+		
+		$this->loadView("ticket/vAdd",array("ticket"=>$ticket,"listCat"=>$listCat,"listType"=>$listType,"listStatuts"=>$listStatuts));
+		echo Jquery::setOn("click", ".modif-statut", "#idStatut","$(event.target).attr('datatype')");
 		echo Jquery::execute("CKEDITOR.replace( 'description');");
 	}
 
