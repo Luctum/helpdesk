@@ -29,7 +29,6 @@ class Tickets extends \_DefaultController {
 		echo "<table class='table table-striped'>";
 		echo "<thead><tr><th>".$this->model."</th></tr></thead>";
 		echo "<tbody>";
-		
 		foreach ($objects as $object){
 			if((Auth::getUser() == $object->getUser()) || Auth::isAdmin() == true){
 				echo "<tr>";
@@ -37,12 +36,25 @@ class Tickets extends \_DefaultController {
 				if(is_callable(array($object,"getUser"))){
 					echo "<td>".$object->getUser()."</td>";
 				}
+				if($object->getNotif() == 0){
+					xdebug_disable();
+					error_reporting(0);
+					echo "<td class='btn-warning'></td>";
+	
+					$object->setNotif(1);
+					DAO::update($object);
+					xdebug_enable();
+					error_reporting(-1);
+				}else{
+					echo "<td class='btn-success'></td>";
+				}
 				echo "<td class='td-center'><a class='btn btn-primary btn-xs' href='".$baseHref."/frm/".$object->getId()."'><span class='glyphicon glyphicon-edit' aria-hidden='true'></span></a></td>".
 				"<td class='td-center'><a class='btn btn-warning btn-xs' href='".$baseHref."/delete/".$object->getId()."'><span class='glyphicon glyphicon-remove' aria-hidden='true'></span></a></td>".
 				"<td class='td-center'><a class='btn btn-info btn-xs' href='".$baseHref."/messages/".$object->getId()."'><span class='glyphicon glyphicon-play' aria-hidden='true'></span></a></td>";
 				echo "</tr>";
 			}
 		}
+		
 		echo "</tbody>";
 		echo "</table>";
 		echo "<a class='btn btn-primary' href='".$config["siteUrl"].$baseHref."/frm'>Ajouter...</a>";
@@ -80,24 +92,36 @@ class Tickets extends \_DefaultController {
 		foreach($messages as $msg){
 			echo "<div class='msg-box'>";
 			if($msg->getUser()->getId() == $ticket->getUser()->getId()){
-				echo "<div class='msg-rank-u'>";
-			}
-			else{
-				echo "<div class='msg-rank-a'>";
-				
-			}
-			echo "Le ".$msg->getDate().", ".$msg->getUser()." dit : ";
-			echo "</div>";
-			echo "<div class='msg-text'>";
-			echo "<br/>";
-			echo $msg->getContenu();
-			echo "<br/>";
-			echo "</div>";
+				echo "<div class='msg-rank-u'>";                                                        
+			}                                                                                
+			else{                                                                            
+				echo "<div class='msg-rank-a'>";                                                                                                     	                                                                             
+			}                     
+			if($msg->getLu() == 0 && Auth::getUser() != $msg->getUser()){
+				echo "<span class='msg-new btn btn-warning'>NEW</span>";
+
+			}        
+			xdebug_disable();
+			error_reporting(0);
+			echo "Le ".$msg->getDate().", ".$msg->getUser()." dit : ";                                                                                       
+			echo "</div>";                                                                                                                                                       
+			echo "<div class='msg-text'>";                                                                                                                                   
+			echo "<br/>";                                                                    
+			echo $msg->getContenu();                                                         
+			echo "<br/>";                                                                    
+			echo "</div>";                                                                                                                                                    
+			echo "</div>"; 
 			
-			echo "</div>";
-		}
-	}
-	
+			if($msg->getLu() == 0 && Auth::getUser() != $msg->getUser()){
+				$msg->setLu(1);
+				DAO::update($msg);
+			
+			}
+			xdebug_enable();
+			error_reporting(-1);
+		}                                                                                    
+	}                                                                                        
+	                                                                                         
 	//Formulaire d'envoi de message pour répondre aux tickets 
 	public function frmMsg($id =NULL, $ticket){
 		if($ticket!=NULL){	
