@@ -56,6 +56,7 @@ class Tickets extends \_DefaultController {
 		$listStatuts=Gui::select($statuts,$stat);
 		
 		$this->loadView("ticket/vAdd",array("ticket"=>$ticket,"listCat"=>$listCat,"listType"=>$listType,"listStatuts"=>$listStatuts));
+		echo Jquery::setOn("click", ".modif-statut", "#idStatut","$(event.target).attr('datatype')");
 		echo Jquery::execute("CKEDITOR.replace( 'description');");
 	}
 
