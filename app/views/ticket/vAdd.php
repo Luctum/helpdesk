@@ -45,8 +45,6 @@
 			<input type="submit" value="Résolu" class="btn btn-default modif-statut" disabled>
 			<input type="submit" value="Clos" class="btn btn-default modif-statut" disabled><br>
 		<?php }?>
-		<!-- <input type="text" name="idStatut" id="idStatut" class="form-control">  -->
-
 		<label for="type">Type</label>
 		<select class="form-control" name="type" <?php if (Auth::getUser()->getId() != $ticket->getUser()->getId()) {?>disabled<?php }?>>
 		<?php echo $listType;?>
