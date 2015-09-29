@@ -6,41 +6,45 @@
  * @package helpdesk.models
  */
 class Notification extends Base{
+	/**
+	 * @Id
+	 */
+	private $id;
+	/**
+	 * @ManyToOne
+	 * @JoinColumn(name="idUser",className="User",nullable=false)
+	 */
+	private $user;
 
 	/**
 	 * @ManyToOne
-	 * @JoinColumn(name="id",className="User",nullable=false)
+	 * @JoinColumn(name="idTicket",className="Ticket",nullable=false)
 	 */
-	private $idUser;
-
-	/**
-	 * @ManyToOne
-	 * @JoinColumn(name="id",className="Ticket",nullable=false)
-	 */
-	private $idTicket;
-
-	public function getIdUser() {
-		return $this->idUser;
-	}
-
-	public function setIdUser($user) {
-		$this->idUser=$user;
-		return $this;
-	}
-
-	public function getIdTicket(){
-		return $this->idTicket;
-	}
-
-    public function setIdTicket($ticket) {
-        $this->idTicket=$ticket;
-        return $this;
-    }
+	private $ticket;
 
 	public function toString(){
-
+		return $this->user." - ".$this->ticket;
 	}
-
-
-
+	public function getId() {
+		return $this->id;
+	}
+	public function setId($id) {
+		$this->id = $id;
+		return $this;
+	}
+	public function getUser() {
+		return $this->user;
+	}
+	public function setUser($user) {
+		$this->user = $user;
+		return $this;
+	}
+	public function getTicket() {
+		return $this->ticket;
+	}
+	public function setTicket($ticket) {
+		$this->ticket = $ticket;
+		return $this;
+	}
+	
 }

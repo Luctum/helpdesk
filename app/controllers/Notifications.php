@@ -8,10 +8,12 @@ use micro\utils\RequestUtils;
  * @package helpdesk.controllers
  */
 class Notifications extends \_DefaultController {
+	
 	public function Notifications(){
 		parent::__construct();
 		$this->title="Notifications";
 		$this->model="Notification";
 	}
-
+	
+	
 }

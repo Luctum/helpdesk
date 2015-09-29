@@ -40,7 +40,7 @@ class Tickets extends \_DefaultController {
                 $button = "<td class='btn-success'></td>";
                 foreach($notifications as $n){
 
-                    if($n->getIdTicket() == $object->getId() && $n->getIdUser() != Auth::getUser()) {
+                    if($n->getTicket() == $object && $n->getUser() != Auth::getUser()) {
                         //error_reporting(0);
                         //xdebug_disable();
 
@@ -72,6 +72,14 @@ class Tickets extends \_DefaultController {
 				echo "<br/><a class='btn btn-primary' href='".get_class($this)."'>Retour</a>";
 		}
 
+		$notifs = DAO::getAll("Notification");
+		foreach($notifs as $n){
+			if($n->getTicket() == $ticket && Auth::getUser() != $n->getUser()){
+				DAO::delete($n);
+			}
+		}
+		
+		
 		echo "<h2>".$ticket."</h2>";
 		echo "<h3>Reponses</h3>";
 		echo "<div id='messages' class='container'>";
@@ -83,6 +91,8 @@ class Tickets extends \_DefaultController {
 		echo "<div id='newMsg' class='container'>";
 		echo "</div>";
 		
+
+
 		$this->frmMsg($id,$ticket);
 		echo Jquery::executeOn("#submitMsg", "click", "CKEDITOR.instances['contenu'].updateElement();");
 		echo Jquery::postFormOn("click","#submitMsg","messages/update", "formMsg","#newMsg", false, Jquery::_get('tickets/afficheDiscussion/'.$id[0],'#messages'));
@@ -90,7 +100,7 @@ class Tickets extends \_DefaultController {
 	}
 
 	public function afficheDiscussion($id){
-
+		global $config;
 		$ticket=DAO::getOne("Ticket", $id[0]);
 		$messages=DAO::getOneToMany($ticket, "messages");
 		foreach($messages as $msg){
@@ -98,9 +108,9 @@ class Tickets extends \_DefaultController {
 			if($msg->getUser()->getId() == $ticket->getUser()->getId()){
 				echo "<div class='msg-rank-u'>";                                                        
 			}                                                                                
-			else{                                                                            
+			else{           
 				echo "<div class='msg-rank-a'>";                                                                                                     	                                                                             
-			}                     
+			}
 			if($msg->getLu() == 0 && Auth::getUser() != $msg->getUser()){
 				echo "<span class='msg-new btn btn-warning'>NEW</span>";
 			}
@@ -117,14 +127,17 @@ class Tickets extends \_DefaultController {
 			echo "</div>"; 
 			
 			if($msg->getLu() == 0 && Auth::getUser() != $msg->getUser()){
-                $msg->setLu(1);
-                DAO::update($msg);
-            }
+				$config["debug"]=false;
+				$msg->setLu(1);
+				DAO::update($msg);
+				$config["debug"]=true;
+			}
+            
 			//xdebug_enable();
 			//error_reporting(-1);
 		}                                                                                    
-	}                                                                                        
-	                                                                                         
+	}                                                
+	                                                                                        
 	//Formulaire d'envoi de message pour répondre aux tickets 
 	public function frmMsg($id =NULL, $ticket){
 		if($ticket!=NULL){	

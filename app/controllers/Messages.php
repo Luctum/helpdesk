@@ -27,6 +27,8 @@ class Messages extends \_DefaultController {
 	
 	public function update($params=null){
 		if(RequestUtils::isPost()){
+
+			
             global $config;
 			$className=$this->model;
 			$object=new $className();
@@ -46,7 +48,16 @@ class Messages extends \_DefaultController {
                     $msg = new DisplayedMessage("Impossible d'ajouter l'instance de " . $this->model, "danger");
                 }
             }
-
+            
+            
+			$notif = new Notification();
+			$notif->setTicket($object->getTicket());
+			$notif->setUser(Auth::getUser());
+			DAO::insert($notif);
+            
+            
+             
+            
 		}
 	}
 	
