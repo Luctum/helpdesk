@@ -48,17 +48,17 @@
 		<!-- <input type="text" name="idStatut" id="idStatut" class="form-control">  -->
 
 		<label for="type">Type</label>
-		<select class="form-control" name="type" disabled>
+		<select class="form-control" name="type" <?php if (Auth::getUser()->getId() != $ticket->getUser()->getId()) {?>disabled<?php }?>>
 		<?php echo $listType;?>
 		</select>
 		<label for="idCategorie">Catégorie</label>
-		<select class="form-control" id="idCategorie" name="idCategorie" disabled>
+		<select class="form-control" id="idCategorie" name="idCategorie" <?php if (Auth::getUser()->getId() != $ticket->getUser()->getId()) {?>disabled<?php }?>>
 		<?php echo $listCat;?>
 		</select>
 		<label for="titre">Titre</label>
-		<input type="text" name="titre" id="titre" value="<?php echo $ticket->getTitre();?>" placeholder="Entrez le titre" class="form-control" disabled>
+		<input type="text" name="titre" id="titre" value="<?php echo $ticket->getTitre();?>" placeholder="Entrez le titre" class="form-control" <?php if (Auth::getUser()->getId() != $ticket->getUser()->getId()) {?>disabled<?php }?>>
 		<label for="description">Description</label>
-		<textarea name="description" id="description" placeholder="Entrez la description" class="form-control" disabled><?php echo $ticket->getDescription()?></textarea>
+		<textarea name="description" id="description" placeholder="Entrez la description" class="form-control" <?php if (Auth::getUser()->getId() != $ticket->getUser()->getId()) {?>disabled<?php }?>><?php echo $ticket->getDescription()?></textarea>
 	</div>
 <?php } else {
 	if ($ticket->getStatut()->getLibelle() == "Clos") {?>
