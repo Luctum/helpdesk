@@ -18,10 +18,34 @@ class DefaultC extends BaseController {
 	public function index() {
 		$auth = Auth::getUser();
 		$admin = Auth::isAdmin();
+		$notif = DAO::getAll("Notification");
 		
 		$this->loadView("main/vHeader",array("infoUser"=>Auth::getInfoUser()));
 		
 		if($auth != NULL){
+			
+			echo "<div class='container'>";
+			echo "<div class='panel panel-info'>";
+			echo "<div class='panel-heading'>Notifications</div>";
+			echo "<div class='panel-body'>";
+			echo "<table class='table table-striped'>";
+			echo "<div class='tbody'>";
+			
+			foreach($notif as $n){
+				
+				if($auth == $n->getUser() || $admin == true){
+					
+					echo "<tr><td><b>".$n->getUser()." </b >a modifié <b>".$n->getTicket()."</b></td><tr>";
+				 	
+				}
+
+			}
+			echo "</div>";
+			echo "</table>";
+			echo "</div>";
+			echo "</div>";
+			echo "</div>";
+			
 			if($admin){
 				$this->loadView("main/vDefault");
 			}
@@ -29,6 +53,9 @@ class DefaultC extends BaseController {
 		else{
 			echo "<p class='container'>Helpdesk H&M est un module d'entraide entre utilisateurs et administrateurs. Pour accéder aux modules de l'application, veuillez vous connecter</p>";
 		}
+		
+		
+		
 		
 		$this->loadView("main/vFooter");
 		Jquery::getOn("click", ".btAjax", "sample/ajaxSample","#response");

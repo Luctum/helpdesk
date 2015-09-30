@@ -104,13 +104,15 @@ class Tickets extends \_DefaultController {
 		$ticket=DAO::getOne("Ticket", $id[0]);
 		$messages=DAO::getOneToMany($ticket, "messages");
 		foreach($messages as $msg){
-			echo "<div class='msg-box'>";
+			
 			if($msg->getUser()->getId() == $ticket->getUser()->getId()){
-				echo "<div class='msg-rank-u'>";                                                        
+				echo "<div class='panel panel-info'>";                                                       
 			}                                                                                
 			else{           
-				echo "<div class='msg-rank-a'>";                                                                                                     	                                                                             
+				echo "<div class='panel panel-warning'>";
+				                                                                                                    	                                                                             
 			}
+			echo "<div class='panel-heading'>";
 			if($msg->getLu() == 0 && Auth::getUser() != $msg->getUser()){
 				echo "<span class='msg-new btn btn-warning'>NEW</span>";
 			}
