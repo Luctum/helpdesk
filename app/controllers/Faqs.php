@@ -13,6 +13,59 @@ class Faqs extends \_DefaultController {
 		$this->model="Faq";
 	}
 
+    public function index($faq=null){
+        global $config;
+        $baseHref=get_class($this);
+        if(isset($faq)){
+            if(is_string($faq)){
+                $faq=new DisplayedMessage($faq);
+            }
+            $faq->setTimerInterval($this->messageTimerInterval);
+            $this->_showDisplayedMessage($faq);
+        }
+        $objects=DAO::getAll($this->model);
+        echo "<table class='table table-striped'>";
+        echo "<thead><tr><th>".$this->model."</th></tr></thead>";
+        echo "<tbody>";
+        foreach ($objects as $object){
+            if((Auth::getUser() == $object->getUser()) || Auth::isAdmin() == true){
+                echo "<tr>";
+                echo "<td>".$object->toString()."</td>";
+                if(is_callable(array($object,"getUser"))){
+                    echo "<td>".$object->getUser()."</td>";
+                }
+
+                echo "<td class='td-center'><a class='btn btn-primary btn-xs' href='".$baseHref."/frm/".$object->getId()."'><span class='glyphicon glyphicon-edit' aria-hidden='true'></span></a></td>".
+                    "<td class='td-center'><a class='btn btn-warning btn-xs' href='".$baseHref."/delete/".$object->getId()."'><span class='glyphicon glyphicon-remove' aria-hidden='true'></span></a></td>".
+                    "<td class='td-center'><a class='btn btn-info btn-xs' href='".$baseHref."/lecture/".$object->getId()."'><span class='glyphicon glyphicon-play' aria-hidden='true'></span></a></td>";
+                echo "</tr>";
+            }
+        }
+
+        echo "</tbody>";
+        echo "</table>";
+        echo "<a class='btn btn-primary' href='".$config["siteUrl"].$baseHref."/frm'>Ajouter...</a>";
+    }
+
+
+    public function lecture($id){
+        $faq=DAO::getOne("Faq", $id[0]);
+        if(Auth::getUser() != $faq->getUser() && Auth::isAdmin() != true){
+            $faq = null;
+            echo "Veuillez vous assurez que votre compte posséde les droits suffisants pour accéder à cette ressource";
+            echo "<br/><a class='btn btn-primary' href='".get_class($this)."'>Retour</a>";
+        }
+
+        echo "<div class='panel panel-primary'>";
+        echo "<div class='panel-heading'>".$faq."</div>";
+        echo "<div class='panel-body'>";
+
+        echo $faq->getContenu();
+        echo "</div>";
+        echo "</div>";
+    }
+
+
 	/* (non-PHPdoc)
 	 * @see _DefaultController::setValuesToObject()
 	 */
