@@ -16,8 +16,20 @@ class DefaultC extends BaseController {
 	 * @see BaseController::index()
 	 */
 	public function index() {
+		$auth = Auth::getUser();
+		$admin = Auth::isAdmin();
+		
 		$this->loadView("main/vHeader",array("infoUser"=>Auth::getInfoUser()));
-		$this->loadView("main/vDefault");
+		
+		if($auth != NULL){
+			if($admin){
+				$this->loadView("main/vDefault");
+			}
+		}
+		else{
+			echo "<p class='container'>Helpdesk H&M est un module d'entraide entre utilisateurs et administrateurs. Pour accéder aux modules de l'application, veuillez vous connecter</p>";
+		}
+		
 		$this->loadView("main/vFooter");
 		Jquery::getOn("click", ".btAjax", "sample/ajaxSample","#response");
 		echo Jquery::compile();
