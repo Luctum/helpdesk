@@ -32,6 +32,10 @@ class Tickets extends \_DefaultController {
 		echo "<thead><tr><th>".$this->model."</th></tr></thead>";
 		echo "<tbody>";
 		foreach ($objects as $object){
+			$config["debug"]=false;
+			$msg = DAO::getAll("Message", "idTicket=".$object->getId()."");
+			$config["debug"]=true;
+			
 			if((Auth::getUser() == $object->getUser()) || Auth::isAdmin() == true){
 				echo "<tr>";
 				echo "<td>".$object->toString()."</td>";
@@ -49,13 +53,21 @@ class Tickets extends \_DefaultController {
 
                         //xdebug_enable();
                         //error_reporting(-1);
+                        var_dump($msg);
                     }
                 }
                 echo $button;
-				echo "<td class='td-center'><a class='btn btn-primary btn-xs' href='".$baseHref."/frm/".$object->getId()."'><span class='glyphicon glyphicon-edit' aria-hidden='true'></span></a></td>".
-				"<td class='td-center'><a class='btn btn-warning btn-xs' href='".$baseHref."/delete/".$object->getId()."'><span class='glyphicon glyphicon-remove' aria-hidden='true'></span></a></td>".
+                if(!empty($msg)){
+					echo "<td class='td-center'><a class='btn btn-primary btn-xs' href='".$baseHref."/frm/".$object->getId()."'><span class='glyphicon glyphicon-edit' aria-hidden='true'></span></a></td>";
+				}
+				else{
+					echo "<td class='td-center'><a class='btn btn-link btn-xs .less-visible'><span class='glyphicon glyphicon-edit .less-visible' aria-hidden='true'></span></a></td>";	
+				}
+				echo "<td class='td-center'><a class='btn btn-warning btn-xs'  href='".$baseHref."/delete/".$object->getId()."'><span class='glyphicon glyphicon-remove' aria-hidden='true'></span></a></td>".
 				"<td class='td-center'><a class='btn btn-info btn-xs' href='".$baseHref."/messages/".$object->getId()."'><span class='glyphicon glyphicon-play' aria-hidden='true'></span></a></td>";
-				echo "</tr>";
+                echo "</tr>";
+			
+			
 			}
 		}
 		
