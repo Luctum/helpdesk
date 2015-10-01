@@ -7,10 +7,13 @@
 	<input type="mail" name="mail" value="<?php echo $user->getMail()?>" placeholder="Entrez l'adresse email" class="form-control">
 	<input type="text" name="login" value="<?php echo $user->getLogin()?>" placeholder="Entrez un login" class="form-control">
 	<input type="password" name="password" value="<?php echo $user->getPassword()?>" placeholder="Entrez le mot de passe" class="form-control">
+	<?php if(Auth::isAdmin() && ($user->getAdmin() != 1 || $user == Auth::getUser())){?>
 	<div class="checkbox">
 		<label><input type="checkbox" name="admin" <?php echo ($user->getAdmin()?"checked":"")?> value="1">Administrateur ?</label>
+	<?php }else{ ?>
+		<input type="hidden"  name="admin" value="<?= $user->getAdmin() ?>">
+	<?php } ?>
 	</div>
-</div>
 <div class="form-group">
 	<input type="submit" value="Valider" class="btn btn-default">
 	<a class="btn btn-default" href="<?php echo $config["siteUrl"]?>users">Annuler</a>
