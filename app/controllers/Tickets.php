@@ -292,8 +292,17 @@ class Tickets extends \_DefaultController {
 		exit;
 	}
 
+	public function update() {
 	
+		parent::update();
+		$message = new Message();
+		$message->setTicket($this);
+		$message->setUser(Auth::getUser());
+		$message->setContenu($this->getUser()->getLogin()." a modifié votre statut en '".$this->getStatut()->getLibelle()."'");
+		$message->setLu(0);
+		DAO::insert($message);
 
+	}
 
 
 }
