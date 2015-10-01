@@ -47,16 +47,18 @@ class Auth {
 	 */
 	public static function getInfoUser($style="primary"){
 		$user=self::getUser();
+		
 		if(isset($user)){
-			$infoUser="<a class='btn btn-primary' href='defaultC/disconnect'>Déconnexion <span class='label label-success'>".$user."</span></a>";
+			$userId=self::getUser()->getId();
+			$infoUser="<a class='btn btn-primary' href='users/frm/$userId'>Editer mon profil <span class='label label-success'>".$user."</span></a>";
 		}else{
 			$infoUser='<div class="btn-group">
 							<button type="button" class="btn btn-'.$style.' dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
-								Connexion en tant que... <span class="caret"></span>
+								Se connecter / S\'inscrire<span class="caret"></span>
 							</button>
 							<ul class="dropdown-menu" role="menu">
-								<li><a href="defaultC/asAdmin"><span class="glyphicon glyphicon-king" aria-hidden="true"></span>&nbsp;Administrateur</a></li>
-								<li><a href="defaultC/asUser"><span class="glyphicon glyphicon-user" aria-hidden="true"></span>&nbsp;Utilisateur</a></li>
+								<li><a href="users/connect">&nbsp;Se connecter</a></li>
+								<li><a href="users/frm">&nbsp;S\'inscrire</a></li>
 							</ul>
 						</div>';
 		}

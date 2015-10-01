@@ -19,7 +19,6 @@ class DefaultC extends BaseController {
 		$auth = Auth::getUser();
 		$admin = Auth::isAdmin();
 		$notif = DAO::getAll("Notification");
-		
 		$this->loadView("main/vHeader",array("infoUser"=>Auth::getInfoUser()));
 		
 		if($auth != NULL){
@@ -52,6 +51,9 @@ class DefaultC extends BaseController {
 		}
 		else{
 			echo "<p class='container'>Helpdesk H&M est un module d'entraide entre utilisateurs et administrateurs. Pour accéder aux modules de l'application, veuillez vous connecter</p>";
+			echo "<div class='container'>";
+			$this->loadView("user/vConnect");
+			echo "</div>";
 		}
 		
 		
@@ -131,4 +133,5 @@ class DefaultC extends BaseController {
 		Jquery::doJquery("#main", "hide");
 		echo Jquery::compile();
 	}
+	
 }
