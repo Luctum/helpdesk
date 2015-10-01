@@ -13,22 +13,24 @@ class Faqs extends \_DefaultController {
 		$this->model="Faq";
 	}
 
-    public function index($faq=null){
+    public function index(){
         global $config;
         $baseHref=get_class($this);
-        if(isset($faq)){
-            if(is_string($faq)){
-                $faq=new DisplayedMessage($faq);
-            }
-            $faq->setTimerInterval($this->messageTimerInterval);
-            $this->_showDisplayedMessage($faq);
+		$model = "".$this->model."";
+		
+        if(!isset($_POST['recherche'])){
+        	$objects=DAO::getAll($model);
         }
-        $objects=DAO::getAll($this->model);
+        else{
+        	$objects=DAO::getAll($model, "UPPER(titre) LIKE UPPER('%".$_POST['recherche']."%')");
+        }
+        
         echo "<table class='table table-striped'>";
         echo "<thead><tr><th>".$this->model."</th></tr></thead>";
         echo "<tbody>";
+        
         foreach ($objects as $object){
-
+		
                 echo "<tr>";
                 echo "<td>".$object->toString()."</td>";
                 if(is_callable(array($object,"getUser"))){
@@ -41,6 +43,15 @@ class Faqs extends \_DefaultController {
                 echo "</tr>";
             
         }
+        
+        echo '<form method="POST" action="Faqs/index">
+						<div class="input-group">
+		      				<input type="text" class="form-control" name="recherche" placeholder="Rechercher dans la FAQ">
+		      				<span class="input-group-btn">
+		       					<input type="submit" class="btn btn-default" type="button">Recherche</button>
+						    </span> 
+						</div><!-- /input-group -->
+				   </form>';
 
         echo "</tbody>";
         echo "</table>";
