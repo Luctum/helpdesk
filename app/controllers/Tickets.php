@@ -26,17 +26,21 @@ class Tickets extends \_DefaultController {
 			$message->setTimerInterval($this->messageTimerInterval);
 			$this->_showDisplayedMessage($message);
 		}
+		
 		$objects=DAO::getAll($this->model);
         $notifications = DAO::getAll("Notification");
 		echo "<table class='table table-striped'>";
 		echo "<thead><tr><th>".$this->model."</th></tr></thead>";
 		echo "<tbody>";
+		echo "<a class='btn btn-primary' href='".$config["siteUrl"].$baseHref."/frm'>Ajouter...</a>";
+		echo "<h2>Mes Tickets</h2>";
+		
 		foreach ($objects as $object){
 			$config["debug"]=false;
 			$msg = DAO::getAll("Message", "idTicket=".$object->getId()."");
 			$config["debug"]=true;
 			
-			if((Auth::getUser() == $object->getUser()) || Auth::isAdmin() == true){
+			if((Auth::getUser() == $object->getUser())){
 				echo "<tr>";
 				echo "<td>".$object->toString()."</td>";
 				if(is_callable(array($object,"getUser"))){
@@ -53,7 +57,6 @@ class Tickets extends \_DefaultController {
 
                         //xdebug_enable();
                         //error_reporting(-1);
-                        var_dump($msg);
                     }
                 }
                 echo $button;
@@ -61,7 +64,7 @@ class Tickets extends \_DefaultController {
 					echo "<td class='td-center'><a class='btn btn-primary btn-xs' href='".$baseHref."/frm/".$object->getId()."'><span class='glyphicon glyphicon-edit' aria-hidden='true'></span></a></td>";
 				}
 				else{
-					echo "<td class='td-center'><a class='btn btn-link btn-xs .less-visible'><span class='glyphicon glyphicon-edit .less-visible' aria-hidden='true'></span></a></td>";	
+					echo "<td class='td-center'><a class='btn btn-link btn-xs'><span class='glyphicon glyphicon-edit' aria-hidden='true'></span></a></td>";	
 				}
 				echo "<td class='td-center'><a class='btn btn-warning btn-xs'  href='".$baseHref."/delete/".$object->getId()."'><span class='glyphicon glyphicon-remove' aria-hidden='true'></span></a></td>".
 				"<td class='td-center'><a class='btn btn-info btn-xs' href='".$baseHref."/messages/".$object->getId()."'><span class='glyphicon glyphicon-play' aria-hidden='true'></span></a></td>";
@@ -73,7 +76,57 @@ class Tickets extends \_DefaultController {
 		
 		echo "</tbody>";
 		echo "</table>";
-		echo "<a class='btn btn-primary' href='".$config["siteUrl"].$baseHref."/frm'>Ajouter...</a>";
+
+		//AFFICHE TOUS LES TICKETS POUR LES ADMINISTRATEURS
+		echo "<h2>Tous les tickets</h2>";
+		if(Auth::isAdmin()){
+			echo "<table class='table table-striped'>";
+			echo "<thead><tr><th>".$this->model."</th></tr></thead>";
+			echo "<tbody>";
+			foreach($objects as $object2){
+				$config["debug"]=false;
+				$msg = DAO::getAll("Message", "idTicket=".$object2->getId()."");
+				$config["debug"]=true;
+					
+				if((Auth::getUser() == $object2->getUser()) || Auth::isAdmin() == true){
+					echo "<tr>";
+					echo "<td>".$object2->toString()."</td>";
+					if(is_callable(array($object2,"getUser"))){
+						echo "<td>".$object2->getUser()."</td>";
+					}
+					$button = "<td class='btn-success'></td>";
+					foreach($notifications as $n){
+				
+						if($n->getTicket() == $object2 && $n->getUser() != Auth::getUser()) {
+							//error_reporting(0);
+							//xdebug_disable();
+				
+							$button = "<td class='btn-warning'></td>";
+				
+							//xdebug_enable();
+							//error_reporting(-1);
+						}
+					} // fin foreach
+					echo $button;
+					if(!empty($msg)){
+						echo "<td class='td-center'><a class='btn btn-primary btn-xs' href='".$baseHref."/frm/".$object->getId()."'><span class='glyphicon glyphicon-edit' aria-hidden='true'></span></a></td>";
+					}
+					else{
+						echo "<td class='td-center'><a class='btn btn-link btn-xs'><span class='glyphicon glyphicon-edit' aria-hidden='true'></span></a></td>";
+					}
+					echo "<td class='td-center'><a class='btn btn-warning btn-xs'  href='".$baseHref."/delete/".$object->getId()."'><span class='glyphicon glyphicon-remove' aria-hidden='true'></span></a></td>".
+							"<td class='td-center'><a class='btn btn-info btn-xs' href='".$baseHref."/messages/".$object->getId()."'><span class='glyphicon glyphicon-play' aria-hidden='true'></span></a></td>";
+					echo "</tr>";
+						
+						
+				}//fin if
+				
+			}//fin foreach
+			echo "</tbody>";
+			echo "</table>";
+		}//fin if
+		
+
 	}
 	
 	
