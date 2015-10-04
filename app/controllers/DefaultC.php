@@ -33,8 +33,9 @@ class DefaultC extends BaseController {
 			foreach($notif as $n){
 				
 				if($auth == $n->getUser() || $admin == true){
-					
-					echo "<tr><td><b>".$n->getUser()." </b >a modifié <b>".$n->getTicket()."</b></td><tr>";
+                    if($auth != $n->getUser()){
+					    echo "<tr><td><b>".$n->getUser()." </b >a modifié <b>".$n->getTicket()."</b></td><tr>";
+                    }
 				 	
 				}
 
