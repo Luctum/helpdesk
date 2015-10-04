@@ -64,9 +64,10 @@ class Tickets extends \_DefaultController {
 					echo "<td class='td-center'><a class='btn btn-primary btn-xs' href='".$baseHref."/frm/".$object->getId()."'><span class='glyphicon glyphicon-edit' aria-hidden='true'></span></a></td>";
                     echo "<td class='td-center'><a class='btn btn-warning btn-xs'  href='".$baseHref."/delete/".$object->getId()."'><span class='glyphicon glyphicon-remove' aria-hidden='true'></span></a></td>";
 				}
-				else {
+				else{
                     echo "<td class='td-center'><a class='btn btn-link btn-xs'><span class='glyphicon glyphicon-edit' aria-hidden='true'></span></a></td>";
                 }
+
 				echo "<td class='td-center'><a class='btn btn-info btn-xs' href='".$baseHref."/messages/".$object->getId()."'><span class='glyphicon glyphicon-play' aria-hidden='true'></span></a></td>";
                 echo "</tr>";
 			}
@@ -106,14 +107,14 @@ class Tickets extends \_DefaultController {
 						}
 					} // fin foreach
 					echo $button;
-					if(empty($msg)){
-						echo "<td class='td-center'><a class='btn btn-primary btn-xs' href='".$baseHref."/frm/".$object->getId()."'><span class='glyphicon glyphicon-edit' aria-hidden='true'></span></a></td>";
+					if(empty($msg) || Auth::isAdmin()){
+						echo "<td class='td-center'><a class='btn btn-primary btn-xs' href='".$baseHref."/frm/".$object2->getId()."'><span class='glyphicon glyphicon-edit' aria-hidden='true'></span></a></td>";
 					}
 					else{
 						echo "<td class='td-center'><a class='btn btn-link btn-xs'><span class='glyphicon glyphicon-edit' aria-hidden='true'></span></a></td>";
 					}
-					echo "<td class='td-center'><a class='btn btn-warning btn-xs'  href='".$baseHref."/delete/".$object->getId()."'><span class='glyphicon glyphicon-remove' aria-hidden='true'></span></a></td>".
-							"<td class='td-center'><a class='btn btn-info btn-xs' href='".$baseHref."/messages/".$object->getId()."'><span class='glyphicon glyphicon-play' aria-hidden='true'></span></a></td>";
+					echo "<td class='td-center'><a class='btn btn-warning btn-xs'  href='".$baseHref."/delete/".$object2->getId()."'><span class='glyphicon glyphicon-remove' aria-hidden='true'></span></a></td>".
+							"<td class='td-center'><a class='btn btn-info btn-xs' href='".$baseHref."/messages/".$object2->getId()."'><span class='glyphicon glyphicon-play' aria-hidden='true'></span></a></td>";
 					echo "</tr>";
 						
 						
