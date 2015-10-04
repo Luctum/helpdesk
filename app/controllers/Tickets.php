@@ -293,13 +293,16 @@ class Tickets extends \_DefaultController {
 
 	public function update() {
 	
-		parent::update();
+		$ticket=DAO::getOne("Ticket", "id=".$_POST['id']."");
 		$message = new Message();
-		$message->setTicket($this);
+		$message->setTicket($ticket);
 		$message->setUser(Auth::getUser());
-		$message->setContenu($this->getUser()->getLogin()." a modifié votre statut en '".$this->getStatut()->getLibelle()."'");
+		$message->setContenu(Auth::getUser()->getLogin()." a modifié votre statut en '".$ticket->getStatut()->getLibelle()."'");
 		$message->setLu(0);
 		DAO::insert($message);
+		parent::update();
+		
+		
 
 	}
 
