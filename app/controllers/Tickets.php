@@ -95,9 +95,10 @@ class Tickets extends \_DefaultController {
 						echo "<td>".$object2->getUser()."</td>";
 					}
 					$button = "<td class='btn-success'></td>";
-					foreach($notifications as $n){
-				
-						if($n->getTicket() == $object2 && $n->getUser() != Auth::getUser()) {
+					
+					foreach($notifications as $n2){		
+					
+						if($n2->getTicket() == $object2 && $n2->getUser() != Auth::getUser()) {
 							//error_reporting(0);
 							//xdebug_disable();
 				
@@ -294,16 +295,17 @@ class Tickets extends \_DefaultController {
 	public function update() {
 		parent::update();
 
-		if(!empty($_POST['id'])){
+		if(!empty($_POST['id']) && Auth::isAdmin()){
+			$config["debug"]=false;
 			$ticket=DAO::getOne("Ticket", "id=".$_POST['id']."");
 			$message = new Message();
 			$message->setTicket($ticket);
 			$message->setUser(Auth::getUser());
-			$message->setContenu(Auth::getUser()->getLogin()." a modifié votre statut en '".$ticket->getStatut()->getLibelle()." ou a modifié votre ticket'");
+			$message->setContenu("Une modification à été effectué sur ce ticket (concernant le statut ou le titre)");
 			$message->setLu(0);
 			DAO::insert($message);
+			$config["debug"]=true;
 		}
-
 	}
 
 

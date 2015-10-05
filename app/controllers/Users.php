@@ -16,7 +16,11 @@ class Users extends \_DefaultController {
 
 	public function frm($id=NULL){
 		$user=$this->getInstance($id);
-        $this->loadView("user/vAdd",array("user"=>$user));
+		if($id != null && ($user == Auth::getUser() || Auth::isAdmin())){
+        	$this->loadView("user/vAdd",array("user"=>$user));
+		}else{
+			echo "Vous ne disposez pas des droits";
+		}
 
     }
 
@@ -41,7 +45,7 @@ class Users extends \_DefaultController {
 		$password = $_POST['password'];
 		$user = DAO::getOne("User","login='$login'");
 		
-		if($user->getPassword() == $password){
+		if(!empty($user) && $user->getPassword() == $password){
 			$_SESSION["user"]= $user;
 				
 		}

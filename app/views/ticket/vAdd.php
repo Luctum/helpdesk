@@ -89,12 +89,14 @@
 <div class="form-group">
 
 <textarea name="description" id="description" placeholder="Entrez la description" class="form-control"><?php echo $ticket->getDescription()?></textarea>
+			<label for="dateCreation">Date de création</label>
 <input type="text" name="dateCreation" id="dateCreation" value="<?php echo $ticket->getDateCreation()?>" disabled class="form-control">
+
 			<label>Statut</label>
 			<div class="form-control" disabled><?php echo $ticket->getStatut()->getId()?></div>
 			<label>Emetteur</label>
 			<div class="form-control" disabled><?php echo $ticket->getUser()->getId()?></div>
-			<label for="dateCreation">Date de création</label>
+
 <div class="form-group">
 
 	<input type="submit" value="Valider" class="btn btn-default">
