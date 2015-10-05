@@ -57,7 +57,14 @@
 		<input type="text" name="titre" id="titre" value="<?php echo $ticket->getTitre();?>" placeholder="Entrez le titre" class="form-control" <?php if (Auth::getUser()->getId() != $ticket->getUser()->getId()) {?>disabled<?php }?>>
 		<label for="description">Description</label>
 		<textarea name="description" id="description" placeholder="Entrez la description" class="form-control" <?php if (Auth::getUser()->getId() != $ticket->getUser()->getId()) {?>disabled<?php }?>><?php echo $ticket->getDescription()?></textarea>
-		<input type="hidden" name="dateCreation" value="<?php echo $ticket->getDateCreation()?>">
+	</div>
+	<div class="form-group">
+		<label>Statut</label>
+		<div class="form-control" disabled><?php echo $ticket->getStatut()?></div>
+		<label>Emetteur</label>
+		<div class="form-control" disabled><?php echo $ticket->getUser()?></div>
+		<label for="dateCreation">Date de création</label>
+		<input type="text" name="dateCreation" id="dateCreation" value="<?php echo $ticket->getDateCreation()?>" disabled class="form-control">
 		<input type="hidden" name="idStatut" value="<?php echo $ticket->getStatut()->getId()?>">
 		<input type="hidden" name="idUser" value="<?php echo $ticket->getUser()->getId()?>">
 	</div>
