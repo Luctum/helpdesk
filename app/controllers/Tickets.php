@@ -293,6 +293,7 @@ class Tickets extends \_DefaultController {
 	}
 
 	public function update() {
+
 		$ticket=DAO::getOne("Ticket", "id=".$_POST['id']."");
 		$message = new Message();
 		$message->setTicket($ticket);
