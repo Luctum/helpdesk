@@ -60,7 +60,7 @@ class Tickets extends \_DefaultController {
                     }
                 }
                 echo $button;
-                if(empty($msg)){
+                if(empty($msg) || Auth::isAdmin()){
 					echo "<td class='td-center'><a class='btn btn-primary btn-xs' href='".$baseHref."/frm/".$object->getId()."'><span class='glyphicon glyphicon-edit' aria-hidden='true'></span></a></td>";
                     echo "<td class='td-center'><a class='btn btn-warning btn-xs'  href='".$baseHref."/delete/".$object->getId()."'><span class='glyphicon glyphicon-remove' aria-hidden='true'></span></a></td>";
 				}
@@ -77,8 +77,9 @@ class Tickets extends \_DefaultController {
 		echo "</table>";
 
 		//AFFICHE TOUS LES TICKETS POUR LES ADMINISTRATEURS
-		echo "<h2>Tous les tickets</h2>";
+		
 		if(Auth::isAdmin()){
+			echo "<h2>Tous les tickets</h2>";
 			echo "<table class='table table-striped'>";
 			echo "<thead><tr><th>".$this->model."</th></tr></thead>";
 			echo "<tbody>";
@@ -292,14 +293,14 @@ class Tickets extends \_DefaultController {
 	}
 
 	public function update() {
-	
-		parent::update();
+		$ticket=DAO::getOne("Ticket", "id=".$_POST['id']."");
 		$message = new Message();
-		$message->setTicket($this);
+		$message->setTicket($ticket);
 		$message->setUser(Auth::getUser());
-		$message->setContenu($this->getUser()->getLogin()." a modifié votre statut en '".$this->getStatut()->getLibelle()."'");
+		$message->setContenu(Auth::getUser()->getLogin()." a modifié votre statut en '".$ticket->getStatut()->getLibelle()."'");
 		$message->setLu(0);
 		DAO::insert($message);
+		parent::update();
 
 	}
 
