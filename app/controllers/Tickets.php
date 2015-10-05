@@ -294,9 +294,10 @@ class Tickets extends \_DefaultController {
 
 	public function update() {
 		parent::update();
-
+		global $config;
+		$config["debug"]=false;
 		if(!empty($_POST['id']) && Auth::isAdmin()){
-			$config["debug"]=false;
+		
 			$ticket=DAO::getOne("Ticket", "id=".$_POST['id']."");
 			$message = new Message();
 			$message->setTicket($ticket);
@@ -304,9 +305,10 @@ class Tickets extends \_DefaultController {
 			$message->setContenu("Une modification à été effectué sur ce ticket (concernant le statut ou le titre)");
 			$message->setLu(0);
 			DAO::insert($message);
-			$config["debug"]=true;
+			
 		}
+		$config["debug"]=true;
+		
 	}
-
 
 }

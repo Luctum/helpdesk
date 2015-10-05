@@ -7,8 +7,9 @@
 </div>
 <div class="alert alert-info">Ticket : <?php echo $ticket->toString()?></div>
 	<input type="hidden" name="id" value="<?php echo $ticket->getId()?>">>
-<input type="hidden" id="idStatut" name="idStatut" value="<?php echo $ticket->getStatut()->getID()?>">
+<input type="hidden" id="idStatut" name="idStatut" value="<?php echo $ticket->getStatut()->getId()?>">
 <input type="hidden" id="idUser" name="idUser" value="<?php echo $ticket->getUser()->getId()?>">
+<input type="hidden" id="idUser" name="idCategorie" value="<?php echo $ticket->getCategorie()->getId()?>">
 <?php if (Auth::isAdmin() == true) {?>
 	<div class="form-group">
 
