@@ -238,7 +238,6 @@ class Tickets extends \_DefaultController {
 		echo Jquery::execute("CKEDITOR.replace( 'description');");
 	}
 
-
 	
 	/* (non-PHPdoc)
 	 * @see _DefaultController::setValuesToObject()
@@ -293,15 +292,17 @@ class Tickets extends \_DefaultController {
 	}
 
 	public function update() {
-
-		$ticket=DAO::getOne("Ticket", "id=".$_POST['id']."");
-		$message = new Message();
-		$message->setTicket($ticket);
-		$message->setUser(Auth::getUser());
-		$message->setContenu(Auth::getUser()->getLogin()." a modifié votre statut en '".$ticket->getStatut()->getLibelle()."'");
-		$message->setLu(0);
-		DAO::insert($message);
 		parent::update();
+
+		if(!empty($_POST['id'])){
+			$ticket=DAO::getOne("Ticket", "id=".$_POST['id']."");
+			$message = new Message();
+			$message->setTicket($ticket);
+			$message->setUser(Auth::getUser());
+			$message->setContenu(Auth::getUser()->getLogin()." a modifié votre statut en '".$ticket->getStatut()->getLibelle()." ou a modifié votre ticket'");
+			$message->setLu(0);
+			DAO::insert($message);
+		}
 
 	}
 
