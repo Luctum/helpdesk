@@ -1,8 +1,7 @@
-
+![HelpDesk](http://angular.kobject.net/git/phalconist/helpdesk.png "HelpDesk")
 # Helpdesk - H&M version
 Made by Hugo and Maxime
 
-[![Build Status](https://travis-ci.org/Luctum/helpdesk.svg?branch=tests)](https://travis-ci.org/Luctum/helpdesk)
 
 # helpdesk
 A Helpdesk Application for educational purposes using a micro-framework
