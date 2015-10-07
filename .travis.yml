@@ -16,4 +16,4 @@ before_script:
  - sleep 5
  - php -S 127.0.0.1:8090 app/.htrouter.php &
  - sleep 5
-script: (cd tests; phpunit --configuration PHPunit.xml --debug)
+script: (cd tests; phpunit --configuration PHPUnit.xml --debug)
