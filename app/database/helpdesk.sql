@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 4.2.11
+-- version 4.2.7.1
 -- http://www.phpmyadmin.net
 --
 -- Client :  127.0.0.1
--- Généré le :  Jeu 14 Mai 2015 à 20:26
--- Version du serveur :  5.6.21
--- Version de PHP :  5.6.3
+-- Généré le :  Mer 07 Octobre 2015 à 11:33
+-- Version du serveur :  5.5.39
+-- Version de PHP :  5.4.31
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET time_zone = "+00:00";
@@ -19,7 +19,7 @@ SET time_zone = "+00:00";
 --
 -- Base de données :  `helpdesk`
 --
-CREATE DATABASE IF NOT EXISTS `helpdesk` DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;
+CREATE DATABASE IF NOT EXISTS `helpdesk` DEFAULT CHARACTER SET latin1 COLLATE latin1_swedish_ci;
 USE `helpdesk`;
 
 -- --------------------------------------------------------
@@ -28,12 +28,11 @@ USE `helpdesk`;
 -- Structure de la table `categorie`
 --
 
-DROP TABLE IF EXISTS `categorie`;
 CREATE TABLE IF NOT EXISTS `categorie` (
 `id` int(11) NOT NULL,
   `libelle` varchar(100) NOT NULL,
   `idCategorie` int(11) DEFAULT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=13 ;
 
 --
 -- Contenu de la table `categorie`
@@ -56,7 +55,6 @@ INSERT INTO `categorie` (`id`, `libelle`, `idCategorie`) VALUES
 -- Structure de la table `faq`
 --
 
-DROP TABLE IF EXISTS `faq`;
 CREATE TABLE IF NOT EXISTS `faq` (
 `id` int(11) NOT NULL,
   `titre` varchar(100) NOT NULL,
@@ -66,7 +64,7 @@ CREATE TABLE IF NOT EXISTS `faq` (
   `idUser` int(11) NOT NULL,
   `version` varchar(20) NOT NULL DEFAULT '1.0',
   `popularity` int(11) NOT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=4 ;
 
 --
 -- Contenu de la table `faq`
@@ -83,22 +81,59 @@ INSERT INTO `faq` (`id`, `titre`, `contenu`, `dateCreation`, `idCategorie`, `idU
 -- Structure de la table `message`
 --
 
-DROP TABLE IF EXISTS `message`;
 CREATE TABLE IF NOT EXISTS `message` (
 `id` int(11) NOT NULL,
   `contenu` text NOT NULL,
   `date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `idUser` int(11) NOT NULL,
-  `idTicket` int(11) NOT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+  `idTicket` int(11) NOT NULL,
+  `lu` tinyint(1) NOT NULL
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=93 ;
 
 --
 -- Contenu de la table `message`
 --
 
-INSERT INTO `message` (`id`, `contenu`, `date`, `idUser`, `idTicket`) VALUES
-(1, 'Reçu<br>\r\nPouvez-vous préciser le message affiché ?<br>\r\nMerci', '2015-05-10 22:55:31', 1, 1),
-(2, 'Le message est <strong>`vidage de la mémoire physique...`</strong>', '2015-05-10 23:20:30', 2, 1);
+INSERT INTO `message` (`id`, `contenu`, `date`, `idUser`, `idTicket`, `lu`) VALUES
+(70, '<p>Quel est le probl&egrave;me ?</p>\r\n', '2015-09-29 21:27:45', 1, 22, 0),
+(71, '<p>Expliquez s&#39;ils vous plais</p>\r\n', '2015-09-29 21:27:53', 1, 22, 0),
+(72, '<p>Quel est le logiciel ?</p>\r\n', '2015-09-29 21:28:09', 1, 24, 1),
+(73, '<p>Photoshop, ca marche plus !</p>\r\n', '2015-09-29 21:28:27', 2, 24, 1),
+(77, 'admin a modifié votre statut en ''En attente''', '2015-10-05 06:43:08', 1, 22, 0),
+(78, 'admin a modifié votre statut en ''Nouveau''', '2015-10-05 06:43:25', 1, 25, 0),
+(79, 'admin a modifié votre statut en ''Nouveau''', '2015-10-05 06:49:50', 1, 25, 0),
+(80, 'admin a modifié votre statut en ''Nouveau''', '2015-10-05 06:54:34', 1, 25, 0),
+(81, 'admin a modifié votre statut en ''Nouveau''', '2015-10-05 07:44:31', 1, 26, 0),
+(83, 'user a modifié votre statut en ''Nouveau ou a modifié votre ticket''', '2015-10-05 07:48:19', 2, 29, 0),
+(84, 'Une modification à été effectué sur ce ticket (concernant le statut ou le titre)', '2015-10-05 07:52:09', 1, 26, 0),
+(85, 'Une modification à été effectué sur ce ticket (concernant le statut ou le titre)', '2015-10-05 08:09:49', 1, 26, 0),
+(86, 'Une modification à été effectué sur ce ticket (concernant le statut ou le titre)', '2015-10-05 09:29:00', 1, 22, 0),
+(87, 'Une modification à été effectué sur ce ticket (concernant le statut ou le titre)', '2015-10-05 09:31:56', 1, 22, 0),
+(88, 'Une modification à été effectué sur ce ticket (concernant le statut ou le titre)', '2015-10-05 09:34:20', 1, 22, 0),
+(89, 'Une modification à été effectué sur ce ticket (concernant le statut ou le titre)', '2015-10-05 09:35:46', 1, 22, 0),
+(90, 'Une modification à été effectué sur ce ticket (concernant le statut ou le titre)', '2015-10-05 09:36:17', 1, 22, 0),
+(91, 'Une modification à été effectué sur ce ticket (concernant le statut ou le titre)', '2015-10-05 09:37:13', 1, 22, 0),
+(92, 'Une modification à été effectué sur ce ticket (concernant le statut ou le titre)', '2015-10-05 09:38:51', 1, 25, 0);
+
+-- --------------------------------------------------------
+
+--
+-- Structure de la table `notification`
+--
+
+CREATE TABLE IF NOT EXISTS `notification` (
+`id` int(11) NOT NULL,
+  `idUser` int(11) NOT NULL,
+  `idTicket` int(11) NOT NULL
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=12 ;
+
+--
+-- Contenu de la table `notification`
+--
+
+INSERT INTO `notification` (`id`, `idUser`, `idTicket`) VALUES
+(10, 1, 22),
+(11, 1, 22);
 
 -- --------------------------------------------------------
 
@@ -106,13 +141,12 @@ INSERT INTO `message` (`id`, `contenu`, `date`, `idUser`, `idTicket`) VALUES
 -- Structure de la table `statut`
 --
 
-DROP TABLE IF EXISTS `statut`;
 CREATE TABLE IF NOT EXISTS `statut` (
 `id` int(11) NOT NULL,
   `libelle` varchar(30) NOT NULL,
   `ordre` int(11) NOT NULL,
   `icon` varchar(20) NOT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=6 ;
 
 --
 -- Contenu de la table `statut`
@@ -131,7 +165,6 @@ INSERT INTO `statut` (`id`, `libelle`, `ordre`, `icon`) VALUES
 -- Structure de la table `ticket`
 --
 
-DROP TABLE IF EXISTS `ticket`;
 CREATE TABLE IF NOT EXISTS `ticket` (
 `id` int(11) NOT NULL,
   `type` set('demande','incident') NOT NULL DEFAULT 'demande',
@@ -141,15 +174,21 @@ CREATE TABLE IF NOT EXISTS `ticket` (
   `idStatut` int(11) NOT NULL,
   `idUser` int(11) NOT NULL,
   `dateCreation` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=32 ;
 
 --
 -- Contenu de la table `ticket`
 --
 
 INSERT INTO `ticket` (`id`, `type`, `idCategorie`, `titre`, `description`, `idStatut`, `idUser`, `dateCreation`) VALUES
-(1, 'incident', 8, 'Ecran bleu', 'Ecran bleu sur ouverture session windows', 2, 2, '2015-05-10 16:27:29'),
-(2, 'incident', 12, 'impossible de se connecter', 'Impossible de se connecter à mon compte :\r\nLe message affiché est "Les informations de compte n''ont pas permis votre authentification".\r\n\r\nJe n''ai pas trouvé la procédure de récupération de mot de passe.', 1, 3, '2015-05-14 10:40:40');
+(22, 'demande', 1, 'Ticket 1 ', '<p>ezaeazeazeddyrtyrtyttert</p>\r\n', 5, 1, '2015-09-29 21:26:59'),
+(23, '', 12, 'Ticket 2 2', '<p>ezarazrarrazrarrrrrrrrrrr</p>\r\n', 1, 2, '2015-09-29 21:27:08'),
+(24, '', 9, 'Ticket 3 ', '<p>ezarazrar</p>\r\n', 1, 2, '2015-09-29 21:27:17'),
+(25, 'demande', 9, 'Test Ticket', '<p>bonjour</p>\r\n', 3, 1, '2015-10-05 06:25:51'),
+(26, '', 2, 'azrrazzararz', '<p>zaeazrzara</p>\r\n', 3, 1, '2015-10-05 07:41:38'),
+(29, '', 2, 'TicketUser', '<p>eazeee</p>\r\n', 1, 2, '2015-10-05 07:48:06'),
+(30, '', 11, 'bonjour', '<p>aze</p>\r\n', 1, 2, '2015-10-05 07:52:44'),
+(31, '', 9, 'azeazeazarzarz', '<p>dsqsdqsddc</p>\r\n', 1, 2, '2015-10-05 07:53:18');
 
 -- --------------------------------------------------------
 
@@ -157,21 +196,20 @@ INSERT INTO `ticket` (`id`, `type`, `idCategorie`, `titre`, `description`, `idSt
 -- Structure de la table `user`
 --
 
-DROP TABLE IF EXISTS `user`;
 CREATE TABLE IF NOT EXISTS `user` (
 `id` int(11) NOT NULL,
   `login` varchar(20) NOT NULL,
   `password` varchar(20) NOT NULL,
   `mail` varchar(255) NOT NULL,
   `admin` tinyint(1) NOT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=5 ;
 
 --
 -- Contenu de la table `user`
 --
 
 INSERT INTO `user` (`id`, `login`, `password`, `mail`, `admin`) VALUES
-(1, 'admin', 'admin', 'admin@local.fr', 1),
+(1, 'admin', 'admin', 'adminz@local.fr', 1),
 (2, 'user', 'user', 'user@local.fr', 0),
 (3, 'autreUser', 'autreuser', 'autreuser@local.fr', 0),
 (4, 'moi', '123456789', 'moi@local.fr', 0);
@@ -199,6 +237,12 @@ ALTER TABLE `message`
  ADD PRIMARY KEY (`id`), ADD KEY `idUser` (`idUser`), ADD KEY `idTicket` (`idTicket`);
 
 --
+-- Index pour la table `notification`
+--
+ALTER TABLE `notification`
+ ADD PRIMARY KEY (`id`), ADD KEY `fk_User` (`idUser`), ADD KEY `fk_Ticket` (`idTicket`);
+
+--
 -- Index pour la table `statut`
 --
 ALTER TABLE `statut`
@@ -224,7 +268,7 @@ ALTER TABLE `user`
 -- AUTO_INCREMENT pour la table `categorie`
 --
 ALTER TABLE `categorie`
-MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=14;
+MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=13;
 --
 -- AUTO_INCREMENT pour la table `faq`
 --
@@ -234,22 +278,27 @@ MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=4;
 -- AUTO_INCREMENT pour la table `message`
 --
 ALTER TABLE `message`
-MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=3;
+MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=93;
+--
+-- AUTO_INCREMENT pour la table `notification`
+--
+ALTER TABLE `notification`
+MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=12;
 --
 -- AUTO_INCREMENT pour la table `statut`
 --
 ALTER TABLE `statut`
-MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=8;
+MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=6;
 --
 -- AUTO_INCREMENT pour la table `ticket`
 --
 ALTER TABLE `ticket`
-MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=3;
+MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=32;
 --
 -- AUTO_INCREMENT pour la table `user`
 --
 ALTER TABLE `user`
-MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=7;
+MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=5;
 --
 -- Contraintes pour les tables exportées
 --
@@ -273,6 +322,13 @@ ADD CONSTRAINT `faq_ibfk_2` FOREIGN KEY (`idUser`) REFERENCES `user` (`id`);
 ALTER TABLE `message`
 ADD CONSTRAINT `message_ibfk_1` FOREIGN KEY (`idUser`) REFERENCES `user` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
 ADD CONSTRAINT `message_ibfk_2` FOREIGN KEY (`idTicket`) REFERENCES `ticket` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Contraintes pour la table `notification`
+--
+ALTER TABLE `notification`
+ADD CONSTRAINT `fk_Ticket` FOREIGN KEY (`idTicket`) REFERENCES `ticket` (`id`),
+ADD CONSTRAINT `fk_User` FOREIGN KEY (`idUser`) REFERENCES `user` (`id`);
 
 --
 -- Contraintes pour la table `ticket`
