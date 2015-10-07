@@ -7,6 +7,7 @@
 -- Version du serveur :  5.5.39
 -- Version de PHP :  5.4.31
 
+SET lower_case_table_names=2;
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET time_zone = "+00:00";
 
