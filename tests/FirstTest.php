@@ -13,4 +13,7 @@ class FirstTest extends \PHPUnit_Framework_TestCase {
 		DAO::Connect($config['database']['dbName']);	
 	}
 	
+	public function testYoupi(){
+		 $this->assertEquals(1,1);
+	}
 }

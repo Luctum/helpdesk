@@ -8,17 +8,18 @@ class SeleniumTest extends AjaxUnitTest{
 		/*
 		$bt=$this->getElementBySelector(".btn .btn-link");
 		$this->assertEquals("accueil", $bt->getText());
-		*/
+		
 		$btnDefault=$this->getElementsBySelector(".btn-default");
-		foreach ($btsDefault as $bt){
+		foreach ($btnDefault as $bt){
 			if($bt->getText()=="Annuler"){
 				$bt->click();
-				self::$webDriver->manage()->timeouts->implicitlyWait(5);
+				self::$webDriver->manage()->timeouts()->implicitlyWait(5);
 				$this->assertPageContainsText("Annuler");
 				break;
 			}
 				
 		}
 		$this->assertTrue($doIt);
+		*/
 	}
 }
