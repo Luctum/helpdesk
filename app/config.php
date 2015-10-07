@@ -9,6 +9,6 @@ return array(
 				"user"=>"root",
 				"password"=>""
 		],
-		"directories"=>["my"],
-		"debug"=>true
+		"directories"=>["my","tests"],
+		"test"=>true
 );
