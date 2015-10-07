@@ -121,17 +121,17 @@ INSERT INTO `message` (`id`, `contenu`, `date`, `idUser`, `idTicket`, `lu`) VALU
 -- Structure de la table `notification`
 --
 
-CREATE TABLE IF NOT EXISTS `notification` (
+CREATE TABLE IF NOT EXISTS `Notification` (
 `id` int(11) NOT NULL,
   `idUser` int(11) NOT NULL,
   `idTicket` int(11) NOT NULL
 ) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=12 ;
 
 --
--- Contenu de la table `notification`
+-- Contenu de la table `Notification`
 --
 
-INSERT INTO `notification` (`id`, `idUser`, `idTicket`) VALUES
+INSERT INTO `Notification` (`id`, `idUser`, `idTicket`) VALUES
 (10, 1, 22),
 (11, 1, 22);
 
