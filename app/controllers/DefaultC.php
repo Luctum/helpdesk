@@ -36,7 +36,6 @@ class DefaultC extends BaseController {
                     if($auth != $n->getUser()){
 					    echo "<tr><td><b>".$n->getUser()." </b >a modifié <b>".$n->getTicket()."</b></td><tr>";
                     }
-				 	
 				}
 
 			}

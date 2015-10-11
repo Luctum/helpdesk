@@ -16,23 +16,20 @@ class AccountTest extends AjaxUnitTest {
 		//L'utilisateur clique sur Editer mon profil
 		$this->get("DefaultC/index");
 		self::$webDriver->manage()->timeouts()->implicitlyWait(5);
-		$btnEdit=$this->getElementsBySelector(".btn .btn-primary");
+		$bt=$this->getElementsBySelector("#edit");
 
-		foreach ($btnEdit as $bt){
-			if($bt->getText()=="profil"){
-				$bt->click();
-				self::$webDriver->manage()->timeouts()->implicitlyWait(5);
-				$this->assertPageContainsText("Ajouter/modifier un utilisateur");
-				//L'utilisateur entre des valeurs et clique sur valider
-				$this->setField("mail", "user1@local.fr");
-				$this->clickSubmit("Valider");
-				self::$webDriver->manage()->timeouts()->implicitlyWait(5);
-				$test = DAO::getOne("User","login='user'");
-				$mail = $test->getMail();
-				$this->assert($mail, Auth::getUser()->getMail());
-			}
+        $bt->click();
+        self::$webDriver->manage()->timeouts()->implicitlyWait(5);
+        $this->assertPageContainsText("Ajouter/modifier un utilisateur");
 
-		}
+        //L'utilisateur entre des valeurs et clique sur valider
+        $this->setField("mail", "user1@local.fr");
+        $this->clickSubmit("Valider");
+        self::$webDriver->manage()->timeouts()->implicitlyWait(5);
+        $test = DAO::getOne("User","login='user'");
+        $mail = $test->getMail();
+        $this->assert($mail, Auth::getUser()->getMail());
+
 		//L'utilisateur essaie d'accéder à un profil qui n'est pas le sien (user = 2, test sur le 4éme)
 		$this->get("Users/frm/4");
 		self::$webDriver->manage()->timeouts()->implicitlyWait(5);
