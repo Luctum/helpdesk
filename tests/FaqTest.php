@@ -1,6 +1,6 @@
 <?php
 use micro\orm\DAO;
-class AccountTest extends AjaxUnitTest {
+class FaqTest extends AjaxUnitTest {
 
     public static function setUpBeforeClass(){
         parent::setUpBeforeClass();
