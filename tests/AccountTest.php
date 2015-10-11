@@ -18,7 +18,7 @@ class AccountTest extends AjaxUnitTest {
 		self::$webDriver->manage()->timeouts()->implicitlyWait(5);
         $this->get("DefaultC/index");
         self::$webDriver->manage()->timeouts()->implicitlyWait(5);
-		$bt=$this->getElementBySelector("#edit");
+		$bt=$this->getElementById("edit");
         $bt->click();
         self::$webDriver->manage()->timeouts()->implicitlyWait(5);
         $this->assertPageContainsText("Ajouter/modifier un utilisateur");

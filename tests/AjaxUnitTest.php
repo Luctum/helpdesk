@@ -52,8 +52,8 @@ abstract class AjaxUnitTest extends \PHPUnit_Framework_TestCase {
         return self::$webDriver->findElement(\WebDriverBy::id($id));
     }
     
-    public function setField($css_selector,$value){
-    	$this->getElementBySelector($css_selector)->sendkeys($value);
+    public function setField($id,$value){
+    	$this->getElementById($id)->sendkeys($value);
     }
  
     /**
