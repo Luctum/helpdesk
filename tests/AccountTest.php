@@ -25,7 +25,7 @@ class AccountTest extends AjaxUnitTest {
 
         //L'utilisateur entre des valeurs et clique sur valider
         $this->setField("mail", "user1@local.fr");
-        $this->clickSubmit("Valider");
+        clickSubmit("Valider");
         self::$webDriver->manage()->timeouts()->implicitlyWait(5);
         $test = DAO::getOne("User","login='user'");
         $mail = $test->getMail();
@@ -44,7 +44,7 @@ class AccountTest extends AjaxUnitTest {
         $this->assertPageContainsText("Se connecter");
         $this->setField("login", "admin");
         $this->setField("password", "admin");
-        $this->clickSubmit("Valider");
+        clickSubmit("Valider");
         self::$webDriver->manage()->timeouts()->implicitlyWait(5);
         $this->assert(Auth::getUser()->getLogin(), "admin");
     }
