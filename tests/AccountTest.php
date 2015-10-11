@@ -44,7 +44,7 @@ class AccountTest extends AjaxUnitTest {
         $this->get("DefaultC/index");
         self::$webDriver->manage()->timeouts()->implicitlyWait(5);
         $this->assertPageContainsText("Se connecter");
-        $this->setField("mail", "admin");
+        $this->setField("login", "admin");
         $this->setField("password", "admin");
         $this->clickSubmit("Valider");
         self::$webDriver->manage()->timeouts()->implicitlyWait(5);
@@ -54,6 +54,8 @@ class AccountTest extends AjaxUnitTest {
     public function testDeconnexion(){
         $user = DAO::getOne("User","login='user'");
         $_SESSION["user"]= $user;
+        $this->get("DefaultC/index");
+        self::$webDriver->manage()->timeouts()->implicitlyWait(5);
         $this->get("DefaultC/index");
         self::$webDriver->manage()->timeouts()->implicitlyWait(5);
         $this->assertPageContainsText("Déconnexion");
