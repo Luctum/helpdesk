@@ -10,15 +10,15 @@ class AccountTest extends AjaxUnitTest {
 	
 	//Edition d'un profil par un utilisateur
 	public function testEditUser(){
-		$user = DAO::getOne("User","login='user'");
-		$_SESSION["user"]= $user;
+        $user = new DefaultC();
+        $user->asUser();
 		
 		//L'utilisateur clique sur Editer mon profil
 		$this->get("DefaultC/index");
 		self::$webDriver->manage()->timeouts()->implicitlyWait(5);
         $this->get("DefaultC/index");
         self::$webDriver->manage()->timeouts()->implicitlyWait(5);
-		$bt=$this->webdriver->findElement(WebDriverBy::id("edit"));
+		$bt=$this->getElementById("edit");
         $bt->click();
         self::$webDriver->manage()->timeouts()->implicitlyWait(5);
         $this->assertPageContainsText("Ajouter/modifier un utilisateur");
@@ -50,10 +50,9 @@ class AccountTest extends AjaxUnitTest {
     }
 
     public function testDeconnexion(){
-        $user = DAO::getOne("User","login='user'");
-        $_SESSION["user"]= $user;
-        $this->get("DefaultC/index");
-        self::$webDriver->manage()->timeouts()->implicitlyWait(5);
+        $user = new DefaultC();
+        $user->asUser();
+
         $this->get("DefaultC/index");
         self::$webDriver->manage()->timeouts()->implicitlyWait(5);
         $this->assertPageContainsText("Déconnexion");
