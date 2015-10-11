@@ -18,8 +18,7 @@ class AccountTest extends AjaxUnitTest {
 		self::$webDriver->manage()->timeouts()->implicitlyWait(5);
         $this->get("DefaultC/index");
         self::$webDriver->manage()->timeouts()->implicitlyWait(5);
-		$bt=$this->getElementById("edit");
-        $bt->click();
+        click("id=edit");
         self::$webDriver->manage()->timeouts()->implicitlyWait(5);
         $this->assertPageContainsText("Ajouter/modifier un utilisateur");
 
@@ -42,17 +41,18 @@ class AccountTest extends AjaxUnitTest {
         $this->get("DefaultC/index");
         self::$webDriver->manage()->timeouts()->implicitlyWait(5);
         $this->assertPageContainsText("Se connecter");
-        $this->setField("name=login", "admin");
-        $this->setField("name=password", "admin");
+        $this->setField("login", "admin");
+        $this->setField("password", "admin");
         $this->clickSubmit("Valider");
         self::$webDriver->manage()->timeouts()->implicitlyWait(5);
         $this->assert(Auth::getUser()->getLogin(), "admin");
     }
 
     public function testDeconnexion(){
+        $this->get("DefaultC/index");
+
         $user = new DefaultC();
         $user->asUser();
-
         $this->get("DefaultC/index");
         self::$webDriver->manage()->timeouts()->implicitlyWait(5);
         $this->assertPageContainsText("Déconnexion");
