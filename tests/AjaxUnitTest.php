@@ -23,6 +23,7 @@ abstract class AjaxUnitTest extends \PHPUnit_Framework_TestCase {
  
     public function setUp() {
         parent::setup();
+
     }
  
     /* (non-PHPdoc)
