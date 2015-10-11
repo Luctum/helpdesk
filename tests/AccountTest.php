@@ -42,8 +42,8 @@ class AccountTest extends AjaxUnitTest {
         $this->get("DefaultC/index");
         self::$webDriver->manage()->timeouts()->implicitlyWait(5);
         $this->assertPageContainsText("Se connecter");
-        $this->setField("login", "admin");
-        $this->setField("password", "admin");
+        $this->setField("name=login", "admin");
+        $this->setField("name=password", "admin");
         $this->clickSubmit("Valider");
         self::$webDriver->manage()->timeouts()->implicitlyWait(5);
         $this->assert(Auth::getUser()->getLogin(), "admin");
