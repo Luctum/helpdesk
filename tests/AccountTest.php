@@ -18,7 +18,7 @@ class AccountTest extends AjaxUnitTest {
 		self::$webDriver->manage()->timeouts()->implicitlyWait(5);
         $this->get("DefaultC/index");
         self::$webDriver->manage()->timeouts()->implicitlyWait(5);
-		$bt=$this->getElementBySelector("edit");
+		$bt=$this->getElementBySelector("#edit");
         $bt->click();
         self::$webDriver->manage()->timeouts()->implicitlyWait(5);
         $this->assertPageContainsText("Ajouter/modifier un utilisateur");
@@ -57,7 +57,7 @@ class AccountTest extends AjaxUnitTest {
         $this->get("DefaultC/index");
         self::$webDriver->manage()->timeouts()->implicitlyWait(5);
         $this->assertPageContainsText("Déconnexion");
-        $btDeco=$this->getElementBySelector(".btn-warning");
+        $btDeco=$this->getElementBySelector("#logout");
         $this->click($btDeco);
         self::$webDriver->manage()->timeouts()->implicitlyWait(5);
         $this->get("DefaultC/index");
