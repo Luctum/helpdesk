@@ -42,8 +42,8 @@ class AccountTest extends AjaxUnitTest {
         $this->get("DefaultC/index");
         self::$webDriver->manage()->timeouts()->implicitlyWait(5);
         $this->assertPageContainsText("Se connecter");
-        $this->setField("name=login", "admin");
-        $this->setField("name=password", "admin");
+        $this->setField("login", "admin");
+        $this->setField("password", "admin");
         $this->clickSubmit("Valider");
         self::$webDriver->manage()->timeouts()->implicitlyWait(5);
         $this->assert(Auth::getUser()->getLogin(), "admin");
@@ -63,4 +63,11 @@ class AccountTest extends AjaxUnitTest {
         $this->assert(Auth::getUser, NULL);
     }
 
+    public function testNotif(){
+        $user = new DefaultC();
+        $user->asUser();
+        $this->get("DefaultC/index");
+        self::$webDriver->manage()->timeouts()->implicitlyWait(5);
+        $this->assertPageContainsText("Notifications");
+    }
 }
