@@ -91,4 +91,6 @@ abstract class AjaxUnitTest extends \PHPUnit_Framework_TestCase {
     public function assertPageContainsText($text){
         $this->assertContains($text, self::$webDriver->getPageSource());
     }
+    
+    
 }

@@ -9,9 +9,8 @@ class FaqTest extends AjaxUnitTest {
     }
 
     public function testLecture(){
-        $user = new DefaultC();
-        $user->asUser();
-
+        $this->get("DefaultC/asUser");
+        self::$webDriver->manage()->timeouts()->implicitlyWait(5);
         $this->get("FAQs/");
         self::$webDriver->manage()->timeouts()->implicitlyWait(5);
         $bt = $this->getElementBySelector(".table > tbody:nth-child(2) > tr:nth-child(1) > td:nth-child(5) > a:nth-child(1)");
@@ -22,7 +21,7 @@ class FaqTest extends AjaxUnitTest {
 
     public function testAuth(){
         $this->get("FAQs/");
-        $this->assertPageContainsText("Autorisation refusée,");
+        $this->assertPageContainsText("Autorisation");
     }
 
     public function testListe(){
