@@ -20,13 +20,13 @@ class AccountTest extends AjaxUnitTest {
 		$bt=$this->getElementById("edit");
         $bt->click();
         
+        
         self::$webDriver->manage()->timeouts()->implicitlyWait(5);
         $this->assertPageContainsText("Ajouter/modifier un utilisateur");
         
 		$user = DAO::getOne("User", "login='user'");
         //L'utilisateur entre des valeurs et clique sur valider
-        $this->setField("mail", "user1@local.fr");
-        
+        $this->setField("mail", "user1@local.fr");     
         $btok=$this->getElementBySelector("input.btn");
         $btok->click();
         

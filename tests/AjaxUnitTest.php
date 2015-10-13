@@ -54,6 +54,7 @@ abstract class AjaxUnitTest extends \PHPUnit_Framework_TestCase {
     }
     
     public function setField($id,$value){
+  		$this->getElementById($id)->sendkeys("\xEE\x80\x89+a");
     	$this->getElementById($id)->sendkeys($value);
     }
  

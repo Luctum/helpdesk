@@ -20,6 +20,8 @@ class FaqTest extends AjaxUnitTest {
     }
 
     public function testAuth(){
+        $this->get("DefaultC/index");
+        self::$webDriver->manage()->timeouts()->implicitlyWait(5);
         $this->get("FAQs/");
         $this->assertPageContainsText("Autorisation");
     }
