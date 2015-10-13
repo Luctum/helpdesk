@@ -35,17 +35,13 @@ class Messages extends \_DefaultController {
 			$this->setValuesToObject($object);
 			if($_POST["id"]){
 				try{
-					DAO::update($object);
-					
-				}catch(Exception $e){
-					
+					DAO::update($object);		
+				}catch(Exception $e){			
 				}
 			}else {
                 try {
-                    DAO::insert($object);
-                    
-                } catch (Exception $e) {
-                   
+                    DAO::insert($object);          
+                } catch (Exception $e) {       
                 }
             }
             

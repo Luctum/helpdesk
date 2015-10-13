@@ -8,6 +8,11 @@ class FaqTest extends AjaxUnitTest {
         DAO::Connect($config['database']['dbName']);
     }
 
+    public function setUp(){
+    	parent::setUp();
+    	$this->get("DefaultC/disconnect");
+    }
+    
     public function testLecture(){
         $this->get("DefaultC/asUser");
         self::$webDriver->manage()->timeouts()->implicitlyWait(5);
@@ -27,9 +32,7 @@ class FaqTest extends AjaxUnitTest {
     }
 
     public function testListe(){
-        $user = new DefaultC();
-        $user->asUser();
-
+    	$this->get("DefaultC/asUser");
         $this->get("FAQs/");
         self::$webDriver->manage()->timeouts()->implicitlyWait(5);
         $bt = $this->getElementBySelector("#mainNav-navzone-1-link-3");

@@ -8,6 +8,11 @@ class AccountTest extends AjaxUnitTest {
 		DAO::Connect($config['database']['dbName']);
 	}	
 	
+	public function setUp(){
+		parent::setUp();
+		$this->get("DefaultC/disconnect");
+	}
+	
 	//Edition d'un profil par un utilisateur
 	public function testEditUser(){
 		//Connect
@@ -19,7 +24,6 @@ class AccountTest extends AjaxUnitTest {
 
 		$bt=$this->getElementById("edit");
         $bt->click();
-        
         
         self::$webDriver->manage()->timeouts()->implicitlyWait(5);
         $this->assertPageContainsText("Ajouter/modifier un utilisateur");
@@ -71,8 +75,6 @@ class AccountTest extends AjaxUnitTest {
     }
 
     public function testNotif(){
-        //Connect
-		//Connect
 		
     	$this->get("DefaultC/asUser");
     	self::$webDriver->manage()->timeouts()->implicitlyWait(5);
