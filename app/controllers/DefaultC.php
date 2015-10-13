@@ -124,7 +124,7 @@ class DefaultC extends BaseController {
 		echo "</ul>";
 		echo "<button id='btClose' class='btn btn-primary'>Fermer</button>";
 		Jquery::bindMethods(true,false);
-		Jquery::getOn("click", ".list-group-item", "users/frm","#response");
+		Jquery::getOn("click", ".list-group-item", "Users/frm","#response");
 		Jquery::doJqueryOn(".ck", "click", "$(event.target).parent()", "toggleClass",array("disabled","$(event.target).prop('checked')"));
 		Jquery::doJqueryOn(".list-group-item", "mouseenter", "this", "addClass",array("active"));
 		Jquery::doJqueryOn(".list-group-item", "mouseout", "this", "removeClass","active");
