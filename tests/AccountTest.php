@@ -67,8 +67,7 @@ class AccountTest extends AjaxUnitTest {
         $btDeco->click();
         self::$webDriver->manage()->timeouts()->implicitlyWait(5);
         $this->get("DefaultC/index");
-        $this->assertNull(Auth::getUser());
-        $this->get("DefaultC/disconnect");
+        $this->assertPageContainsText("Se connecter");
     }
 
     public function testNotif(){
