@@ -36,16 +36,16 @@ class Messages extends \_DefaultController {
 			if($_POST["id"]){
 				try{
 					DAO::update($object);
-					$msg=new DisplayedMessage($this->model." `{$object->toString()}` mis à jour");
+					
 				}catch(Exception $e){
-					$msg=new DisplayedMessage("Impossible de modifier l'instance de ".$this->model,"danger");
+					
 				}
 			}else {
                 try {
                     DAO::insert($object);
-                    $msg = new DisplayedMessage("Instance de " . $this->model . " `{$object->toString()}` ajoutée");
+                    
                 } catch (Exception $e) {
-                    $msg = new DisplayedMessage("Impossible d'ajouter l'instance de " . $this->model, "danger");
+                   
                 }
             }
             
