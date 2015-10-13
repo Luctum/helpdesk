@@ -29,7 +29,9 @@ class Users extends \_DefaultController {
 	 */
 	protected function setValuesToObject(&$object) {
 		parent::setValuesToObject($object);
-		$object->setAdmin(isset($_POST["admin"]));
+		if(isset($_POST["admin"])){
+			$object->setAdmin($_POST["admin"]);
+		}
 	}
 
 	public function tickets(){
