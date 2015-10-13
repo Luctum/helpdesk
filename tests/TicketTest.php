@@ -10,12 +10,15 @@ class TicketTest extends AjaxUnitTest {
 
 	public function testListeTickets() {
 		
-		$user = new DefaultC();
-		$user->asUser();
-		
 		$this->get("Tickets/index");
 		self::$webDriver->manage()->timeouts()->implicitlyWait(5);
-		$this->assertContains("table.table:nth-child(6) > tbody:nth-child(2) > tr:nth-child(1)", "table.table:nth-child(6)");
+		$this->setField("login", "admin");
+		$this->setField("password", "admin");
+		$bt=$this->getElementBySelector("#submit");
+		$bt->click();
+		$this->get("Tickets/index");
+		self::$webDriver->manage()->timeouts()->implicitlyWait(5);
+		$this->assertPageContainsText("Ticket 1");
 		
 	}
 	
