@@ -52,7 +52,7 @@ class DefaultC extends BaseController {
 		else{
 			echo "<p class='container'>Helpdesk H&M est un module d'entraide entre utilisateurs et administrateurs. Pour accéder aux modules de l'application, veuillez vous connecter</p>";
 			echo "<div class='container'>";
-			$this->loadView("user/vConnect");
+			$this->loadView("User/vConnect");
 			echo "</div>";
 		}
 		
