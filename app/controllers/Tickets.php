@@ -162,7 +162,7 @@ class Tickets extends \_DefaultController {
 
 		$this->frmMsg($id,$ticket);
 		echo Jquery::executeOn("#submitMsg", "click", "CKEDITOR.instances['contenu'].updateElement();");
-		echo Jquery::postFormOn("click","#submitMsg","messages/update", "formMsg","#newMsg", false, Jquery::_get('tickets/afficheDiscussion/'.$id[0],'#messages'));
+		echo Jquery::postFormOn("click","#submitMsg","Messages/update", "formMsg","#newMsg", false, Jquery::_get('Tickets/afficheDiscussion/'.$id[0],'#messages'));
 
 	}
 

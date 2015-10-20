@@ -39,7 +39,7 @@ class Users extends \_DefaultController {
 	}
 	
 	public function connect(){
-		$this->loadView("User/vConnect");
+		$this->loadView("user/vConnect");
 	}
 	
 	public function connectAction(){

@@ -21,7 +21,7 @@
 			</fieldset>
 			<fieldset>
 				<legend>Exemples</legend>
-					<a class="btn btn-link" href="defaultc/ckEditorSample">Exemple ckEditor</a>
+					<a class="btn btn-link" href="Defaultc/ckEditorSample">Exemple ckEditor</a>
 					<a class="btn btn-link btAjax">Exemple ajax (liste des utilisateurs)</a>
 			</fieldset>
 		</div>

@@ -49,7 +49,7 @@
 					echo $infoUser;
 					?>
 					<?php if(Auth::getUser() != NULL){ ?>
-					<a class='btn btn-warning' id="logout" href='defaultc/disconnect'>Déconnexion</a>
+					<a class='btn btn-warning' id="logout" href='Defaultc/disconnect'>Déconnexion</a>
 					<?php } ?>
 				</div>
 				<div class="clearfix"></div>
