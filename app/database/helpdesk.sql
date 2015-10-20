@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Client :  127.0.0.1
--- Généré le :  Mar 20 Octobre 2015 à 17:29
+-- Généré le :  Mar 20 Octobre 2015 à 17:37
 -- Version du serveur :  5.6.26
 -- Version de PHP :  5.6.12
 
@@ -114,7 +114,7 @@ INSERT INTO `message` (`id`, `contenu`, `date`, `idUser`, `idTicket`, `lu`) VALU
 (90, 'Une modification à été effectué sur ce Ticket (concernant le Statut ou le titre)', '2015-10-05 09:36:17', 1, 22, 0),
 (91, 'Une modification à été effectué sur ce Ticket (concernant le Statut ou le titre)', '2015-10-05 09:37:13', 1, 22, 0),
 (92, 'Une modification à été effectué sur ce Ticket (concernant le Statut ou le titre)', '2015-10-05 09:38:51', 1, 25, 0),
-(93, '', '2015-10-20 15:14:19', 2, 30, 1);
+(93, '', '2015-10-20 15:36:06', 2, 30, 0);
 
 -- --------------------------------------------------------
 
@@ -126,7 +126,7 @@ CREATE TABLE IF NOT EXISTS `notification` (
   `id` int(11) NOT NULL,
   `idUser` int(11) NOT NULL,
   `idTicket` int(11) NOT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=latin1;
 
 --
 -- Contenu de la table `notification`
@@ -135,7 +135,7 @@ CREATE TABLE IF NOT EXISTS `notification` (
 INSERT INTO `notification` (`id`, `idUser`, `idTicket`) VALUES
 (10, 1, 22),
 (11, 1, 22),
-(13, 3, 30);
+(14, 3, 30);
 
 -- --------------------------------------------------------
 
@@ -296,7 +296,7 @@ ALTER TABLE `message`
 -- AUTO_INCREMENT pour la table `notification`
 --
 ALTER TABLE `notification`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=14;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=15;
 --
 -- AUTO_INCREMENT pour la table `statut`
 --

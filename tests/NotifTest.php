@@ -13,6 +13,12 @@ class NotifTest extends AjaxUnitTest {
         $this->get("DefaultC/disconnect");
     }
 
+    public function testsNotifs(){
+        $this->get("DefaultC/asAdmin");
+        $this->get("DefaultC/index");
+        $this->assertPageContainsText("a modifié");
+    }
+
     public function testNotifTickets(){
         $this->get("DefaultC/asAdmin");
         $this->get("Tickets/index");
@@ -23,5 +29,11 @@ class NotifTest extends AjaxUnitTest {
         $this->get("DefaultC/asAdmin");
         $this->get("Tickets/messages/30");
         $this->assertPageContainsText("NEW");
+    }
+
+    public function testsNotifsFalse(){
+        $this->get("DefaultC/asAdmin");
+        $this->get("DefaultC/index");
+        $this->assertNotContains("");
     }
 }
