@@ -8,6 +8,11 @@ class TicketTest extends AjaxUnitTest {
 		DAO::Connect($config['database']['dbName']);
 	}
 
+    public function setUp(){
+        parent::setUp();
+        $this->get("DefaultC/disconnect");
+    }
+
 	public function testListeTickets() {
 		
 		$this->get("Tickets/index");
@@ -19,7 +24,7 @@ class TicketTest extends AjaxUnitTest {
 		$this->get("Tickets/index");
 		self::$webDriver->manage()->timeouts()->implicitlyWait(5);
 		$this->assertPageContainsText("Ticket 1");
-		
+
 	}
 	
 	
