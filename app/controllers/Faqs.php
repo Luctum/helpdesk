@@ -1,5 +1,7 @@
 <?php
 use micro\orm\DAO;
+use micro\js\Jquery;
+use micro\views\Gui;
 /**
  * Gestion des articles de la Faq
  * @author jcheron
@@ -72,18 +74,18 @@ class Faqs extends \_DefaultController {
         echo "<h3>Tous les articles</h3>";
 
         foreach ($objects as $object){
-
             echo "<tr>";
             echo "<td>".$object->toString()."</td>";
             if(is_callable(array($object,"getUser"))){
                 echo "<td>".$object->getUser()."</td>";
             }
-
-            echo "<td class='td-center'><a class='btn btn-primary btn-xs' href='".$baseHref."/frm/".$object->getId()."'><span class='glyphicon glyphicon-edit' aria-hidden='true'></span></a></td>".
-                "<td class='td-center'><a class='btn btn-warning btn-xs' href='".$baseHref."/delete/".$object->getId()."'><span class='glyphicon glyphicon-remove' aria-hidden='true'></span></a></td>".
-                "<td class='td-center'><a class='btn btn-info btn-xs' href='".$baseHref."/lecture/".$object->getId()."'><span class='glyphicon glyphicon-play' aria-hidden='true'></span></a></td>";
-            echo "</tr>";
-
+            //N'affiche pas les boutons pour les non admins
+            if(Auth::isAdmin()){
+                echo "<td class='td-center'><a class='btn btn-primary btn-xs' href='".$baseHref."/frm/".$object->getId()."'><span class='glyphicon glyphicon-edit' aria-hidden='true'></span></a></td>".
+                   "<td class='td-center'><a class='btn btn-warning btn-xs' href='".$baseHref."/delete/".$object->getId()."'><span class='glyphicon glyphicon-remove' aria-hidden='true'></span></a></td>";
+            }
+                echo "<td class='td-center'><a class='btn btn-info btn-xs' href='".$baseHref."/lecture/".$object->getId()."'><span class='glyphicon glyphicon-play' aria-hidden='true'></span></a></td>";
+                echo "</tr>";
         }
 
         echo "</tbody>";
@@ -94,7 +96,6 @@ class Faqs extends \_DefaultController {
 
     public function lecture($id){
         $faq=DAO::getOne("Faq", $id[0]);
-
         echo "<div class='panel panel-primary'>";
         echo "<div class='panel-heading'>".$faq."</div>";
         echo "<div class='panel-body'>";
@@ -102,8 +103,24 @@ class Faqs extends \_DefaultController {
         echo $faq->getContenu();
         echo "</div>";
         echo "</div>";
+
     }
 
+
+    public function frm($id = NULL){
+        $faq=$this->getInstance($id);
+        $categories=DAO::getAll("Categorie");
+        if($faq->getCategorie()==null){
+            $cat=-1;
+        }else{
+            $cat=$faq->getCategorie()->getId();
+        }
+        $listCat=Gui::select($categories,$cat,"Sélectionner une catégorie ...");
+
+        $this->loadView("faq/vAdd",array("faq"=>$faq,"listCat"=>$listCat));
+        echo Jquery::setOn("click", ".modif-statut", "#idStatut","$(event.target).attr('datatype')");
+        echo Jquery::execute("CKEDITOR.replace( 'contenu');");
+    }
 
 	/* (non-PHPdoc)
 	 * @see _DefaultController::setValuesToObject()
