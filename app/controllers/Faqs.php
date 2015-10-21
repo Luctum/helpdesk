@@ -24,26 +24,8 @@ class Faqs extends \_DefaultController {
         else{
         	$objects=DAO::getAll($model, "UPPER(titre) LIKE UPPER('%".$_POST['recherche']."%')");
         }
-        
-        echo "<table class='table table-striped'>";
-        echo "<thead><tr><th>".$this->model."</th></tr></thead>";
-        echo "<tbody>";
-        
-        foreach ($objects as $object){
-		
-                echo "<tr>";
-                echo "<td>".$object->toString()."</td>";
-                if(is_callable(array($object,"getUser"))){
-                    echo "<td>".$object->getUser()."</td>";
-                }
 
-                echo "<td class='td-center'><a class='btn btn-primary btn-xs' href='".$baseHref."/frm/".$object->getId()."'><span class='glyphicon glyphicon-edit' aria-hidden='true'></span></a></td>".
-                    "<td class='td-center'><a class='btn btn-warning btn-xs' href='".$baseHref."/delete/".$object->getId()."'><span class='glyphicon glyphicon-remove' aria-hidden='true'></span></a></td>".
-                    "<td class='td-center'><a class='btn btn-info btn-xs' href='".$baseHref."/lecture/".$object->getId()."'><span class='glyphicon glyphicon-play' aria-hidden='true'></span></a></td>";
-                echo "</tr>";
-            
-        }
-        
+        ///Champ de recherche
         echo '<form method="POST" action="Faqs/index">
 						<div class="input-group">
 		      				<input type="text" class="form-control" name="recherche" placeholder="Rechercher dans la FAQ">
@@ -52,6 +34,57 @@ class Faqs extends \_DefaultController {
 						    </span> 
 						</div><!-- /input-group -->
 				   </form>';
+
+
+        //Affiche la liste des articles de l'admin
+        if(Auth::isAdmin()) {
+
+            echo "<h3>Mes Articles</h3>";
+
+            echo "<table class='table table-striped'>";
+            echo "<thead><tr><th>".$this->model."</th></tr></thead>";
+            echo "<tbody>";
+
+            foreach ($objects as $o) {
+                if($o->getUser() == Auth::getUser()){
+                    echo "<tr>";
+                    echo "<td>" . $o->toString() . "</td>";
+                    if (is_callable(array($o, "getUser"))) {
+                        echo "<td>" . $o->getUser() . "</td>";
+                    }
+
+                    echo "<td class='td-center'><a class='btn btn-primary btn-xs' href='" . $baseHref . "/frm/" . $o->getId() . "'><span class='glyphicon glyphicon-edit' aria-hidden='true'></span></a></td>" .
+                        "<td class='td-center'><a class='btn btn-warning btn-xs' href='" . $baseHref . "/delete/" . $o->getId() . "'><span class='glyphicon glyphicon-remove' aria-hidden='true'></span></a></td>" .
+                        "<td class='td-center'><a class='btn btn-info btn-xs' href='" . $baseHref . "/lecture/" . $o->getId() . "'><span class='glyphicon glyphicon-play' aria-hidden='true'></span></a></td>";
+                    echo "</tr>";
+                }
+            }
+            echo "</tbody>";
+            echo "</table>";
+        }
+
+
+        //Affiche la liste de tous les utilisateurs
+        echo "<table class='table table-striped'>";
+        echo "<thead><tr><th>".$this->model."</th></tr></thead>";
+        echo "<tbody>";
+
+        echo "<h3>Tous les articles</h3>";
+
+        foreach ($objects as $object){
+
+            echo "<tr>";
+            echo "<td>".$object->toString()."</td>";
+            if(is_callable(array($object,"getUser"))){
+                echo "<td>".$object->getUser()."</td>";
+            }
+
+            echo "<td class='td-center'><a class='btn btn-primary btn-xs' href='".$baseHref."/frm/".$object->getId()."'><span class='glyphicon glyphicon-edit' aria-hidden='true'></span></a></td>".
+                "<td class='td-center'><a class='btn btn-warning btn-xs' href='".$baseHref."/delete/".$object->getId()."'><span class='glyphicon glyphicon-remove' aria-hidden='true'></span></a></td>".
+                "<td class='td-center'><a class='btn btn-info btn-xs' href='".$baseHref."/lecture/".$object->getId()."'><span class='glyphicon glyphicon-play' aria-hidden='true'></span></a></td>";
+            echo "</tr>";
+
+        }
 
         echo "</tbody>";
         echo "</table>";
