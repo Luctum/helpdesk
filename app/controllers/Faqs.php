@@ -90,7 +90,9 @@ class Faqs extends \_DefaultController {
 
         echo "</tbody>";
         echo "</table>";
-        echo "<a class='btn btn-primary' href='".$config["siteUrl"].$baseHref."/frm'>Ajouter...</a>";
+        if(Auth::isAdmin()){
+            echo "<a class='btn btn-primary' href='".$config["siteUrl"].$baseHref."/frm'>Ajouter...</a>";
+        }
     }
 
 
@@ -110,6 +112,7 @@ class Faqs extends \_DefaultController {
     public function frm($id = NULL){
         $faq=$this->getInstance($id);
         $categories=DAO::getAll("Categorie");
+
         if($faq->getCategorie()==null){
             $cat=-1;
         }else{
@@ -117,8 +120,7 @@ class Faqs extends \_DefaultController {
         }
         $listCat=Gui::select($categories,$cat,"Sélectionner une catégorie ...");
 
-        $this->loadView("faq/vAdd",array("faq"=>$faq,"listCat"=>$listCat));
-        echo Jquery::setOn("click", ".modif-statut", "#idStatut","$(event.target).attr('datatype')");
+        $this->loadView("faq/vAdd",array("faq"=>$faq,"listCat"=>$listCat,"id"=>$id));
         echo Jquery::execute("CKEDITOR.replace( 'contenu');");
     }
 
