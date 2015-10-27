@@ -20,7 +20,7 @@ class DefaultC extends BaseController {
 		$admin = Auth::isAdmin();
 		$notif = DAO::getAll("Notification");
 		$this->loadView("main/vHeader",array("infoUser"=>Auth::getInfoUser()));
-		
+
 		if($auth != NULL){
 			
 			echo "<div class='container'>";
@@ -50,10 +50,7 @@ class DefaultC extends BaseController {
 			}
 		}
 		else{
-			echo "<p class='container'>Helpdesk H&M est un module d'entraide entre utilisateurs et administrateurs. Pour accéder aux modules de l'application, veuillez vous connecter</p>";
-			echo "<div class='container'>";
 			$this->loadView("User/vConnect");
-			echo "</div>";
 		}
 		
 		
@@ -133,5 +130,23 @@ class DefaultC extends BaseController {
 		Jquery::doJquery("#main", "hide");
 		echo Jquery::compile();
 	}
-	
+
+
+    public function connectAction(){
+        $login = $_POST['login'];
+        $password = $_POST['password'];
+        $user = DAO::getOne("User","login='$login'");
+
+        if(!empty($user) && $user->getPassword() == $password){
+            $_SESSION["user"]= $user;
+            $_SESSION['logStatus'] = 'success';
+            $this->index();
+        }
+        else{
+            $_SESSION['logStatus'] = 'fail';
+            $this->index();
+        }
+    }
+
+
 }

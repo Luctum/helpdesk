@@ -42,18 +42,4 @@ class Users extends \_DefaultController {
 		$this->loadView("user/vConnect");
 	}
 	
-	public function connectAction(){
-		$login = $_POST['login'];
-		$password = $_POST['password'];
-		$user = DAO::getOne("User","login='$login'");
-		
-		if(!empty($user) && $user->getPassword() == $password){
-			$_SESSION["user"]= $user;
-				
-		}
-		$this->index();
-	}
-	
-	
-	
 }
