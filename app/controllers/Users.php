@@ -19,9 +19,15 @@ class Users extends \_DefaultController {
 		if($id != null && ($user == Auth::getUser() || Auth::isAdmin())){
         	$this->loadView("user/vAdd",array("user"=>$user));
 		}else{
-			echo "Vous ne disposez pas des droits";
+			echo "<div class='alert alert-danger'>Vous ne disposez pas des droits</div>";
 		}
+    }
 
+    public function update(){
+        parent::update();
+        $user = DAO::getOne("User","login='".$_POST['login']."'");
+        $_SESSION['user']=$user;
+        $
     }
 
 	/* (non-PHPdoc)

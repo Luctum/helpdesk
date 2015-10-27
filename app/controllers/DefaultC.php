@@ -21,6 +21,12 @@ class DefaultC extends BaseController {
 		$notif = DAO::getAll("Notification");
 		$this->loadView("main/vHeader",array("infoUser"=>Auth::getInfoUser()));
 
+        if($_SESSION['logStatus']=="failed"){
+            echo "<div class='container'><div class='alert alert-danger'>La connexion a échouée, veuillez vérifier vos identifiants</div></div>";
+        }elseif($_SESSION['logStatus']=="success"){
+            echo "<div class='container'><div class='alert alert-success'>Bienvenue ".Auth::getUser()->getLogin()." !</div></div>";
+        }
+
 		if($auth != NULL){
 			
 			echo "<div class='container'>";
@@ -143,7 +149,7 @@ class DefaultC extends BaseController {
             $this->index();
         }
         else{
-            $_SESSION['logStatus'] = 'fail';
+            $_SESSION['logStatus'] = 'failed';
             $this->index();
         }
     }
