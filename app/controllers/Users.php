@@ -27,7 +27,6 @@ class Users extends \_DefaultController {
         parent::update();
         $user = DAO::getOne("User","login='".$_POST['login']."'");
         $_SESSION['user']=$user;
-        $
     }
 
 	/* (non-PHPdoc)
