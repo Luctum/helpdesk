@@ -16,17 +16,20 @@ class Users extends \_DefaultController {
 
 	public function frm($id=NULL){
 		$user=$this->getInstance($id);
-		if($id != null && ($user == Auth::getUser() || Auth::isAdmin())){
+		if(($id != null && ($user == Auth::getUser() || Auth::isAdmin())) || $id == null){
         	$this->loadView("user/vAdd",array("user"=>$user));
-		}else{
+		}
+        else{
 			echo "<div class='alert alert-danger'>Vous ne disposez pas des droits</div>";
 		}
     }
 
     public function update(){
         parent::update();
-        $user = DAO::getOne("User","login='".$_POST['login']."'");
-        $_SESSION['user']=$user;
+        if($_POST["id"] && $_POST["bonuser"] == "1" ) {
+            $user = DAO::getOne("User", "login='" . $_POST['login'] . "'");
+            $_SESSION['user'] = $user;
+        }
     }
 
 	/* (non-PHPdoc)
@@ -37,6 +40,9 @@ class Users extends \_DefaultController {
 		if(isset($_POST["admin"])){
 			$object->setAdmin($_POST["admin"]);
 		}
+        if(!empty($_POST['password'])){
+            $object->setPassword(password_hash($_POST["password"], PASSWORD_DEFAULT));
+        }
 	}
 
 	public function tickets(){

@@ -3,10 +3,15 @@
 <legend>Ajouter/modifier un utilisateur</legend>
 <div class="alert alert-info">Utilisateur : <?php echo $user->toString()?></div>
 <div class="form-group">
+    <?php if($user == Auth::getUser()){ ?>
+        <input type="hidden" name="bonuser" value="1">
+    <?php }else{ ?>
+        <input type="hidden" name="bonuser" value="2">
+    <?php } ?>
 	<input type="hidden" name="id" value="<?php echo $user->getId()?>">
 	<input type="mail" name="mail" id="mail" value="<?php echo $user->getMail()?>" placeholder="Entrez l'adresse email" class="form-control">
 	<input type="text" name="login" id="login" value="<?php echo $user->getLogin()?>" placeholder="Entrez un login" class="form-control">
-	<input type="password" name="password" id="password" value="<?php echo $user->getPassword()?>" placeholder="Entrez le mot de passe" class="form-control">
+	<input type="password" name="password" id="password" placeholder="Entrez le mot de passe" class="form-control">
 	<?php if(Auth::isAdmin() && ($user->getAdmin() != 1 || $user == Auth::getUser())){?>
 	<div class="checkbox">
 		<label><input type="checkbox" name="admin" <?php echo ($user->getAdmin()?"checked":"")?> value="1">Administrateur ?</label>

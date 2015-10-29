@@ -20,13 +20,13 @@ class DefaultC extends BaseController {
 		$admin = Auth::isAdmin();
 		$notif = DAO::getAll("Notification");
 		$this->loadView("main/vHeader",array("infoUser"=>Auth::getInfoUser()));
-
-        if($_SESSION['logStatus']=="failed"){
-            echo "<div class='container'><div class='alert alert-danger'>La connexion a échouée, veuillez vérifier vos identifiants</div></div>";
-        }elseif($_SESSION['logStatus']=="success"){
-            echo "<div class='container'><div class='alert alert-success'>Bienvenue ".Auth::getUser()->getLogin()." !</div></div>";
+        if(isset($_SESSION['logStatus'])){
+            if($_SESSION['logStatus']=="failed"){
+                echo "<div class='container'><div class='alert alert-danger'>La connexion a échouée, veuillez vérifier vos identifiants</div></div>";
+            }elseif($_SESSION['logStatus']=="success"){
+                echo "<div class='container'><div class='alert alert-success'>Bienvenue ".Auth::getUser()->getLogin()." !</div></div>";
+            }
         }
-
 		if($auth != NULL){
 			
 			echo "<div class='container'>";
@@ -141,9 +141,10 @@ class DefaultC extends BaseController {
     public function connectAction(){
         $login = $_POST['login'];
         $password = $_POST['password'];
+
         $user = DAO::getOne("User","login='$login'");
 
-        if(!empty($user) && $user->getPassword() == $password){
+        if(!empty($user) && password_verify($password, $user->getPassword())){
             $_SESSION["user"]= $user;
             $_SESSION['logStatus'] = 'success';
             $this->index();

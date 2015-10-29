@@ -104,7 +104,9 @@ class Faqs extends \_DefaultController {
 
         echo $faq->getContenu();
         echo "</div>";
+        echo "<a href='Faqs'><button class='btn btn-primary'>Retour</button></a>";
         echo "</div>";
+
 
     }
 
