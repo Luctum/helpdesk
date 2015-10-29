@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Client :  127.0.0.1
--- Généré le :  Jeu 29 Octobre 2015 à 16:45
+-- Généré le :  Mar 20 Octobre 2015 à 17:37
 -- Version du serveur :  5.6.26
 -- Version de PHP :  5.6.12
 
@@ -64,17 +64,16 @@ CREATE TABLE IF NOT EXISTS `faq` (
   `idUser` int(11) NOT NULL,
   `version` varchar(20) NOT NULL DEFAULT '1.0',
   `popularity` int(11) NOT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
 
 --
 -- Contenu de la table `faq`
 --
 
 INSERT INTO `faq` (`id`, `titre`, `contenu`, `dateCreation`, `idCategorie`, `idUser`, `version`, `popularity`) VALUES
-(2, 'À quoi sert le HelpDesk ?', '<p>Le HelpDesk correspond au projet 2 &laquo; &Eacute;volution de l&#39;outil d&#39;assistance &raquo; du programme 6 &laquo; Accompagner la consolidation et la transformation de la fonction SI au sein de notre &eacute;tablissement &raquo;. L&#39;un des objectifs strat&eacute;giques &agrave; l&#39;origine du projet est d&#39;homog&eacute;n&eacute;iser la prestation d&#39;assistance sur tous les sites et pour tous les usagers afin d&#39;offrir un niveau de service &eacute;quitablement accessible. En termes op&eacute;rationnels, l&#39;outil d&eacute;velopp&eacute; permet de disposer d&rsquo;un guichet d&rsquo;assistance unique, de mettre en &oelig;uvre des outils et des proc&eacute;dures communes et d&#39;identifier les probl&egrave;mes redondants. Du point de vue de l&#39;usager, il apporte l&#39;assurance d&#39;un enregistrement formel des demandes et des fonctionnalit&eacute;s d&#39;information et de suivi syst&eacute;matiques. test</p>\r\n', '2015-10-22 23:15:39', 11, 1, '1.0', 5),
-(3, 'Procédure de changement de mot de passe', '<h2>Objet</h2>\r\n\r\n<p>Cette proc&eacute;dure a pour but de fournir des conseils et des recommandations pour la cr&eacute;ation d&#39;un mot de passe fort.</p>\r\n\r\n<h2>Domaine d&#39;application</h2>\r\n\r\n<p>Cette proc&eacute;dure s&#39;adresse &agrave; tous les utilisateurs disposant d&#39;un compte d&#39;acc&egrave;s au syst&egrave;me d&#39;information</p>\r\n\r\n<h2>Descriptif</h2>\r\n\r\n<h3>Pr&eacute;-requis :</h3>\r\n\r\n<p>Un bon mot de passe est un mot de passe suffisamment long, facile &agrave; retenir et tr&egrave;s difficile &agrave; deviner. Votre mot de passse doit &ecirc;tre constitu&eacute; d&#39;au moins 8 caract&egrave;res dont une majuscule et un chiffre. Il peut contenir des lettres non accentu&eacute;es, des chiffres, et certains caract&egrave;res sp&eacute;ciaux : _ ! @ # $ % - + = &lt; &gt; ( ) { } [ ] | : ; , . ? ~ &amp;</p>\r\n\r\n<h3>Quelques proc&eacute;d&eacute;s ou comment faire ?</h3>\r\n\r\n<ul>\r\n	<li>Accoler mots et chiffres : Faire3Pas</li>\r\n	<li>Cr&eacute;er un r&eacute;bus : 71fame3MAIC&amp;O (c&#39;est un fameux 3 m&acirc;ts Hisse et Ho)</li>\r\n	<li>Pensez &agrave; une chanson ou un po&egrave;me et extrayez les premi&egrave;res lettres : ottoc4ocR! (one, two, three, o&#39;clock, four o&#39;clock, rock !)</li>\r\n	<li>Choisissez un mot de passe en y ins&eacute;rant des caract&egrave;res sp&eacute;ciaux g1M2p#DUtI1 (j&#39;ai un mot de passe diff&eacute;rent du tien)</li>\r\n	<li>Ne pas utiliser de mot de passe ayant un rapport avec soi (noms, dates de naissance,..)</li>\r\n	<li>Vous avez tout int&eacute;r&ecirc;t &agrave; m&eacute;langer les possibilit&eacute;s offertes : lettres, chiffres et caract&egrave;res sp&eacute;ciaux.</li>\r\n</ul>\r\n\r\n<h3>Respectez les r&egrave;gles</h3>\r\n\r\n<p>Vous &ecirc;tes responsable de l&#39;usage qui est fait de votre compte d&#39;acc&egrave;s au syst&egrave;me d&#39;information. Pour garantir la s&eacute;curit&eacute; de votre mot de passe, nous vous invitons &agrave; suivre les conseils ci-dessous:</p>\r\n\r\n<ul>\r\n	<li>Ne le communiquez &agrave; personne (il garantit votre identit&eacute; et vous identifie personnellement dans notre syst&egrave;me d&#39;information</li>\r\n	<li>Ne le notez pas sur un post-it</li>\r\n	<li>Verrouillez ou fermez syst&eacute;matiquement votre session en quittant votre poste de travail</li>\r\n	<li>Changez-le r&eacute;guli&egrave;rement</li>\r\n	<li>N&#39;utilisez pas le mot de passe de votre compte d&#39;acc&egrave;s au syst&egrave;me d&#39;information pour un autre compte</li>\r\n</ul>\r\n', '2015-10-22 23:31:32', 12, 1, '1.0', 22),
-(9, 'rzaea', '<p>salut1</p>\r\n', '2015-10-22 23:24:09', 4, 1, '1.0', 0),
-(10, 'salut', '<p>raz</p>\r\n', '2015-10-27 12:22:33', 10, 1, '1.0', 0);
+(1, 'Comment formuler une demande à partir de l''interface web ?\r\n', 'L''adresse de l''application est https://...\r\n\r\nL''accès à l''interface web du HelpDesk requiert votre connexion sur le service d''authentification.  Une fois connecté, vous retrouverez tout ce qui concerne votre demande : groupe attributaire, technicien chargé du traitement, suivis, solution, …\r\n\r\nPour formuler une nouvelle demande, vous devez commencer par utiliser l''entrée du menu ou l''icône associée à « Créer un Ticket ».\r\n\r\nDans le formulaire qui vous est alors proposé, seuls trois champs sont obligatoires :\r\n\r\nCatégorie : elle permet l''attribution de votre demande au groupe concerné ;\r\nTitre : il est utilisé pour afficher l''ensemble des demandes, aussi veillez à ce qu''il soit concis, à la fois synthétique et précis\r\nDescription : faites figurer ici toutes les informations que vous jugerez utiles pour permettre le traitement de votre demande.  Des informations complémentaires pourront vous être demandées si nécessaire.\r\nLes autres champs, bien qu''optionnels, peuvent être utiles voire nécessaires au traitement de votre demande :\r\n\r\nType : Incident (par défaut) en cas de dysfonctionnement, ou simple demande\r\nUrgence : Elle est croisée avec l''impact évalué par le technicien pour définir la priorité utilisée pour trier l''ensemble des demandes.\r\nSuivi par courriel : Choisissez « Non » si vous ne souhaitez pas recevoir d''information concernant votre demande par mél.\r\nÉlement associé : Si nécessaire et s''il est automatiquement identifié, vous pourrez ici associer votre poste de travail ou l''un de ses logiciels à votre demande.\r\nFichier : À utiliser pour joindre un fichier à votre demande.\r\nUne fois le formulaire rempli, créer votre Ticket en cliquant sur le bouton « Envoyer Message ».  Un compte-rendu apparaît alors dans lequel figure le numéro associé à votre demande – le Ticket – que vous pourrez utiliser pour obtenir des informations a posteriori.', '2015-05-10 17:43:47', 11, 1, '1.0', 0),
+(2, 'À quoi sert le HelpDesk ?\r\n', 'Le HelpDesk correspond au projet 2 « Évolution de l''outil d''assistance » du programme 6 « Accompagner la consolidation et la transformation de la fonction SI au sein de notre établissement ».\r\n\r\nL''un des objectifs stratégiques à l''origine du projet est d''homogénéiser la prestation d''assistance sur tous les sites et pour tous les usagers afin d''offrir un niveau de service équitablement accessible.\r\n\r\nEn termes opérationnels, l''outil développé permet de disposer d’un guichet d’assistance unique, de mettre en œuvre des outils et des procédures communes et d''identifier les problèmes redondants.\r\n\r\nDu point de vue de l''usager, il apporte l''assurance d''un enregistrement formel des demandes et des fonctionnalités d''information et de suivi systématiques.', '2015-05-14 10:43:57', 11, 1, '1.0', 5),
+(3, 'Procédure de changement de mot de passe', '<h2>Objet</h2>\r\n\r\nCette procédure a pour but de fournir des conseils et des recommandations pour la création d''un mot de passe fort.\r\n\r\n<h2>Domaine d''application</h2>\r\n\r\nCette procédure s''adresse à tous les utilisateurs disposant d''un compte d''accès au système d''information\r\n\r\n<h2>Descriptif</h2>\r\n\r\n<h3>Pré-requis :</h3>\r\n\r\nUn bon mot de passe est un mot de passe suffisamment long, facile à retenir et très difficile à deviner. Votre mot de passse doit être constitué d''au moins 8 caractères dont une majuscule et un chiffre. Il peut contenir des lettres non accentuées, des chiffres, et certains caractères spéciaux : _ ! @ # $ % - + = < > ( ) { } [ ] | : ; , . ? ~ &\r\n\r\n<h3>Quelques procédés ou comment faire ?</h3>\r\n<ul>\r\n<li>Accoler mots et chiffres : Faire3Pas</li>\r\n<li>Créer un rébus : 71fame3MAIC&O (c''est un fameux 3 mâts Hisse et Ho)</li>\r\n<li>Pensez à une chanson ou un poème et extrayez les premières lettres : ottoc4ocR! (one, two, three, o''clock, four o''clock, rock !)</li>\r\n<li>Choisissez un mot de passe en y insérant des caractères spéciaux g1M2p#DUtI1 (j''ai un mot de passe différent du tien)</li>\r\n<li>Ne pas utiliser de mot de passe ayant un rapport avec soi (noms, dates de naissance,..)</li>\r\n<li>Vous avez tout intérêt à mélanger les possibilités offertes : lettres, chiffres et caractères spéciaux.</li>\r\n</ul>\r\n<h3>Respectez les règles</h3>\r\n\r\nVous êtes responsable de l''usage qui est fait de votre compte d''accès au système d''information. Pour garantir la sécurité de votre mot de passe, nous vous invitons à suivre les conseils ci-dessous:\r\n<ul>\r\n<li>Ne le communiquez à personne (il garantit votre identité et vous identifie personnellement dans notre système d''information</li>\r\n<li>Ne le notez pas sur un post-it</li>\r\n<li>Verrouillez ou fermez systématiquement votre session en quittant votre poste de travail</li>\r\n<li>Changez-le régulièrement</li>\r\n<li>N''utilisez pas le mot de passe de votre compte d''accès au système d''information pour un autre compte</li>\r\n</ul>', '2015-05-14 09:36:17', 12, 1, '1.0', 22);
 
 -- --------------------------------------------------------
 
@@ -115,7 +114,7 @@ INSERT INTO `message` (`id`, `contenu`, `date`, `idUser`, `idTicket`, `lu`) VALU
 (90, 'Une modification à été effectué sur ce Ticket (concernant le Statut ou le titre)', '2015-10-05 09:36:17', 1, 22, 0),
 (91, 'Une modification à été effectué sur ce Ticket (concernant le Statut ou le titre)', '2015-10-05 09:37:13', 1, 22, 0),
 (92, 'Une modification à été effectué sur ce Ticket (concernant le Statut ou le titre)', '2015-10-05 09:38:51', 1, 25, 0),
-(93, '', '2015-10-20 15:36:06', 2, 30, 1);
+(93, '', '2015-10-20 15:36:06', 2, 30, 0);
 
 -- --------------------------------------------------------
 
@@ -127,7 +126,7 @@ CREATE TABLE IF NOT EXISTS `notification` (
   `id` int(11) NOT NULL,
   `idUser` int(11) NOT NULL,
   `idTicket` int(11) NOT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=17 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=latin1;
 
 --
 -- Contenu de la table `notification`
@@ -136,7 +135,7 @@ CREATE TABLE IF NOT EXISTS `notification` (
 INSERT INTO `notification` (`id`, `idUser`, `idTicket`) VALUES
 (10, 1, 22),
 (11, 1, 22),
-(16, 3, 24);
+(14, 3, 30);
 
 -- --------------------------------------------------------
 
@@ -187,7 +186,7 @@ INSERT INTO `ticket` (`id`, `type`, `idCategorie`, `titre`, `description`, `idSt
 (22, 'demande', 1, 'Ticket 1 ', '<p>ezaeazeazeddyrtyrtyttert</p>\r\n', 5, 1, '2015-09-29 21:26:59'),
 (23, '', 12, 'Ticket 2 2', '<p>ezarazrarrazrarrrrrrrrrrr</p>\r\n', 1, 2, '2015-09-29 21:27:08'),
 (24, '', 9, 'Ticket 3 ', '<p>ezarazrar</p>\r\n', 1, 2, '2015-09-29 21:27:17'),
-(25, 'demande', 9, 'Test Ticket', '<p>bonjour</p>\r\n', 3, 2, '2015-10-05 06:25:51'),
+(25, 'demande', 9, 'Test Ticket', '<p>bonjour</p>\r\n', 3, 1, '2015-10-05 06:25:51'),
 (26, '', 2, 'azrrazzararz', '<p>zaeazrzara</p>\r\n', 3, 1, '2015-10-05 07:41:38'),
 (29, '', 2, 'TicketUser', '<p>eazeee</p>\r\n', 1, 2, '2015-10-05 07:48:06'),
 (30, '', 11, 'bonjour', '<p>aze</p>\r\n', 1, 2, '2015-10-05 07:52:44'),
@@ -202,22 +201,20 @@ INSERT INTO `ticket` (`id`, `type`, `idCategorie`, `titre`, `description`, `idSt
 CREATE TABLE IF NOT EXISTS `user` (
   `id` int(11) NOT NULL,
   `login` varchar(20) NOT NULL,
-  `password` varchar(255) NOT NULL,
+  `password` varchar(20) NOT NULL,
   `mail` varchar(255) NOT NULL,
   `admin` tinyint(1) NOT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
 
 --
 -- Contenu de la table `user`
 --
 
 INSERT INTO `user` (`id`, `login`, `password`, `mail`, `admin`) VALUES
-(1, 'admin', '$2y$10$JcCy2P.RgdBfS2St4kb/L.uiAD26zQ5nUxD0JVEDIFxb3/gmabaM2', 'admin@local.fr', 1),
-(2, 'user', '$2y$10$CERtFz627gtB6ASB6kCK1uPQpetwrQYLZScMlAAkyXmyEtcbbTgMC', 'user1@local.fr', 0),
-(3, 'autreUser', '$2y$10$r9kagO0vE9O7bR0fBtWJd.2/xVjQRmlgx1FDkfwm0L4uscJ6KGI0u', 'autreUser@local.fr', 0),
-(4, 'moi', '$2y$10$kWgFW0orN8Jou2ysd.wWLeIks.UUTa5/reZQBJ8YY9OnhxWv38A0K', 'moi@local.fr', 0),
-(5, 'pomme', '$2y$10$m8FvAmVSBf2qxAsqe8kSpu7l1s7l7cuvaIzxIJV2GSGpVtFGZDlaG', 'pomme@pomme.fr', 0),
-(6, 'test', '$2y$10$WITJVHiL1GEnrYHBC0NGOe3MJyMsuZuIfFiYM.E/N6xLhwlkRx0XK', 'test@yopmail.com', 0);
+(1, 'admin', 'admin', 'adminz@local.fr', 1),
+(2, 'User', 'User', 'user1@local.fr', 0),
+(3, 'autreUser', 'autreUser', 'autreUser@local.fr', 0),
+(4, 'moi', '123456789', 'moi@local.fr', 0);
 
 --
 -- Index pour les tables exportées
@@ -289,7 +286,7 @@ ALTER TABLE `categorie`
 -- AUTO_INCREMENT pour la table `faq`
 --
 ALTER TABLE `faq`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=11;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=4;
 --
 -- AUTO_INCREMENT pour la table `message`
 --
@@ -299,7 +296,7 @@ ALTER TABLE `message`
 -- AUTO_INCREMENT pour la table `notification`
 --
 ALTER TABLE `notification`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=17;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=15;
 --
 -- AUTO_INCREMENT pour la table `statut`
 --
@@ -314,7 +311,7 @@ ALTER TABLE `ticket`
 -- AUTO_INCREMENT pour la table `user`
 --
 ALTER TABLE `user`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=7;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=5;
 --
 -- Contraintes pour les tables exportées
 --
