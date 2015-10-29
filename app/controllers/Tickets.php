@@ -217,7 +217,8 @@ class Tickets extends \_DefaultController {
 	
 	public function frm($id=NULL){
 		$ticket=$this->getInstance($id);
-		$categories=DAO::getAll("Categorie");
+		$categories=DAO::getAll("Categorie")
+        ;
 		if($ticket->getCategorie()==null){
 			$cat=-1;
 		}else{
