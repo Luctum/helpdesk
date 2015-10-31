@@ -147,12 +147,20 @@ class DefaultC extends BaseController {
         if(!empty($user) && password_verify($password, $user->getPassword())){
             $_SESSION["user"]= $user;
             $_SESSION['logStatus'] = 'success';
-            $this->index();
+
+            if(isset($_POST['retenir']) && $_POST['retenir'] == "on"){
+                setcookie("login",$_POST['login'],time()+60*60*24*7,"/");
+                setcookie("password",$_POST['password'],time()+60*60*24*7,"/");
+            }
+            else{
+                setcookie("login","",- 3600,"/");
+                setcookie("password","",- 3600,"/");
+            }
         }
         else{
             $_SESSION['logStatus'] = 'failed';
-            $this->index();
         }
+        $this->index();
     }
 
 
