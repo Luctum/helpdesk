@@ -20,12 +20,13 @@ class DefaultC extends BaseController {
 		$admin = Auth::isAdmin();
 		$notif = DAO::getAll("Notification");
 		$this->loadView("main/vHeader",array("infoUser"=>Auth::getInfoUser()));
-        if(isset($_SESSION['logStatus'])){
-            if($_SESSION['logStatus']=="failed"){
+        if(isset($_SESSION['logged'])){
+            if($_SESSION['logged']==false){
                 echo "<div class='container'><div class='alert alert-danger'>La connexion a échouée, veuillez vérifier vos identifiants</div></div>";
-            }elseif($_SESSION['logStatus']=="success"){
+            }elseif($_SESSION['logged']=="success"){
                 echo "<div class='container'><div class='alert alert-success'>Bienvenue ".Auth::getUser()->getLogin()." !</div></div>";
             }
+            $_SESSION['logged'] = null;
         }
 		if($auth != NULL){
 			
@@ -126,6 +127,7 @@ class DefaultC extends BaseController {
 		}
 		echo "</ul>";
 		echo "<button id='btClose' class='btn btn-primary'>Fermer</button>";
+
 		Jquery::bindMethods(true,false);
 		Jquery::getOn("click", ".list-group-item", "Users/frm","#response");
 		Jquery::doJqueryOn(".ck", "click", "$(event.target).parent()", "toggleClass",array("disabled","$(event.target).prop('checked')"));
@@ -146,7 +148,7 @@ class DefaultC extends BaseController {
 
         if(!empty($user) && password_verify($password, $user->getPassword())){
             $_SESSION["user"]= $user;
-            $_SESSION['logStatus'] = 'success';
+            $_SESSION['logged'] = true;
 
             if(isset($_POST['retenir']) && $_POST['retenir'] == "on"){
                 setcookie("login",$_POST['login'],time()+60*60*24*7,"/");
@@ -158,7 +160,7 @@ class DefaultC extends BaseController {
             }
         }
         else{
-            $_SESSION['logStatus'] = 'failed';
+            $_SESSION['logged'] = false;
         }
         $this->index();
     }

@@ -13,10 +13,18 @@
         <?php if($ticket->getCategorie() != null){ ?>
             <input type="hidden" id="idCategorie" name="idCategorie" value="<?= $ticket->getCategorie()->getId();?>">
        <?php } ?>
+    </div>
+    <div class="form-group">
+        Attribuer :
+        <select name="attribuer" <?php if (Auth::isAdmin() || Auth::getUser()->getRang()->getId()== 2) {}else{ echo "disabled";} ?> >
+            <option <?php if(empty($ticket->getAttribuer())){ echo 'selected'; } ?> value="">Non Attribué</option>
+            <?php foreach($users as $u){ ?>
+                <option <?php if(!empty($ticket->getAttribuer() && $ticket->getAttribuer() == $u)){ echo 'selected'; } ?> value="<?= $u->getId() ?>"> <?= $u ?> </option>
+            <?php } ?>
+        </select>
+    </div>
+<?php if (Auth::isAdmin() || Auth::getUser()->getRang()->getId()== 2) {?>
 
-
-        </div>
-<?php if (Auth::isAdmin() == true) {?>
 	<div class="form-group">
 
 		<label for="statut">Modifier statut</label><br>

@@ -13,7 +13,12 @@ class User extends Base{
 	private $login="";
 	private $password="";
 	private $mail="";
-	private $admin=false;
+
+    /**
+     * @ManyToOne
+     * @JoinColumn(name="idRang",className="Rang",nullable=false)
+     */
+    private $rang;
 
 	public function getId() {
 		return $this->id;
@@ -51,20 +56,25 @@ class User extends Base{
 		return $this;
 	}
 
-	public function getAdmin() {
-		return $this->admin;
-	}
+    public function getRang(){
+        return $this->rang;
+    }
 
-	public function setAdmin($admin) {
-		$this->admin=$admin;
-		return $this;
-	}
+    public function setRang($rang){
+        $this->rang = $rang;
+        return $this;
+    }
 
-	public function toString(){
-		$uType="Utilisateur";
-		if($this->admin){
-			$uType="Administrateur";
-		}
-		return $this->mail. "-".$this->login." (".$uType.")";
-	}
+    public function getAdmin() {
+        if($this->getRang()->getId() == 1){
+            return true;
+        }else{
+            return false;
+        }
+    }
+
+    public function toString(){
+        return $this->mail. "-".$this->login." ".$this->getRang();
+    }
+
 }
