@@ -337,6 +337,7 @@ class Tickets extends \_DefaultController {
 		} else {
 			$stat = $ticket->getStatut()->getId();
 		}
+
 		$listStatuts=Gui::select($statuts,$stat);
 		
 		$this->loadView("ticket/vAdd",array("ticket"=>$ticket,"listCat"=>$listCat,"listType"=>$listType,"listStatuts"=>$listStatuts, "users"=>$users));

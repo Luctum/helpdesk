@@ -15,31 +15,34 @@ class Users extends \_DefaultController {
 	}
 
     public function index($message=null){
-
-        global $config;
-        $baseHref=get_class($this);
-        if(isset($message)){
-            if(is_string($message)){
-                $message=new DisplayedMessage($message);
+        if(Auth::isAuth()){
+            global $config;
+            $baseHref=get_class($this);
+            if(isset($message)){
+                if(is_string($message)){
+                    $message=new DisplayedMessage($message);
+                }
+                $message->setTimerInterval($this->messageTimerInterval);
+                $this->_showDisplayedMessage($message);
             }
-            $message->setTimerInterval($this->messageTimerInterval);
-            $this->_showDisplayedMessage($message);
+            $objects=DAO::getAll($this->model);
+            echo "<table class='table table-striped'>";
+            echo "<thead><tr><th>".$this->model."</th></tr></thead>";
+            echo "<tbody>";
+            foreach ($objects as $object){
+                echo "<tr>";
+                echo "<td>".$object->toString()."</td>";
+                echo "<td>".$object->getRang()->getLibelle()."</td>";
+                echo "<td class='td-center'><a class='btn btn-primary btn-xs' href='".$baseHref."/frm/".$object->getId()."'><span class='glyphicon glyphicon-edit' aria-hidden='true'></span></a></td>".
+                    "<td class='td-center'><a class='btn btn-warning btn-xs' href='".$baseHref."/delete/".$object->getId()."'><span class='glyphicon glyphicon-remove' aria-hidden='true'></span></a></td>";
+                echo "</tr>";
+            }
+            echo "</tbody>";
+            echo "</table>";
+            echo "<a class='btn btn-primary' href='".$config["siteUrl"].$baseHref."/frm'>Ajouter...</a>";
+        }else{
+            $this->loadView("User/vConnect");
         }
-        $objects=DAO::getAll($this->model);
-        echo "<table class='table table-striped'>";
-        echo "<thead><tr><th>".$this->model."</th></tr></thead>";
-        echo "<tbody>";
-        foreach ($objects as $object){
-            echo "<tr>";
-            echo "<td>".$object->toString()."</td>";
-            echo "<td>".$object->getRang()->getLibelle()."</td>";
-            echo "<td class='td-center'><a class='btn btn-primary btn-xs' href='".$baseHref."/frm/".$object->getId()."'><span class='glyphicon glyphicon-edit' aria-hidden='true'></span></a></td>".
-                "<td class='td-center'><a class='btn btn-warning btn-xs' href='".$baseHref."/delete/".$object->getId()."'><span class='glyphicon glyphicon-remove' aria-hidden='true'></span></a></td>";
-            echo "</tr>";
-        }
-        echo "</tbody>";
-        echo "</table>";
-        echo "<a class='btn btn-primary' href='".$config["siteUrl"].$baseHref."/frm'>Ajouter...</a>";
     }
 
 
@@ -77,6 +80,7 @@ class Users extends \_DefaultController {
         if(!empty($_POST['password'])){
             $object->setPassword(password_hash($_POST["password"], PASSWORD_DEFAULT));
         }
+
 	}
 
 
@@ -87,5 +91,36 @@ class Users extends \_DefaultController {
 	public function connect(){
 		$this->loadView("user/vConnect");
 	}
+
+    public function forgotmdp(){
+        echo "<div class='container'>";
+        if(!Auth::isAuth()) {
+            echo "<p>Vous avez oublié votre mot de passe ? Vous pouvez le reinitialiser en remplissant le formulaire ci-dessous : <br/> </p>";
+
+            echo "<form method = 'POST' action='Users/forgotaction'>
+                    <div class='form-group'>
+                        Mail : <input type='text' name='mail' placeholder='Entrez votre mail'>
+                        <input type='submit'>
+                    </div>
+                  </form>";
+
+            echo "<p>Si vous avez un prolème, veuillez contacter un <a href='mailto:admin@local.fr'>administrateur.</a></p>";
+        }else{echo "Vous êtes déjà connecté..";}
+
+             echo "<a href='DefaultC' class='btn btn-primary'>Retour</a></div>";
+
+    }
+
+
+    public function forgotaction(){
+        $mail = $_POST['mail'];
+        $user = DAO::getOne("User","mail = '$mail'");
+        $pwd = "HelpPWD".uniqid();
+        $pwdhash = password_hash($pwd, PASSWORD_DEFAULT);
+        $user->setPassword($pwdhash);
+        var_dump($user);
+        mail($user->getmail(),"Helpdesk, mot de passe oublié","Bonjour, <br/> votre nouveau mot de passe est le suivant :' $pwd ', <br/>veuillez le modifier après votre connexion; <br/> Cordialement, l'équipe d'Helpdesk");
+
+    }
 
 }
