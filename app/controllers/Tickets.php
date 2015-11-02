@@ -357,15 +357,18 @@ class Tickets extends \_DefaultController {
         $attribuer=DAO::getOne("User", $_POST["attribuer"]);
         $object->setAttribuer($attribuer);
 
-        if($_POST['attribuer'] != ""){
+        if($_POST['nouveau'] != "oui"){
             if($_POST['idStatut'] == 1){
                 $statut=DAO::getOne("Statut", "id=3");
                 $object->setStatut($statut);
             }else{
+            	$statut=DAO::getOne("Statut", $_POST["idStatut"]);
+            	$object->setStatut($statut);
+            }
+        }else{
                 $statut=DAO::getOne("Statut", $_POST["idStatut"]);
                 $object->setStatut($statut);
-            }
-        }
+        	}
 	}
 
 	/* (non-PHPdoc)
