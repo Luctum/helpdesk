@@ -141,6 +141,7 @@ class DefaultC extends BaseController {
 
 
     public function connectAction(){
+    	
         $login = $_POST['login'];
         $password = $_POST['password'];
 

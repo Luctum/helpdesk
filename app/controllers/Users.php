@@ -66,7 +66,7 @@ class Users extends \_DefaultController {
 	 */
 	protected function setValuesToObject(&$object) {
 		parent::setValuesToObject($object);
-
+		
         if(!empty($_POST['rang'])){
             $rang = DAO::getOne('Rang','libelle="'.$_POST['rang'].'"');
             $object->setRang($rang);
