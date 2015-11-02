@@ -3,6 +3,7 @@ use micro\orm\DAO;
 use micro\js\Jquery;
 use micro\controllers\BaseController;
 use micro\views\Gui;
+use PasswordCompat\binary;
 /**
  * Contrôleur par défaut (défini dans config => documentRoot)
  * @author jcheron
@@ -141,6 +142,7 @@ class DefaultC extends BaseController {
 
 
     public function connectAction(){
+    	
         $login = $_POST['login'];
         $password = $_POST['password'];
 
