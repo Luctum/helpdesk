@@ -8,7 +8,6 @@
  */
 
 namespace {
-
     if (!defined('PASSWORD_BCRYPT')) {
         /**
          * PHPUnit Process isolation caches constants, but not function declarations.

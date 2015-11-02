@@ -1,5 +1,6 @@
 <?php
 use micro\orm\DAO;
+use PasswordCompat\binary;
 /**
  * Gestion des users
  * @author jcheron
