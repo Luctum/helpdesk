@@ -80,7 +80,7 @@ class DefaultC extends BaseController {
 	 * Connecte le premier administrateur trouvé dans la BDD
 	 */
 	public function asAdmin(){
-		$_SESSION["user"]=DAO::getOne("User", "admin=1");
+		$_SESSION["user"]=DAO::getOne("User", "idRang=1");
 		$_SESSION['KCFINDER'] = array(
 				'disabled' => false
 		);
@@ -91,7 +91,7 @@ class DefaultC extends BaseController {
 	 * Connecte le premier utilisateur (non admin) trouvé dans la BDD
 	 */
 	public function asUser(){
-		$_SESSION["user"]=DAO::getOne("User", "admin=0");
+		$_SESSION["user"]=DAO::getOne("User", "idRang=3");
 		$_SESSION['KCFINDER'] = array(
 				'disabled' => true
 		);
