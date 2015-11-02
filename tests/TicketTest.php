@@ -19,27 +19,36 @@ class TicketTest extends AjaxUnitTest {
 		self::$webDriver->manage()->timeouts()->implicitlyWait(5);
 		$this->get("Tickets/index");
 		self::$webDriver->manage()->timeouts()->implicitlyWait(5);
-		$this->assertPageContainsText("Ticket 1");
+		$bt = $this->getElementBySelector("#showP");
+		$bt->click();
+		$this->get("Tickets/postes");
+		self::$webDriver->manage()->timeouts()->implicitlyWait(5);
+		$this->assertPageContainsText("Test ticket");
 
 	}
 	
-	public function testModifStatut() {
+	/*public function testModifStatut() {
 	
 		$this->get("DefaultC/asAdmin");
 		self::$webDriver->manage()->timeouts()->implicitlyWait(5);
 		$this->get("Tickets/index");
 		self::$webDriver->manage()->timeouts()->implicitlyWait(5);
-		$bt = $this->getElementBySelector("table.table:nth-child(4) > tbody:nth-child(2) > tr:nth-child(2) > td:nth-child(4) > a:nth-child(1)");
+		$bt = $this->getElementBySelector("#showP");
 		$bt->click();
-		$this->get("Ticket/vAdd");
+		$this->get("Tickets/postes");
 		self::$webDriver->manage()->timeouts()->implicitlyWait(5);
-		$bt1 = $this->getElementBySelector("input.btn:nth-child(5)");
+		$bt1 = $this->getElementBySelector(".glyphicon-edit");
 		$bt1->click();
+		$this->get("Tickets/frm/34");
+		self::$webDriver->manage()->timeouts()->implicitlyWait(5);
+		$bt2 = $this->getElementBySelector("input.btn:nth-child(5)");
+		$bt2->click();
 		$this->get("Ticket/update");
 		self::$webDriver->manage()->timeouts()->implicitlyWait(5);
+		$this->assertPageContainsText("Système");
 		
 		
-	}
+	}*/
 
 	
 }
