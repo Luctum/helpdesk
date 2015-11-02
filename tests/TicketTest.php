@@ -37,7 +37,7 @@ class TicketTest extends AjaxUnitTest {
 		$bt1->click();
 		$this->get("Ticket/update");
 		self::$webDriver->manage()->timeouts()->implicitlyWait(5);
-		$this
+		
 		
 	}
 
