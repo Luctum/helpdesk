@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Client :  127.0.0.1
--- Généré le :  Mar 03 Novembre 2015 à 15:26
+-- Généré le :  Mar 03 Novembre 2015 à 17:08
 -- Version du serveur :  10.0.17-MariaDB
 -- Version de PHP :  5.6.14
 
@@ -19,8 +19,6 @@ SET time_zone = "+00:00";
 --
 -- Base de données :  `helpdesk`
 --
-CREATE DATABASE IF NOT EXISTS `helpdesk` DEFAULT CHARACTER SET latin1 COLLATE latin1_swedish_ci;
-USE `helpdesk`;
 
 -- --------------------------------------------------------
 
@@ -48,6 +46,19 @@ INSERT INTO `categorie` (`id`, `libelle`, `idCategorie`) VALUES
 (10, 'Assistance', NULL),
 (11, 'Helpdesk', 10),
 (12, 'Identité et droits d''accès', 10);
+
+-- --------------------------------------------------------
+
+--
+-- Structure de la table `custom`
+--
+
+CREATE TABLE `custom` (
+  `id` int(11) NOT NULL,
+  `libelle` varchar(255) NOT NULL,
+  `type` varchar(255) NOT NULL,
+  `affiche` tinyint(4) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -236,6 +247,12 @@ ALTER TABLE `categorie`
   ADD KEY `idCategorie` (`idCategorie`);
 
 --
+-- Index pour la table `custom`
+--
+ALTER TABLE `custom`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Index pour la table `faq`
 --
 ALTER TABLE `faq`
@@ -298,6 +315,11 @@ ALTER TABLE `user`
 --
 ALTER TABLE `categorie`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+--
+-- AUTO_INCREMENT pour la table `custom`
+--
+ALTER TABLE `custom`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 --
 -- AUTO_INCREMENT pour la table `faq`
 --
