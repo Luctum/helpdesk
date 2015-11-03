@@ -20,6 +20,12 @@ class Startup{
 	public function run(){
 		global $config;
 		session_start();
+		
+		if(isset($_COOKIE['user']) && empty($_SESSION['user'])){
+			$userCookie = unserialize($_COOKIE['user']);
+			$_SESSION['user'] = $userCookie;
+		}
+		
 		Logger::init();
 		if($config["test"]){
 			$config["siteUrl"]="http://127.0.0.1:8090/";

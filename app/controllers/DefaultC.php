@@ -21,6 +21,7 @@ class DefaultC extends BaseController {
 		$admin = Auth::isAdmin();
 		$notif = DAO::getAll("Notification");
 		$this->loadView("main/vHeader",array("infoUser"=>Auth::getInfoUser()));
+				
         if(isset($_SESSION['logged'])){
             if($_SESSION['logged']==false){
                 echo "<div class='container'><div class='alert alert-danger'>La connexion a échouée, veuillez vérifier vos identifiants</div></div>";
@@ -29,23 +30,31 @@ class DefaultC extends BaseController {
             }
             $_SESSION['logged'] = null;
         }
+        
 		if($auth != NULL){
-			
+			if($auth->getNotifie() == 1){
+				$notifie = "Autorisées";
+			}else{
+				$notifie = "Non Autorisées";
+			}
 			echo "<div class='container'>";
 			echo "<div class='panel panel-info'>";
-			echo "<div class='panel-heading'>Notifications</div>";
-			echo "<div class='panel-body'>";
-			echo "<table class='table table-striped'>";
-			echo "<div class='tbody'>";
+			echo "<div class='panel-heading'>Notifications : ".$notifie."</div>";
 			
-			foreach($notif as $n){
-				
-				if($auth == $n->getUser() || $admin == true){
-                    if($auth != $n->getUser()){
-					    echo "<tr><td><b>".$n->getUser()." </b >a modifié <b>".$n->getTicket()."</b></td><tr>";
-                    }
+			if($auth->getNotifie() == 1){
+				echo "<div class='panel-body'>";
+				echo "<table class='table table-striped'>";
+				echo "<div class='tbody'>";
+			
+				foreach($notif as $n){
+					
+					if($auth == $n->getUser() || $admin == true){
+	                    if($auth != $n->getUser()){
+						    echo "<tr><td><b>".$n->getUser()." </b> a modifié ".$n->getTicket() ." le ".$n->getDate()."</td><tr>";
+	                    }
+					}
+	
 				}
-
 			}
 			echo "</div>";
 			echo "</table>";
@@ -107,6 +116,11 @@ class DefaultC extends BaseController {
 		$_SESSION['KCFINDER'] = array(
 				'disabled' => true
 		);
+		
+		if(isset($_COOKIE['user'])){
+			setcookie("user","",- 3600,"/");
+		}
+		
 		$this->index();
 	}
 
@@ -147,18 +161,18 @@ class DefaultC extends BaseController {
         $password = $_POST['password'];
 
         $user = DAO::getOne("User","login='$login'");
-
+        
+        $userCookie = serialize($user);
+        
         if(!empty($user) && password_verify($password, $user->getPassword())){
             $_SESSION["user"]= $user;
             $_SESSION['logged'] = true;
 
             if(isset($_POST['retenir']) && $_POST['retenir'] == "on"){
-                setcookie("login",$_POST['login'],time()+60*60*24*7,"/");
-                setcookie("password",$_POST['password'],time()+60*60*24*7,"/");
+                setcookie("user",$userCookie,time()+60*60*24*7,"/");
             }
             else{
-                setcookie("login","",- 3600,"/");
-                setcookie("password","",- 3600,"/");
+                setcookie("user","",- 3600,"/");
             }
         }
         else{

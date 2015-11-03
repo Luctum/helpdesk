@@ -16,7 +16,6 @@ class Users extends \_DefaultController {
 	}
 
     public function index($message=null){
-
         global $config;
         $baseHref=get_class($this);
         if(isset($message)){
@@ -56,7 +55,7 @@ class Users extends \_DefaultController {
 
     public function update(){
         parent::update();
-        if($_POST["id"] && $_POST["bonuser"] == "1" ) {
+        if($_POST["id"] && $_POST["bonuser"] == "1") {
             $user = DAO::getOne("User", "login='" . $_POST['login'] . "'");
             $_SESSION['user'] = $user;
         }
@@ -77,6 +76,11 @@ class Users extends \_DefaultController {
         }
         if(!empty($_POST['password'])){
             $object->setPassword(password_hash($_POST["password"], PASSWORD_DEFAULT));
+        }
+        if(!empty($_POST['notifie'])){
+        	$object->setNotifie($_POST['notifie']);
+        }else{
+        	$object->setNotifie(0);
         }
 	}
 

@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 4.5.0.2
+-- version 4.4.14
 -- http://www.phpmyadmin.net
 --
 -- Client :  127.0.0.1
--- Généré le :  Mar 03 Novembre 2015 à 15:26
--- Version du serveur :  10.0.17-MariaDB
--- Version de PHP :  5.6.14
+-- Généré le :  Sam 31 Octobre 2015 à 23:15
+-- Version du serveur :  5.6.26
+-- Version de PHP :  5.6.12
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET time_zone = "+00:00";
@@ -28,11 +28,11 @@ USE `helpdesk`;
 -- Structure de la table `categorie`
 --
 
-CREATE TABLE `categorie` (
+CREATE TABLE IF NOT EXISTS `categorie` (
   `id` int(11) NOT NULL,
   `libelle` varchar(100) NOT NULL,
   `idCategorie` int(11) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8;
 
 --
 -- Contenu de la table `categorie`
@@ -55,7 +55,7 @@ INSERT INTO `categorie` (`id`, `libelle`, `idCategorie`) VALUES
 -- Structure de la table `faq`
 --
 
-CREATE TABLE `faq` (
+CREATE TABLE IF NOT EXISTS `faq` (
   `id` int(11) NOT NULL,
   `titre` varchar(100) NOT NULL,
   `contenu` text NOT NULL,
@@ -64,7 +64,7 @@ CREATE TABLE `faq` (
   `idUser` int(11) NOT NULL,
   `version` varchar(20) NOT NULL DEFAULT '1.0',
   `popularity` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8;
 
 --
 -- Contenu de la table `faq`
@@ -84,14 +84,14 @@ INSERT INTO `faq` (`id`, `titre`, `contenu`, `dateCreation`, `idCategorie`, `idU
 -- Structure de la table `message`
 --
 
-CREATE TABLE `message` (
+CREATE TABLE IF NOT EXISTS `message` (
   `id` int(11) NOT NULL,
   `contenu` text NOT NULL,
   `date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `idUser` int(11) NOT NULL,
   `idTicket` int(11) NOT NULL,
   `lu` tinyint(1) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=115 DEFAULT CHARSET=utf8;
 
 --
 -- Contenu de la table `message`
@@ -99,9 +99,7 @@ CREATE TABLE `message` (
 
 INSERT INTO `message` (`id`, `contenu`, `date`, `idUser`, `idTicket`, `lu`) VALUES
 (94, 'Une modification à été effectué sur ce ticket (concernant le statut ou le titre)', '2015-10-31 21:45:28', 1, 34, 0),
-(95, 'Une modification à été effectué sur ce ticket (concernant le statut ou le titre)', '2015-10-31 21:45:38', 1, 35, 1),
-(98, 'Une modification à été effectué sur ce ticket (concernant le statut ou le titre)', '2015-11-02 10:50:59', 1, 36, 0),
-(99, '<p>Bonjour</p>\r\n', '2015-11-03 12:58:57', 1, 37, 1);
+(95, 'Une modification à été effectué sur ce ticket (concernant le statut ou le titre)', '2015-10-31 21:45:38', 1, 35, 1);
 
 -- --------------------------------------------------------
 
@@ -109,19 +107,11 @@ INSERT INTO `message` (`id`, `contenu`, `date`, `idUser`, `idTicket`, `lu`) VALU
 -- Structure de la table `notification`
 --
 
-CREATE TABLE `notification` (
+CREATE TABLE IF NOT EXISTS `notification` (
   `id` int(11) NOT NULL,
   `idUser` int(11) NOT NULL,
-  `idTicket` int(11) NOT NULL,
-  `date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
---
--- Contenu de la table `notification`
---
-
-INSERT INTO `notification` (`id`, `idUser`, `idTicket`, `date`) VALUES
-(1, 1, 37, '2015-11-03 12:58:57');
+  `idTicket` int(11) NOT NULL
+) ENGINE=InnoDB AUTO_INCREMENT=17 DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -129,10 +119,10 @@ INSERT INTO `notification` (`id`, `idUser`, `idTicket`, `date`) VALUES
 -- Structure de la table `rang`
 --
 
-CREATE TABLE `rang` (
+CREATE TABLE IF NOT EXISTS `rang` (
   `id` int(11) NOT NULL,
   `libelle` varchar(40) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
 
 --
 -- Contenu de la table `rang`
@@ -149,12 +139,12 @@ INSERT INTO `rang` (`id`, `libelle`) VALUES
 -- Structure de la table `statut`
 --
 
-CREATE TABLE `statut` (
+CREATE TABLE IF NOT EXISTS `statut` (
   `id` int(11) NOT NULL,
   `libelle` varchar(30) NOT NULL,
   `ordre` int(11) NOT NULL,
   `icon` varchar(20) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
 
 --
 -- Contenu de la table `statut`
@@ -173,7 +163,7 @@ INSERT INTO `statut` (`id`, `libelle`, `ordre`, `icon`) VALUES
 -- Structure de la table `ticket`
 --
 
-CREATE TABLE `ticket` (
+CREATE TABLE IF NOT EXISTS `ticket` (
   `id` int(11) NOT NULL,
   `type` set('demande','incident') NOT NULL DEFAULT 'demande',
   `idCategorie` int(11) NOT NULL,
@@ -183,7 +173,7 @@ CREATE TABLE `ticket` (
   `idUser` int(11) NOT NULL,
   `dateCreation` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `attribuer` int(11) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=40 DEFAULT CHARSET=utf8;
 
 --
 -- Contenu de la table `ticket`
@@ -192,7 +182,7 @@ CREATE TABLE `ticket` (
 INSERT INTO `ticket` (`id`, `type`, `idCategorie`, `titre`, `description`, `idStatut`, `idUser`, `dateCreation`, `attribuer`) VALUES
 (34, '', 8, 'Test ticket admin', '<p>Ceci est un test</p>\r\n', 1, 1, '2015-10-31 21:01:47', NULL),
 (35, 'demande', 1, 'Test ticket user', '<p>Blabla</p>\r\n', 3, 2, '2015-10-31 21:07:04', 3),
-(36, '', 9, 'Test ticket user 2 ', '<p>bloblo</p>\r\n', 3, 2, '2015-10-31 21:07:20', NULL),
+(36, '', 9, 'Test ticket user 2 ', '<p>bloblo</p>\r\n', 1, 2, '2015-10-31 21:07:20', NULL),
 (37, '', 2, 'Ticket AutreUser ', '<p>ezaeaze</p>\r\n', 3, 3, '2015-10-31 21:07:47', 1);
 
 -- --------------------------------------------------------
@@ -201,28 +191,27 @@ INSERT INTO `ticket` (`id`, `type`, `idCategorie`, `titre`, `description`, `idSt
 -- Structure de la table `user`
 --
 
-CREATE TABLE `user` (
+CREATE TABLE IF NOT EXISTS `user` (
   `id` int(11) NOT NULL,
   `login` varchar(20) NOT NULL,
   `password` varchar(255) NOT NULL,
   `mail` varchar(255) NOT NULL,
-  `idRang` int(11) NOT NULL,
-  `notifie` int(1) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+  `idRang` int(11) NOT NULL
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8;
 
 --
 -- Contenu de la table `user`
 --
 
-INSERT INTO `user` (`id`, `login`, `password`, `mail`, `idRang`, `notifie`) VALUES
-(1, 'admin', '$2y$10$JcCy2P.RgdBfS2St4kb/L.uiAD26zQ5nUxD0JVEDIFxb3/gmabaM2', 'adminz@local.fr', 1, 0),
-(2, 'user', '$2y$10$CERtFz627gtB6ASB6kCK1uPQpetwrQYLZScMlAAkyXmyEtcbbTgMC', 'user1@local.fr', 3, 1),
-(3, 'autreUser', '$2y$10$r9kagO0vE9O7bR0fBtWJd.2/xVjQRmlgx1FDkfwm0L4uscJ6KGI0u', 'autreUser@local.fr', 2, 0),
-(4, 'moi', '$2y$10$kWgFW0orN8Jou2ysd.wWLeIks.UUTa5/reZQBJ8YY9OnhxWv38A0K', 'moi@local.fr', 2, 0),
-(5, 'pomme', '$2y$10$m8FvAmVSBf2qxAsqe8kSpu7l1s7l7cuvaIzxIJV2GSGpVtFGZDlaG', 'pomme@pomme.fr', 3, 0),
-(6, 'Tech', '$2y$10$WITJVHiL1GEnrYHBC0NGOe3MJyMsuZuIfFiYM.E/N6xLhwlkRx0XK', 'test@yopmail.com', 3, 0),
-(9, 'yolo', '$2y$10$UgiYi9yIOYEJov9fhVw32Oo./WZGHg.B3LxDKJyLUaWwLpK6PvBHi', 'yoloswag@zae.fr', 3, 0),
-(10, 'ezar', '$2y$10$3sCtB..3eIJCYQ.8FrwgCedx9iwNTOO7BP62La6FnPbx61NOcSeDW', 'yoloswag@zaae.fr', 1, 0);
+INSERT INTO `user` (`id`, `login`, `password`, `mail`, `idRang`) VALUES
+(1, 'admin', '$2y$10$JcCy2P.RgdBfS2St4kb/L.uiAD26zQ5nUxD0JVEDIFxb3/gmabaM2', 'adminz@local.fr', 1),
+(2, 'user', '$2y$10$CERtFz627gtB6ASB6kCK1uPQpetwrQYLZScMlAAkyXmyEtcbbTgMC', 'user1@local.fr', 3),
+(3, 'autreUser', '$2y$10$r9kagO0vE9O7bR0fBtWJd.2/xVjQRmlgx1FDkfwm0L4uscJ6KGI0u', 'autreUser@local.fr', 2),
+(4, 'moi', '$2y$10$kWgFW0orN8Jou2ysd.wWLeIks.UUTa5/reZQBJ8YY9OnhxWv38A0K', 'moi@local.fr', 2),
+(5, 'pomme', '$2y$10$m8FvAmVSBf2qxAsqe8kSpu7l1s7l7cuvaIzxIJV2GSGpVtFGZDlaG', 'pomme@pomme.fr', 3),
+(6, 'Tech', '$2y$10$WITJVHiL1GEnrYHBC0NGOe3MJyMsuZuIfFiYM.E/N6xLhwlkRx0XK', 'test@yopmail.com', 3),
+(9, 'yolo', '$2y$10$UgiYi9yIOYEJov9fhVw32Oo./WZGHg.B3LxDKJyLUaWwLpK6PvBHi', 'yoloswag@zae.fr', 3),
+(10, 'ezar', '$2y$10$3sCtB..3eIJCYQ.8FrwgCedx9iwNTOO7BP62La6FnPbx61NOcSeDW', 'yoloswag@zaae.fr', 1);
 
 --
 -- Index pour les tables exportées
@@ -297,42 +286,42 @@ ALTER TABLE `user`
 -- AUTO_INCREMENT pour la table `categorie`
 --
 ALTER TABLE `categorie`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=13;
 --
 -- AUTO_INCREMENT pour la table `faq`
 --
 ALTER TABLE `faq`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=13;
 --
 -- AUTO_INCREMENT pour la table `message`
 --
 ALTER TABLE `message`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=100;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=115;
 --
 -- AUTO_INCREMENT pour la table `notification`
 --
 ALTER TABLE `notification`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=17;
 --
 -- AUTO_INCREMENT pour la table `rang`
 --
 ALTER TABLE `rang`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=4;
 --
 -- AUTO_INCREMENT pour la table `statut`
 --
 ALTER TABLE `statut`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=6;
 --
 -- AUTO_INCREMENT pour la table `ticket`
 --
 ALTER TABLE `ticket`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=38;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=40;
 --
 -- AUTO_INCREMENT pour la table `user`
 --
 ALTER TABLE `user`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=11;
 --
 -- Contraintes pour les tables exportées
 --
