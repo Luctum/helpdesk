@@ -1,5 +1,6 @@
 <?php
 use micro\orm\DAO;
+use PasswordCompat\binary;
 /**
  * Gestion des users
  * @author jcheron
@@ -58,7 +59,7 @@ class Users extends \_DefaultController {
 
     public function update(){
         parent::update();
-        if($_POST["id"] && $_POST["bonuser"] == "1" ) {
+        if($_POST["id"] && $_POST["bonuser"] == "1") {
             $user = DAO::getOne("User", "login='" . $_POST['login'] . "'");
             $_SESSION['user'] = $user;
         }
@@ -67,8 +68,8 @@ class Users extends \_DefaultController {
 	/* (non-PHPdoc)
 	 * @see _DefaultController::setValuesToObject()
 	 */
-	protected function setValuesToObject(&$object) {
-		parent::setValuesToObject($object);
+    protected function setValuesToObject(&$object) {
+        parent::setValuesToObject($object);
 
         if(!empty($_POST['rang'])){
             $rang = DAO::getOne('Rang','libelle="'.$_POST['rang'].'"');
@@ -80,8 +81,12 @@ class Users extends \_DefaultController {
         if(!empty($_POST['password'])){
             $object->setPassword(password_hash($_POST["password"], PASSWORD_DEFAULT));
         }
-
-	}
+        if(!empty($_POST['notifie'])){
+            $object->setNotifie($_POST['notifie']);
+        }else{
+            $object->setNotifie(0);
+        }
+    }
 
 
 	public function tickets(){
