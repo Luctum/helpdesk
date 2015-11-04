@@ -13,7 +13,8 @@ class User extends Base{
 	private $login="";
 	private $password="";
 	private $mail="";
-
+	private $notifie;
+	
     /**
      * @ManyToOne
      * @JoinColumn(name="idRang",className="Rang",nullable=false)
@@ -76,5 +77,13 @@ class User extends Base{
     public function toString(){
         return $this->mail. "-".$this->login." ".$this->getRang();
     }
-
+    
+	public function getNotifie(){
+		return $this->notifie;
+	}
+	
+	public function setNotifie($notifie){
+		$this->notifie = $notifie;
+		return $this->notifie;
+	}
 }

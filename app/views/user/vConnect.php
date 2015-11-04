@@ -7,7 +7,7 @@
             <div class="form-group panel panel-body">
 	            <input type="text" name="login" id="login" value="<?php if(isset($_COOKIE['login'])){ echo $_COOKIE['login']; }?>" placeholder="Entrez un login" class="form-control">
 	            <input type="password" name="password" id="password" value="<?php if(isset($_COOKIE['password'])){ echo $_COOKIE['password']; }?>" placeholder="Entrez le mot de passe" class="form-control">
-                <input type="checkbox" name="retenir" id="retenir"> - Retenir mes identifiants</input>
+                <input type="checkbox" name="retenir" id="retenir"> - Rester connecter</input>
 
 
                 <p style="text-align: center;">Vous n'avez pas de compte ? Inscrivez-vous ! <a href="Users/frm">S'inscrire</a></p>

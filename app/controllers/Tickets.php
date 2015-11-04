@@ -33,7 +33,7 @@ class Tickets extends \_DefaultController {
         echo "<a class='btn btn-primary' href='".$config["siteUrl"].$baseHref."/frm'>Ajouter...</a>";
 
         echo "<h3>Mes Tickets<p class='glyphicon glyphicon-collapse-down btn-xs' id='showP'></p><p class='glyphicon glyphicon-collapse-up btn-xs' id='hideP'></p></h3>";
-        echo "<div id='postés' ></div>";
+        echo "<div id='postes' ></div>";
 
         if(Auth::isAdmin() || Auth::getUser()->getRang()->getId() != 3){
             echo "<h3>Interventions<p class='glyphicon glyphicon-collapse-down btn-xs' id='showI'></p><p class='glyphicon glyphicon-collapse-up btn-xs' id='hideI'></p></h3>";
@@ -44,9 +44,9 @@ class Tickets extends \_DefaultController {
             echo "<div id='nouveau' ></div>";
         }
 
-        echo Jquery::getOn("click", "#showP", "Tickets/postés","#postés");
-        echo Jquery::doJqueryOn("#showP", "click", "#postés", "show");
-        echo Jquery::doJqueryOn("#hideP", "click", "#postés", "hide");
+        echo Jquery::getOn("click", "#showP", "Tickets/postes","#postes");
+        echo Jquery::doJqueryOn("#showP", "click", "#postes", "show");
+        echo Jquery::doJqueryOn("#hideP", "click", "#postes", "hide");
 
         if(Auth::isAdmin() || Auth::getUser()->getRang()->getId() != 3) {
 
@@ -61,7 +61,7 @@ class Tickets extends \_DefaultController {
 	}
 
 
-    public function postés(){
+    public function postes(){
         global $config;
         $baseHref=get_class($this);
         if(isset($message)){
@@ -358,15 +358,18 @@ class Tickets extends \_DefaultController {
         $attribuer=DAO::getOne("User", $_POST["attribuer"]);
         $object->setAttribuer($attribuer);
 
-        if($_POST['attribuer'] != ""){
+        if($_POST['nouveau'] != "oui"){
             if($_POST['idStatut'] == 1){
                 $statut=DAO::getOne("Statut", "id=3");
                 $object->setStatut($statut);
             }else{
+            	$statut=DAO::getOne("Statut", $_POST["idStatut"]);
+            	$object->setStatut($statut);
+            }
+        }else{
                 $statut=DAO::getOne("Statut", $_POST["idStatut"]);
                 $object->setStatut($statut);
-            }
-        }
+        	}
 	}
 
 	/* (non-PHPdoc)
