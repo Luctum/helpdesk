@@ -5,7 +5,9 @@
 <div class="alert alert-info">Utilisateur : <?php echo $user->toString()?></div>
 
 <div class="form-group">
-
+    <input type="submit" value="Valider" id="submit" class="btn btn-default">
+    <a class="btn btn-default" href="<?php echo $config["siteUrl"]?>users">Annuler</a>
+    
     <?php if($user == Auth::getUser()){ ?>
         <input type="hidden" name="bonuser" value="1">
     <?php }else{ ?>
@@ -24,14 +26,11 @@
        Technicien <input type="radio" name="rang" value="Technicien" <?php if($user->getRang()->getId() == 2){echo"checked";}?>><br/>
        Utilisateur <input type="radio" name="rang" value="Utilisateur" <?php if($user->getRang()->getId() == 3){echo"checked";}?>><br/>
 
-    <?php }elseif(Auth::isAdmin() ){?>
-    <?php }?>
+    <?php } ?>
+
 
 </div>
-<div class="form-group">
-    <input type="submit" value="Valider" id="submit" class="btn btn-default">
-    <a class="btn btn-default" href="<?php echo $config["siteUrl"]?>users">Annuler</a>
-</div>
+
 
 </fieldset>
 </form>
