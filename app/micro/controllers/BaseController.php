@@ -53,14 +53,17 @@ abstract class BaseController {
 		$fileName=ROOT.DS."views/".$viewName.".php";
 		if(file_exists($fileName)){
 			if($asString)
-				return $this->includeFileAsString($fileName);
+				return $this->includeFileAsString($fileName,$pData);
 			else
 				include($fileName);
 		}else{
 			throw new \Exception("Vue inexistante");
 		}
 	}
-	private function includeFileAsString($file){
+	private function includeFileAsString($file,$pData=""){
+		if(is_array($pData)){
+			extract($pData);
+		}
 		ob_start();
 		include $file;
 		return ob_get_clean();

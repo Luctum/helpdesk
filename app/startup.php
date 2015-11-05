@@ -12,6 +12,7 @@ $config=include_once ROOT.DS.'config.php';
 require_once ROOT.'micro/log/Logger.php';
 require_once ROOT.'micro/controllers/Autoloader.php';
 require_once ROOT.'./../vendor/ircmaxell/password-compat/lib/password.php';
+require_once ROOT.'./../vendor/phpmailer/phpmailer/PHPMailerAutoload.php';
 Autoloader::register();
 $ctrl=new Startup();
 $ctrl->run();

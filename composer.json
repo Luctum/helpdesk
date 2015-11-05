@@ -3,5 +3,8 @@
         "facebook/webdriver": "dev-master",
         "phpunit/phpunit": "~4.8",
         "ircmaxell/password-compat" : "dev-master"
+    },
+    "require": {
+        "phpmailer/phpmailer": "^5.2"
     }
 }

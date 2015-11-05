@@ -63,6 +63,7 @@ class Users extends \_DefaultController {
             $user = DAO::getOne("User", "login='" . $_POST['login'] . "'");
             $_SESSION['user'] = $user;
         }
+
     }
 
 	/* (non-PHPdoc)
@@ -123,9 +124,41 @@ class Users extends \_DefaultController {
         $pwd = "HelpPWD".uniqid();
         $pwdhash = password_hash($pwd, PASSWORD_DEFAULT);
         $user->setPassword($pwdhash);
+        
+        $this->setValuesToObject($user);
+        DAO::update($user);
         var_dump($user);
-        mail($user->getmail(),"Helpdesk, mot de passe oublié","Bonjour, <br/> votre nouveau mot de passe est le suivant :' $pwd ', <br/>veuillez le modifier après votre connexion; <br/> Cordialement, l'équipe d'Helpdesk");
+        $this->mailSend("$mail","Helpdesk | Mot de passe oublié","Bonjour, <br/> votre nouveau mot de passe est le suivant :<b>'  $pwd   '</b>, <br/>veuillez le modifier après votre connexion; <br/> Cordialement, l'équipe d'Helpdesk");
 
     }
-
+    
+    public function mailSend($to, $sub, $body){
+    	//Message could not be sent.Mailer Error: SMTP connect() failed. https://github.com/PHPMailer/PHPMailer/wiki/Troubleshooting
+    	$mail = new PHPMailer;
+    
+    	//$mail->SMTPDebug = 3;
+    
+    	$mail->isSMTP();
+    	$mail->Host = 'smtp.live.com';
+    	$mail->SMTPSecure = 'tls';
+    	$mail->Port = 25;
+    	$mail->SMTPAuth = true;
+    	$mail->Username = 'sweg@yopmail.com';                
+    	$mail->Password = '';
+    	$mail->setFrom('admin@helpdesk.com');
+    	$mail->addAddress($to);
+    
+    	$mail->isHTML(true);
+    
+    	$mail->Subject = $sub;
+    	$mail->Body    = $body;
+    
+    	if(!$mail->send()) {
+    		echo 'Une erreur est survenue lors de l\'envoi de message.';
+    		echo 'Mailer Error: ' . $mail->ErrorInfo;
+    	} else {
+    		echo 'Le message à bien été envoyé !';
+    	}
+    }
+    
 }
