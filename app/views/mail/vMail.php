@@ -4,13 +4,11 @@
 
 	
 		foreach($notifs as $n){
-			if($n->getTicket()->getUser() == $u){
 				echo "<p>";
 				echo "<i>".$n->getUser()->getLogin()."</i>";
 				echo " a modifié <b>".$n->getTicket()->getTitre()."</b> le ".$n->getDate()."<br/>";
 				echo "<br/>";
 				echo "</p><br/><br/>";
-			}
 		}
 
 	echo "En esperant vous revoir bientôt sur Helpdesk! <br/>";

@@ -16,10 +16,11 @@ $db=$config["database"];
 DAO::connect($db["dbName"],@$db["serverName"],@$db["port"],@$db["user"],@$db["password"]);
 
 $user = DAO::getAll("User");
-$notifs = DAO::getAll("Notification");
+$notifs;
 $tickets = DAO::getAll("Ticket");
 
-foreach($user as $u){	
+foreach($user as $u){
+    $notifs = DAO::getAll("Notification","idUser = ".$u->getId()."");
 	if( $u->getNotifie() == 1){
 		$ctrl=new DefaultC();
 		$body=$ctrl->loadView("mail/vMail",array("tickets"=>$tickets,"u"=>$u, "notifs"=>$notifs), true);
@@ -37,7 +38,7 @@ foreach($user as $u){
 		$mail->Port = 25;
 		$mail->SMTPAuth = true;
 		$mail->Username = 'luctum@hotmail.fr';
-		$mail->Password = 'MOMO123456idkfq';
+		$mail->Password = '';
 		$mail->setFrom('admin@helpdesk.com');
 		$mail->addAddress("testaa@yopmail.com");
 		

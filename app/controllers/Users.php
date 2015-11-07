@@ -133,11 +133,9 @@ class Users extends \_DefaultController {
     }
     
     public function mailSend($to, $sub, $body){
-    	//Message could not be sent.Mailer Error: SMTP connect() failed. https://github.com/PHPMailer/PHPMailer/wiki/Troubleshooting
+
     	$mail = new PHPMailer;
-    
-    	//$mail->SMTPDebug = 3;
-    
+
     	$mail->isSMTP();
     	$mail->Host = 'smtp.live.com';
     	$mail->SMTPSecure = 'tls';
