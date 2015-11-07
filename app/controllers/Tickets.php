@@ -98,7 +98,7 @@ class Tickets extends \_DefaultController {
                 $button = "<td class='btn-success'></td>";
                 foreach($notifications as $n){
 
-                    if($n->getTicket() == $object && $n->getUser() != Auth::getUser()) {
+                    if($n->getTicket()->getId() == $object->getId() && $n->getUser()->getId() != Auth::getUser()->getId()) {
                         //error_reporting(0);
                         //xdebug_disable();
 
@@ -158,7 +158,7 @@ class Tickets extends \_DefaultController {
 
                     foreach($notifications as $n2){
 
-                        if($n2->getTicket() == $object2 && $n2->getUser() != Auth::getUser()) {
+                        if($n2->getTicket() == $object2 && $n2->getUser()->getId() != Auth::getUser()->getId()) {
                             //error_reporting(0);
                             //xdebug_disable();
 
@@ -209,7 +209,7 @@ class Tickets extends \_DefaultController {
 
                     $button = "<td class='btn-success'></td>";
                     foreach($notifications as $n){
-                        if($n->getTicket() == $object && $n->getUser() != Auth::getUser()) {
+                        if($n->getTicket() == $object && $n->getUser()->getId() != Auth::getUser()->getId()) {
                             $button = "<td class='btn-warning'></td>";
                         }
                     }
@@ -236,37 +236,38 @@ class Tickets extends \_DefaultController {
 
 	public function messages($id){
 		$ticket=DAO::getOne("Ticket", $id[0]);
-		if(Auth::getUser() != $ticket->getUser() && Auth::isAdmin() != true){
+		if(Auth::getUser()->getId() != $ticket->getUser()->getId() && Auth::isAdmin() == false){
 				$ticket = null;
 				echo "Veuillez vous assurez que votre compte posséde les droits suffisants pour accéder à cette ressource";
 				echo "<br/><a class='btn btn-primary' href='".get_class($this)."'>Retour</a>";
 		}
-
-		$notifs = DAO::getAll("Notification");
-		foreach($notifs as $n){
-			if($n->getTicket() == $ticket && Auth::getUser() != $n->getUser()){
-				DAO::delete($n);
-			}
-		}
-		
-		
-		echo "<h2>".$ticket."</h2>";
-        echo "".$ticket->getDescription();
-		echo "<h3>Reponses</h3>";
-		echo "<div id='messages' class='container'>";
-		
-		
-		$this->afficheDiscussion($id);
-		
-		echo "</div>";
-		echo "<div id='newMsg' class='container'>";
-		echo "</div>";
-		
+        else{
+            $notifs = DAO::getAll("Notification");
+            foreach($notifs as $n){
+                if($n->getTicket() == $ticket && Auth::getUser()->getId() != $n->getUser()->getId()){
+                    DAO::delete($n);
+                }
+            }
 
 
-		$this->frmMsg($id,$ticket);
-		echo Jquery::executeOn("#submitMsg", "click", "CKEDITOR.instances['contenu'].updateElement();");
-		echo Jquery::postFormOn("click","#submitMsg","Messages/update", "formMsg","#newMsg", false, Jquery::_get('Tickets/afficheDiscussion/'.$id[0],'#messages'));
+            echo "<h2>".$ticket."</h2>";
+            echo "".$ticket->getDescription();
+            echo "<h3>Reponses</h3>";
+            echo "<div id='messages' class='container'>";
+
+
+            $this->afficheDiscussion($id);
+
+            echo "</div>";
+            echo "<div id='newMsg' class='container'>";
+            echo "</div>";
+
+
+
+            $this->frmMsg($id,$ticket);
+            echo Jquery::executeOn("#submitMsg", "click", "CKEDITOR.instances['contenu'].updateElement();");
+            echo Jquery::postFormOn("click","#submitMsg","Messages/update", "formMsg","#newMsg", false, Jquery::_get('Tickets/afficheDiscussion/'.$id[0],'#messages'));
+        }
 
 	}
 
@@ -284,7 +285,7 @@ class Tickets extends \_DefaultController {
 				                                                                                                    	                                                                             
 			}
 			echo "<div class='panel-heading'>";
-			if($msg->getLu() == 0 && Auth::getUser() != $msg->getUser()){
+			if($msg->getLu() == 0 && Auth::getUser()->getId() != $msg->getUser()->getId()){
 				echo "<span class='msg-new btn btn-warning'>NEW</span>";
 			}
 			//error_reporting(0);
@@ -299,7 +300,7 @@ class Tickets extends \_DefaultController {
 			echo "</div>";                                                                                                                                                    
 			echo "</div>"; 
 			
-			if($msg->getLu() == 0 && Auth::getUser() != $msg->getUser()){
+			if($msg->getLu() == 0 && Auth::getUser()->getId() != $msg->getUser()->getId()){
 				$config["debug"]=false;
 				$msg->setLu(1);
 				DAO::update($msg);
@@ -355,10 +356,11 @@ class Tickets extends \_DefaultController {
 		$object->setCategorie($categorie);
 		$user=DAO::getOne("User", $_POST["idUser"]);
 		$object->setUser($user);
-        $attribuer=DAO::getOne("User", $_POST["attribuer"]);
-        $object->setAttribuer($attribuer);
-
-        if($_POST['nouveau'] != "oui"){
+        if(!empty($_POST["attribuer"])){
+            $attribuer=DAO::getOne("User", $_POST["attribuer"]);
+            $object->setAttribuer($attribuer);
+        }
+        if(!empty($_POST['nouveau']) && $_POST['nouveau'] != "oui"){
             if($_POST['idStatut'] == 1){
                 $statut=DAO::getOne("Statut", "id=3");
                 $object->setStatut($statut);
@@ -424,7 +426,12 @@ class Tickets extends \_DefaultController {
 			$message->setContenu("Une modification à été effectué sur ce ticket (concernant le statut ou le titre)");
 			$message->setLu(0);
 			DAO::insert($message);
+            $notif = new Notification();
+            $notif->setTicket($ticket);
+            $notif->setUser(Auth::getUser());
+            DAO::insert($notif);
 		}
+
 
 		$config["debug"]=true;
 		

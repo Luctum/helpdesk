@@ -40,31 +40,32 @@ class DefaultC extends BaseController {
 			echo "<div class='container'>";
 			echo "<div class='panel panel-info'>";
 			echo "<div class='panel-heading'>Notifications : ".$notifie."</div>";
-			
+
 			if($auth->getNotifie() == 1){
 				echo "<div class='panel-body'>";
 				echo "<table class='table table-striped'>";
 				echo "<div class='tbody'>";
-			
-				foreach($notif as $n){
-					
-					if($auth == $n->getUser() || $admin == true){
-	                    if($auth != $n->getUser()){
-						    echo "<tr><td><b>".$n->getUser()." </b> a modifié ".$n->getTicket() ." le ".$n->getDate()."</td><tr>";
-	                    }
-					}
-	
-				}
+			    if(empty($notif)){
+                    echo "Pas de nouvelles notifications";
+                }else{
+                    foreach($notif as $n){
+                        $idTicket =  $n->getTicket()->getId();
+                            if($auth->getId() != $n->getUser()->getId()){
+                                echo "<tr><td><b>".$n->getUser()." </b> a modifié <a href='Tickets/messages/$idTicket'>".$n->getTicket() ." </a> le ".$n->getDate()."</td><tr>";
+                            }else{echo "Pas de nouvelles notifications";}
+                    }
+                }
 			}
 			echo "</div>";
 			echo "</table>";
+            echo "</div>";
 			echo "</div>";
 			echo "</div>";
-			echo "</div>";
-			
-			if($admin){
-				$this->loadView("main/vDefault");
-			}
+
+                $lastTicket = DAO::getAll("Ticket","iduser =". Auth::getUser()->getId()." ORDER BY dateCreation Desc LIMIT 1 ");
+            //Where 1=1 est là pour que le where fonctionne..
+                $faq = DAO::getAll("Faq", "1=1 ORDER BY dateCreation Desc LIMIT 3");
+                $this->loadView("main/vDefault", array("ticket" => $lastTicket, "faq"=> $faq));
 		}
 		else{
 			$this->loadView("User/vConnect");

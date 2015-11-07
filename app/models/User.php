@@ -74,8 +74,16 @@ class User extends Base{
         }
     }
 
+    public function getTech() {
+        if($this->getRang()->getId() == 2){
+            return true;
+        }else{
+            return false;
+        }
+    }
+
     public function toString(){
-        return $this->mail. "-".$this->login." ".$this->getRang();
+        return $this->mail. "-".$this->login."";
     }
     
 	public function getNotifie(){

@@ -33,11 +33,10 @@ class Auth {
 	 */
 	public static function isAdmin(){
 		$user=self::getUser();
-		if($user instanceof User){
-			return $user->getAdmin();
-		}else{
-			return false;
-		}
+        if($user instanceof User && ($user->getAdmin() || $user->getTech())){
+        $admin= true;
+        }else{$admin = false;}
+        return $admin;
 	}
 
 	/**
