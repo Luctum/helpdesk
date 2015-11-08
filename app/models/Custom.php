@@ -49,7 +49,10 @@ class Custom extends Base{
 		$this->display = $display;
 		return $this;
 	}
-	
+
+    public function toString(){
+        return $this->getLibelle();
+    }
 	
 	
 }

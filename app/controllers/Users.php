@@ -127,7 +127,6 @@ class Users extends \_DefaultController {
         
         $this->setValuesToObject($user);
         DAO::update($user);
-        var_dump($user);
         $this->mailSend("$mail","Helpdesk | Mot de passe oublié","Bonjour, <br/> votre nouveau mot de passe est le suivant :<b>'  $pwd   '</b>, <br/>veuillez le modifier après votre connexion; <br/> Cordialement, l'équipe d'Helpdesk");
 
     }

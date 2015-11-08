@@ -64,13 +64,6 @@ class Tickets extends \_DefaultController {
     public function postes(){
         global $config;
         $baseHref=get_class($this);
-        if(isset($message)){
-            if(is_string($message)){
-                $message=new DisplayedMessage($message);
-            }
-            $message->setTimerInterval($this->messageTimerInterval);
-            $this->_showDisplayedMessage($message);
-        }
 
         $objects=DAO::getAll($this->model);
         $notifications = DAO::getAll("Notification");
@@ -99,13 +92,7 @@ class Tickets extends \_DefaultController {
                 foreach($notifications as $n){
 
                     if($n->getTicket()->getId() == $object->getId() && $n->getUser()->getId() != Auth::getUser()->getId()) {
-                        //error_reporting(0);
-                        //xdebug_disable();
-
                         $button = "<td class='btn-warning'></td>";
-
-                        //xdebug_enable();
-                        //error_reporting(-1);
                     }
                 }
 
@@ -284,8 +271,6 @@ class Tickets extends \_DefaultController {
 			if($msg->getLu() == 0 && Auth::getUser()->getId() != $msg->getUser()->getId()){
 				echo "<span class='msg-new btn btn-warning'>NEW</span>";
 			}
-			//error_reporting(0);
-			//xdebug_disable();
 			
 			echo "Le ".$msg->getDate().", ".$msg->getUser()." dit : ";                                                                                       
 			echo "</div>";                                                                                                                                                       
@@ -302,9 +287,7 @@ class Tickets extends \_DefaultController {
 				DAO::update($msg);
 				$config["debug"]=true;
 			}
-            
-			//xdebug_enable();
-			//error_reporting(-1);
+
 		}                                                                                    
 	}                                                
 	                                                                                        
@@ -321,7 +304,6 @@ class Tickets extends \_DefaultController {
         //Permet d'ajouter un controle sur les formulaires, si jamais un utilisateur non autorisé tente d'acceder a un formulaire alors il est renvoyé vers la page de création du formulaire
         if($id != NULL && $ticket->getUser()->getId() != Auth::getUser()->getId()){
             if(Auth::isAdmin()==false){
-
                 $id = null;
                 $ticket=$this->getInstance($id);
             }

@@ -18,7 +18,6 @@ class DefaultC extends BaseController {
 	 */
 	public function index() {
 		$auth = Auth::getUser();
-		$admin = Auth::isAdmin();
 		$notif = DAO::getAll("Notification");
 		$this->loadView("main/vHeader",array("infoUser"=>Auth::getInfoUser()));
 				
@@ -57,7 +56,7 @@ class DefaultC extends BaseController {
                                 echo "<tr><td><b>".$n->getUser()." </b> a modifié <a href='Tickets/messages/$idTicket'>".$n->getTicket() ." </a> le ".$n->getDate()."</td><tr>";
                             }
                     }
-                    if($passage == false){echo "Pas de nouvelles notifications";}
+                    if($passage === false){echo "Pas de nouvelles notifications";}
                 }
 			}
 			echo "</div>";
@@ -67,7 +66,7 @@ class DefaultC extends BaseController {
 			echo "</div>";
 
                 $lastTicket = DAO::getAll("Ticket","iduser =". Auth::getUser()->getId()." ORDER BY dateCreation Desc LIMIT 1 ");
-            //Where 1=1 est là pour que le where fonctionne..
+            //1=1 est là pour que le where fonctionne..
                 $faq = DAO::getAll("Faq", "1=1 ORDER BY dateCreation Desc LIMIT 3");
                 $user = DAO::getAll("User", "idrang = 1 OR idrang = 2");
                 $this->loadView("main/vDefault", array("ticket" => $lastTicket, "faq"=> $faq, "user"=> $user));
