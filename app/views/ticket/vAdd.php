@@ -14,17 +14,16 @@
             <input type="hidden" id="idCategorie" name="idCategorie" value="<?= $ticket->getCategorie()->getId();?>">
        <?php } ?>
     </div>
-    <?php if(empty($ticket->getId())){ ?>
+    <?php if($ticket->getId() == null){ ?>
     	<input type="hidden" name="nouveau" value="oui">
-    	
-    <?php } ?>
+    <?php }else{?><input type="hidden" name="nouveau" value="non"><?php } ?>
     <div class="form-group">
     
         Attribuer :
-        <select name="attribuer" <?php if (Auth::isAdmin() || Auth::getUser()->getRang()->getId()== 2) {}else{ echo "disabled";} ?> >
+        <select name="attribuer" <?php if (Auth::isAdmin()){}else{ echo "disabled";} ?> >
             <option <?php if(empty($ticket->getAttribuer())){ echo 'selected'; } ?> value=NULL>Non Attribué</option>
             <?php foreach($users as $u){ ?>
-                <option <?php if(!empty($ticket->getAttribuer() && $ticket->getAttribuer() == $u)){ echo 'selected'; } ?> value="<?= $u->getId() ?>"> <?= $u ?> </option>
+                <option <?php if(!empty($ticket->getAttribuer() && $ticket->getAttribuer()->getId() == $u->getId())){ echo 'selected'; } ?> value="<?= $u->getId() ?>"> <?= $u ?> </option>
             <?php } ?>
         </select>
     </div>
