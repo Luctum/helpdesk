@@ -9,16 +9,16 @@ use micro\views\Gui;
  * @package helpdesk.controllers
  */
 class Faqs extends \_DefaultController {
-	public function Faqs(){
-		parent::__construct();
-		$this->title="Foire aux questions";
-		$this->model="Faq";
-	}
+    public function Faqs(){
+        parent::__construct();
+        $this->title="Foire aux questions";
+        $this->model="Faq";
+    }
 
     public function index(){
         global $config;
         $baseHref=get_class($this);
-		$model = "".$this->model."";
+        $model = "".$this->model."";
         $objects=DAO::getAll($model);
 
 
@@ -76,10 +76,10 @@ class Faqs extends \_DefaultController {
             //N'affiche pas les boutons pour les non admins
             if(Auth::isAdmin()){
                 echo "<td class='td-center'><a class='btn btn-primary btn-xs' href='".$baseHref."/frm/".$object->getId()."'><span class='glyphicon glyphicon-edit' aria-hidden='true'></span></a></td>".
-                   "<td class='td-center'><a class='btn btn-warning btn-xs' href='".$baseHref."/delete/".$object->getId()."'><span class='glyphicon glyphicon-remove' aria-hidden='true'></span></a></td>";
+                    "<td class='td-center'><a class='btn btn-warning btn-xs' href='".$baseHref."/delete/".$object->getId()."'><span class='glyphicon glyphicon-remove' aria-hidden='true'></span></a></td>";
             }
-                echo "<td class='td-center'><a class='btn btn-info btn-xs' href='".$baseHref."/lecture/".$object->getId()."'><span class='glyphicon glyphicon-play' aria-hidden='true'></span></a></td>";
-                echo "</tr>";
+            echo "<td class='td-center'><a class='btn btn-info btn-xs' href='".$baseHref."/lecture/".$object->getId()."'><span class='glyphicon glyphicon-play' aria-hidden='true'></span></a></td>";
+            echo "</tr>";
         }
 
         echo "</tbody>";
@@ -99,20 +99,20 @@ class Faqs extends \_DefaultController {
         echo "<h3>Resultat de la recherche :". $_POST['recherche']."</h3>";
         $objects=DAO::getAll("Faq", "UPPER(titre) LIKE UPPER('%".$_POST['recherche']."%')");
         if(!empty($_POST['recherche'])){
-        foreach ($objects as $object){
-            echo "<div id='recherche'><tr>";
-            echo "<td>".$object->toString()."</td>";
-            if(is_callable(array($object,"getUser"))){
-                echo "<td>".$object->getUser()."</td>";
+            foreach ($objects as $object){
+                echo "<div id='recherche'><tr>";
+                echo "<td>".$object->toString()."</td>";
+                if(is_callable(array($object,"getUser"))){
+                    echo "<td>".$object->getUser()."</td>";
+                }
+                //N'affiche pas les boutons pour les non admins
+                if(Auth::isAdmin()){
+                    echo "<td class='td-center'><a class='btn btn-primary btn-xs' href='".$baseHref."/frm/".$object->getId()."'><span class='glyphicon glyphicon-edit' aria-hidden='true'></span></a></td>".
+                        "<td class='td-center'><a class='btn btn-warning btn-xs' href='".$baseHref."/delete/".$object->getId()."'><span class='glyphicon glyphicon-remove' aria-hidden='true'></span></a></td>";
+                }
+                echo "<td class='td-center'><a class='btn btn-info btn-xs' href='".$baseHref."/lecture/".$object->getId()."'><span class='glyphicon glyphicon-play' aria-hidden='true'></span></a></td>";
+                echo "</tr>";
             }
-            //N'affiche pas les boutons pour les non admins
-            if(Auth::isAdmin()){
-                echo "<td class='td-center'><a class='btn btn-primary btn-xs' href='".$baseHref."/frm/".$object->getId()."'><span class='glyphicon glyphicon-edit' aria-hidden='true'></span></a></td>".
-                    "<td class='td-center'><a class='btn btn-warning btn-xs' href='".$baseHref."/delete/".$object->getId()."'><span class='glyphicon glyphicon-remove' aria-hidden='true'></span></a></td>";
-            }
-            echo "<td class='td-center'><a class='btn btn-info btn-xs' href='".$baseHref."/lecture/".$object->getId()."'><span class='glyphicon glyphicon-play' aria-hidden='true'></span></a></td>";
-            echo "</tr>";
-        }
 
         }else{
             echo "<h4>Rien n'a été trouvé !</h4>";
@@ -158,41 +158,41 @@ class Faqs extends \_DefaultController {
         $this->loadView("faq/vAdd",array("faq"=>$faq,"listCat"=>$listCat,"id"=>$id));
         echo Jquery::execute("CKEDITOR.replace( 'contenu');");
 
-}
+    }
 
-	/* (non-PHPdoc)
-	 * @see _DefaultController::setValuesToObject()
-	 */
-	protected function setValuesToObject(&$object) {
-		parent::setValuesToObject($object);
-		$object->setUser(Auth::getUser());
-		$categorie=DAO::getOne("Categorie", $_POST["idCategorie"]);
-		$object->setCategorie($categorie);
-	}
+    /* (non-PHPdoc)
+     * @see _DefaultController::setValuesToObject()
+     */
+    protected function setValuesToObject(&$object) {
+        parent::setValuesToObject($object);
+        $object->setUser(Auth::getUser());
+        $categorie=DAO::getOne("Categorie", $_POST["idCategorie"]);
+        $object->setCategorie($categorie);
+    }
 
-	public function test(){
-		$faqs=DAO::getAll("Faq","1=1 order by dateCreation limit 1,1");
-		foreach ($faqs as $faq){
-			echo $faq."<br>";
-		}
-		echo DAO::$db->query("SELECT max(id) FROM Faq")->fetchColumn();
-		$ArticleMax=DAO::getOne("Faq","id=(SELECT max(id) FROM Faq)");
-		echo $ArticleMax;
-	}
-	
-	public function isValid() {
-		return Auth::isAuth();
-	}
-	
-	/* (non-PHPdoc)
-	 * @see BaseController::onInvalidControl()
-	 */
-	public function onInvalidControl() {
-		$this->initialize();
-		$this->messageDanger("<strong>Autorisation refusée</strong>,<br>Merci de vous connecter pour accéder à ce module.&nbsp;");
-		$this->loadView("user/vConnect");
-		$this->finalize();
-		exit;
-	}
-	
+    public function test(){
+        $faqs=DAO::getAll("Faq","1=1 order by dateCreation limit 1,1");
+        foreach ($faqs as $faq){
+            echo $faq."<br>";
+        }
+        echo DAO::$db->query("SELECT max(id) FROM Faq")->fetchColumn();
+        $ArticleMax=DAO::getOne("Faq","id=(SELECT max(id) FROM Faq)");
+        echo $ArticleMax;
+    }
+
+    public function isValid() {
+        return Auth::isAuth();
+    }
+
+    /* (non-PHPdoc)
+     * @see BaseController::onInvalidControl()
+     */
+    public function onInvalidControl() {
+        $this->initialize();
+        $this->messageDanger("<strong>Autorisation refusée</strong>,<br>Merci de vous connecter pour accéder à ce module.&nbsp;");
+        $this->loadView("user/vConnect");
+        $this->finalize();
+        exit;
+    }
+
 }

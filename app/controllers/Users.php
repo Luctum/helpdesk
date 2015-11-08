@@ -9,11 +9,11 @@ use PasswordCompat\binary;
  */
 class Users extends \_DefaultController {
 
-	public function Users(){
-		parent::__construct();
-		$this->title="Utilisateurs";
-		$this->model="User";
-	}
+    public function Users(){
+        parent::__construct();
+        $this->title="Utilisateurs";
+        $this->model="User";
+    }
 
     public function index($message=null){
         if(Auth::isAuth()){
@@ -47,14 +47,14 @@ class Users extends \_DefaultController {
     }
 
 
-	public function frm($id=NULL){
-		$user=$this->getInstance($id);
-		if(($id != null && ($user == Auth::getUser() || Auth::isAdmin())) || $id == null){
-        	$this->loadView("user/vAdd",array("user"=>$user));
-		}
+    public function frm($id=NULL){
+        $user=$this->getInstance($id);
+        if(($id != null && ($user == Auth::getUser() || Auth::isAdmin())) || $id == null){
+            $this->loadView("user/vAdd",array("user"=>$user));
+        }
         else{
-			echo "<div class='alert alert-danger'>Vous ne disposez pas des droits</div>";
-		}
+            echo "<div class='alert alert-danger'>Vous ne disposez pas des droits</div>";
+        }
     }
 
     public function update(){
@@ -66,9 +66,9 @@ class Users extends \_DefaultController {
 
     }
 
-	/* (non-PHPdoc)
-	 * @see _DefaultController::setValuesToObject()
-	 */
+    /* (non-PHPdoc)
+     * @see _DefaultController::setValuesToObject()
+     */
     protected function setValuesToObject(&$object) {
         parent::setValuesToObject($object);
 
@@ -90,13 +90,13 @@ class Users extends \_DefaultController {
     }
 
 
-	public function tickets(){
-		$this->forward("tickets");
-	}
-	
-	public function connect(){
-		$this->loadView("user/vConnect");
-	}
+    public function tickets(){
+        $this->forward("tickets");
+    }
+
+    public function connect(){
+        $this->loadView("user/vConnect");
+    }
 
     public function forgotmdp(){
         echo "<div class='container'>";
@@ -113,7 +113,7 @@ class Users extends \_DefaultController {
             echo "<p>Si vous avez un prolème, veuillez contacter un <a href='mailto:admin@local.fr'>administrateur.</a></p>";
         }else{echo "Vous êtes déjà connecté..";}
 
-             echo "<a href='DefaultC' class='btn btn-primary'>Retour</a></div>";
+        echo "<a href='DefaultC' class='btn btn-primary'>Retour</a></div>";
 
     }
 
@@ -124,38 +124,36 @@ class Users extends \_DefaultController {
         $pwd = "HelpPWD".uniqid();
         $pwdhash = password_hash($pwd, PASSWORD_DEFAULT);
         $user->setPassword($pwdhash);
-        
+
         $this->setValuesToObject($user);
         DAO::update($user);
         $this->mailSend("$mail","Helpdesk | Mot de passe oublié","Bonjour, <br/> votre nouveau mot de passe est le suivant :<b>'  $pwd   '</b>, <br/>veuillez le modifier après votre connexion; <br/> Cordialement, l'équipe d'Helpdesk");
 
     }
-    
+
     public function mailSend($to, $sub, $body){
 
-    	$mail = new PHPMailer;
+        $mail = new PHPMailer;
 
-    	$mail->isSMTP();
-    	$mail->Host = 'smtp.live.com';
-    	$mail->SMTPSecure = 'tls';
-    	$mail->Port = 25;
-    	$mail->SMTPAuth = true;
-    	$mail->Username = 'sweg@yopmail.com';                
-    	$mail->Password = '';
-    	$mail->setFrom('admin@helpdesk.com');
-    	$mail->addAddress($to);
-    
-    	$mail->isHTML(true);
-    
-    	$mail->Subject = $sub;
-    	$mail->Body    = $body;
-    
-    	if(!$mail->send()) {
-    		echo 'Une erreur est survenue lors de l\'envoi de message.';
-    		echo 'Mailer Error: ' . $mail->ErrorInfo;
-    	} else {
-    		echo 'Le message à bien été envoyé !';
-    	}
+        $mail->isSMTP();
+        $mail->Host = 'smtp.live.com';
+        $mail->SMTPSecure = 'tls';
+        $mail->Port = 25;
+        $mail->SMTPAuth = true;
+        $mail->Username = 'sweg@yopmail.com';
+        $mail->Password = '';
+        $mail->setFrom('admin@helpdesk.com');
+        $mail->addAddress($to);
+        $mail->isHTML(true);
+        $mail->Subject = $sub;
+        $mail->Body    = $body;
+
+        if(!$mail->send()) {
+            echo 'Une erreur est survenue lors de l\'envoi de message.';
+            echo 'Mailer Error: ' . $mail->ErrorInfo;
+        } else {
+            echo 'Le message à bien été envoyé !';
+        }
     }
-    
+
 }
