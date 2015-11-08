@@ -61,5 +61,8 @@
 		<ol class="breadcrumb">
 			<li><a href="<?php echo $config["siteUrl"]?>"><span class="glyphicon glyphicon-home"
 					aria-hidden="true"></span>&nbsp;Accueil</a></li>
+            <?php if(property_exists($this,"model")){?><li><a href="<?php echo $config["siteUrl"]?>"><span class="glyphicon glyphicon-home"
+                                                                aria-hidden="true"></span>&nbsp; <?= $this->model;} ?></a></li>
+
 		</ol>
 	</div>
