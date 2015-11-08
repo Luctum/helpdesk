@@ -28,11 +28,11 @@
 			<div class="collapse navbar-collapse" id="collapse-mainNav">
 				<ul class="nav navbar-nav navbar-nav">
 					<li id='mainNav-navzone-1-li-1'><a id='mainNav-navzone-1-link-1'
-						href="tickets/frm">Créer un ticket</a></li>
+						href="Tickets/frm">Créer un ticket</a></li>
 					<li id='mainNav-navzone-1-li-2'><a id='mainNav-navzone-1-link-2'
-						href="tickets/">Tickets</a></li>
+						href="Tickets/">Tickets</a></li>
 					<li id='mainNav-navzone-1-li-3'><a id='mainNav-navzone-1-link-3'
-						href="FAQs/">Foire aux questions</a></li>
+						href="Faqs/">Foire aux questions</a></li>
 				</ul>
 			</div>
 			<!-- /.navbar-collapse -->
@@ -49,7 +49,7 @@
 					echo $infoUser;
 					?>
 					<?php if(Auth::getUser() != NULL){ ?>
-					<a class='btn btn-warning' href='defaultc/disconnect'>Déconnexion</a>
+					<a class='btn btn-warning' id="logout" href='Defaultc/disconnect'>Déconnexion</a>
 					<?php } ?>
 				</div>
 				<div class="clearfix"></div>
@@ -61,5 +61,8 @@
 		<ol class="breadcrumb">
 			<li><a href="<?php echo $config["siteUrl"]?>"><span class="glyphicon glyphicon-home"
 					aria-hidden="true"></span>&nbsp;Accueil</a></li>
+            <?php if(property_exists($this,"model")){?><li><a href="<?php echo $config["siteUrl"]?>"><span class="glyphicon glyphicon-home"
+                                                                aria-hidden="true"></span>&nbsp; <?= $this->model;} ?></a></li>
+
 		</ol>
 	</div>

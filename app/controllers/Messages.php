@@ -8,57 +8,45 @@ use micro\utils\RequestUtils;
  * @package helpdesk.controllers
  */
 class Messages extends \_DefaultController {
-	public function Messages(){
-		parent::__construct();
-		$this->title="Messages";
-		$this->model="Message";
-	}
-	
-	/* (non-PHPdoc)
-	 * @see _DefaultController::setValuesToObject()
-	 */
-	protected function setValuesToObject(&$object) {
-		parent::setValuesToObject($object);
-		$object->setUser(Auth::getUser());
-		$ticket=DAO::getOne("Ticket", $_POST["idTicket"]);
-		$object->setTicket($ticket);
-		$object->setLu('0');
-	}
-	
-	public function update($params=null){
-		if(RequestUtils::isPost()){
+    public function Messages(){
+        parent::__construct();
+        $this->title="Messages";
+        $this->model="Message";
+    }
 
-			
+    /* (non-PHPdoc)
+     * @see _DefaultController::setValuesToObject()
+     */
+    protected function setValuesToObject(&$object) {
+        parent::setValuesToObject($object);
+        $object->setUser(Auth::getUser());
+        $ticket=DAO::getOne("Ticket", $_POST["idTicket"]);
+        $object->setTicket($ticket);
+        $object->setLu('0');
+    }
+
+    public function update($params=null){
+        if(RequestUtils::isPost()){
             global $config;
-			$className=$this->model;
-			$object=new $className();
-			$this->setValuesToObject($object);
-			if($_POST["id"]){
-				try{
-					DAO::update($object);
-					$msg=new DisplayedMessage($this->model." `{$object->toString()}` mis à jour");
-				}catch(Exception $e){
-					$msg=new DisplayedMessage("Impossible de modifier l'instance de ".$this->model,"danger");
-				}
-			}else {
+            $className=$this->model;
+            $object=new $className();
+            $this->setValuesToObject($object);
+            if($_POST["id"]){
+                try{
+                    DAO::update($object);
+                }catch(Exception $e){
+                }
+            }else {
                 try {
                     DAO::insert($object);
-                    $msg = new DisplayedMessage("Instance de " . $this->model . " `{$object->toString()}` ajoutée");
                 } catch (Exception $e) {
-                    $msg = new DisplayedMessage("Impossible d'ajouter l'instance de " . $this->model, "danger");
                 }
             }
-            
-            
-			$notif = new Notification();
-			$notif->setTicket($object->getTicket());
-			$notif->setUser(Auth::getUser());
-			DAO::insert($notif);
-            
-            
-             
-            
-		}
-	}
-	
+            $notif = new Notification();
+            $notif->setTicket($object->getTicket());
+            $notif->setUser(Auth::getUser());
+            DAO::insert($notif);
+        }
+    }
+
 }

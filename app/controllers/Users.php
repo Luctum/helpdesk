@@ -1,5 +1,6 @@
 <?php
 use micro\orm\DAO;
+use PasswordCompat\binary;
 /**
  * Gestion des users
  * @author jcheron
@@ -8,50 +9,151 @@ use micro\orm\DAO;
  */
 class Users extends \_DefaultController {
 
-	public function Users(){
-		parent::__construct();
-		$this->title="Utilisateurs";
-		$this->model="User";
-	}
+    public function Users(){
+        parent::__construct();
+        $this->title="Utilisateurs";
+        $this->model="User";
+    }
 
-	public function frm($id=NULL){
-		$user=$this->getInstance($id);
-		if($id != null && ($user == Auth::getUser() || Auth::isAdmin())){
-        	$this->loadView("user/vAdd",array("user"=>$user));
-		}else{
-			echo "Vous ne disposez pas des droits";
-		}
+    public function index($message=null){
+        if(Auth::isAuth()){
+            global $config;
+            $baseHref=get_class($this);
+            if(isset($message)){
+                if(is_string($message)){
+                    $message=new DisplayedMessage($message);
+                }
+                $message->setTimerInterval($this->messageTimerInterval);
+                $this->_showDisplayedMessage($message);
+            }
+            $objects=DAO::getAll($this->model);
+            echo "<table class='table table-striped'>";
+            echo "<thead><tr><th>".$this->model."</th></tr></thead>";
+            echo "<tbody>";
+            foreach ($objects as $object){
+                echo "<tr>";
+                echo "<td>".$object->toString()."</td>";
+                echo "<td>".$object->getRang()->getLibelle()."</td>";
+                echo "<td class='td-center'><a class='btn btn-primary btn-xs' href='".$baseHref."/frm/".$object->getId()."'><span class='glyphicon glyphicon-edit' aria-hidden='true'></span></a></td>".
+                    "<td class='td-center'><a class='btn btn-warning btn-xs' href='".$baseHref."/delete/".$object->getId()."'><span class='glyphicon glyphicon-remove' aria-hidden='true'></span></a></td>";
+                echo "</tr>";
+            }
+            echo "</tbody>";
+            echo "</table>";
+            echo "<a class='btn btn-primary' href='".$config["siteUrl"].$baseHref."/frm'>Ajouter...</a>";
+        }else{
+            $this->loadView("User/vConnect");
+        }
+    }
+
+
+    public function frm($id=NULL){
+        $user=$this->getInstance($id);
+        if(($id != null && ($user == Auth::getUser() || Auth::isAdmin())) || $id == null){
+            $this->loadView("user/vAdd",array("user"=>$user));
+        }
+        else{
+            echo "<div class='alert alert-danger'>Vous ne disposez pas des droits</div>";
+        }
+    }
+
+    public function update(){
+        parent::update();
+        if($_POST["id"] && $_POST["bonuser"] == "1") {
+            $user = DAO::getOne("User", "login='" . $_POST['login'] . "'");
+            $_SESSION['user'] = $user;
+        }
 
     }
 
-	/* (non-PHPdoc)
-	 * @see _DefaultController::setValuesToObject()
-	 */
-	protected function setValuesToObject(&$object) {
-		parent::setValuesToObject($object);
-		$object->setAdmin(isset($_POST["admin"]));
-	}
+    /* (non-PHPdoc)
+     * @see _DefaultController::setValuesToObject()
+     */
+    protected function setValuesToObject(&$object) {
+        parent::setValuesToObject($object);
 
-	public function tickets(){
-		$this->forward("tickets");
-	}
-	
-	public function connect(){
-		$this->loadView("user/vConnect");
-	}
-	
-	public function connectAction(){
-		$login = $_POST['login'];
-		$password = $_POST['password'];
-		$user = DAO::getOne("User","login='$login'");
-		
-		if(!empty($user) && $user->getPassword() == $password){
-			$_SESSION["user"]= $user;
-				
-		}
-		$this->index();
-	}
-	
-	
-	
+        if(!empty($_POST['rang'])){
+            $rang = DAO::getOne('Rang','libelle="'.$_POST['rang'].'"');
+            $object->setRang($rang);
+        }else{
+            $rang = DAO::getOne('Rang','libelle="Utilisateur"');
+            $object->setRang($rang);
+        }
+        if(!empty($_POST['password'])){
+            $object->setPassword(password_hash($_POST["password"], PASSWORD_DEFAULT));
+        }
+        if(!empty($_POST['notifie'])){
+            $object->setNotifie($_POST['notifie']);
+        }else{
+            $object->setNotifie(0);
+        }
+    }
+
+
+    public function tickets(){
+        $this->forward("tickets");
+    }
+
+    public function connect(){
+        $this->loadView("user/vConnect");
+    }
+
+    public function forgotmdp(){
+        echo "<div class='container'>";
+        if(!Auth::isAuth()) {
+            echo "<p>Vous avez oublié votre mot de passe ? Vous pouvez le reinitialiser en remplissant le formulaire ci-dessous : <br/> </p>";
+
+            echo "<form method = 'POST' action='Users/forgotaction'>
+                    <div class='form-group'>
+                        Mail : <input type='text' name='mail' placeholder='Entrez votre mail'>
+                        <input type='submit'>
+                    </div>
+                  </form>";
+
+            echo "<p>Si vous avez un prolème, veuillez contacter un <a href='mailto:admin@local.fr'>administrateur.</a></p>";
+        }else{echo "Vous êtes déjà connecté..";}
+
+        echo "<a href='DefaultC' class='btn btn-primary'>Retour</a></div>";
+
+    }
+
+
+    public function forgotaction(){
+        $mail = $_POST['mail'];
+        $user = DAO::getOne("User","mail = '$mail'");
+        $pwd = "HelpPWD".uniqid();
+        $pwdhash = password_hash($pwd, PASSWORD_DEFAULT);
+        $user->setPassword($pwdhash);
+
+        $this->setValuesToObject($user);
+        DAO::update($user);
+        $this->mailSend("$mail","Helpdesk | Mot de passe oublié","Bonjour, <br/> votre nouveau mot de passe est le suivant :<b>'  $pwd   '</b>, <br/>veuillez le modifier après votre connexion; <br/> Cordialement, l'équipe d'Helpdesk");
+
+    }
+
+    public function mailSend($to, $sub, $body){
+
+        $mail = new PHPMailer;
+
+        $mail->isSMTP();
+        $mail->Host = 'smtp.live.com';
+        $mail->SMTPSecure = 'tls';
+        $mail->Port = 25;
+        $mail->SMTPAuth = true;
+        $mail->Username = 'sweg@yopmail.com';
+        $mail->Password = '';
+        $mail->setFrom('admin@helpdesk.com');
+        $mail->addAddress($to);
+        $mail->isHTML(true);
+        $mail->Subject = $sub;
+        $mail->Body    = $body;
+
+        if(!$mail->send()) {
+            echo 'Une erreur est survenue lors de l\'envoi de message.';
+            echo 'Mailer Error: ' . $mail->ErrorInfo;
+        } else {
+            echo 'Le message à bien été envoyé !';
+        }
+    }
+
 }

@@ -52,3 +52,4 @@ Temporary Items
 # IntelliJ / PhpStorm project
 .idea/
 .iml
+server/start-server.bat

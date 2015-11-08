@@ -40,6 +40,12 @@ class Ticket extends Base{
 	 */
 	private $messages;
 
+    /**
+     * @ManyToOne
+     * @JoinColumn(name="attribuer",className="User")
+     */
+    private $attribuer;
+
 	public function getId() {
 		return $this->id;
 	}
@@ -140,7 +146,7 @@ class Ticket extends Base{
 		return $this;
 	}
 	
-public function getNotif() {
+    public function getNotif() {
 		return $this->notif;
 	}
 
@@ -148,6 +154,23 @@ public function getNotif() {
 		$this->notif=$notif;
 		return $this;
 	}
+
+    /**
+     * @return mixed
+     */
+    public function getAttribuer()
+    {
+        return $this->attribuer;
+    }
+
+    /**
+     * @param mixed $attribuer
+     */
+    public function setAttribuer($attribuer)
+    {
+        $this->attribuer = $attribuer;
+        return $this->attribuer;
+    }
 
 
 }
