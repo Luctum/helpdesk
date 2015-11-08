@@ -1,16 +1,35 @@
-<form method="post" action="tickets/update">
+<form method="post" action="Tickets/update">
 <fieldset>
 <legend>Ajouter/modifier un ticket</legend>
-<div class="form-group">
-	<input type="submit" value="Valider" class="btn btn-default">
-	<a class="btn btn-default" href="<?php echo $config["siteUrl"]?>tickets">Annuler</a>
-</div>
-<div class="alert alert-info">Ticket : <?php echo $ticket->toString()?></div>
-	<input type="hidden" name="id" value="<?php echo $ticket->getId()?>">>
-<input type="hidden" id="idStatut" name="idStatut" value="<?php echo $ticket->getStatut()->getId()?>">
-<input type="hidden" id="idUser" name="idUser" value="<?php echo $ticket->getUser()->getId()?>">
-<input type="hidden" id="idUser" name="idCategorie" value="<?php echo $ticket->getCategorie()->getId()?>">
-<?php if (Auth::isAdmin() == true) {?>
+    <div class="form-group">
+        <input type="submit" value="Valider" class="btn btn-default">
+        <a class="btn btn-default" href="<?php echo $config["siteUrl"]?>tickets">Annuler</a>
+    </div>
+    <div class="alert alert-info">Ticket : <?php echo $ticket->toString();?></div>
+    <div class="form-group">
+            <input type="hidden" name="id" value="<?php echo $ticket->getId();?>">
+            <input type="hidden" id="idStatut" name="idStatut" value="<?= $ticket->getStatut()->getId();?>">
+            <input type="hidden" id="idUser" name="idUser" value="<?php echo $ticket->getUser()->getId();?>">
+        <?php if($ticket->getCategorie() != null){ ?>
+            <input type="hidden" id="idCategorie" name="idCategorie" value="<?= $ticket->getCategorie()->getId();?>">
+       <?php } ?>
+    </div>
+    <?php if($ticket->getId() == null){ ?>
+    	<input type="hidden" name="nouveau" value="oui">
+    <?php }else{?><input type="hidden" name="nouveau" value="non"><?php } ?>
+    <div class="form-group">
+    
+        Attribuer :
+        <select name="attribuer" <?php if (Auth::isAdmin()){}else{ echo "disabled";} ?> >
+            <option <?php if(empty($ticket->getAttribuer())){ echo 'selected'; } ?> value=NULL>Non Attribué</option>
+            <?php foreach($users as $u){ ?>
+                <option <?php if(!empty($ticket->getAttribuer() && $ticket->getAttribuer()->getId() == $u->getId())){ echo 'selected'; } ?> value="<?= $u->getId() ?>"> <?= $u ?> </option>
+            <?php } ?>
+        </select>
+    </div>
+
+<?php if (Auth::isAdmin() || Auth::getUser()->getRang()->getId()== 2) {?>
+
 	<div class="form-group">
 
 		<label for="statut">Modifier statut</label><br>

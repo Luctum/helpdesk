@@ -1,4 +1,4 @@
-<form method="post" action="statuts/update">
+<form method="post" action="Statuts/update">
 <fieldset>
 <legend>Ajouter/modifier un statut</legend>
 <div class="alert alert-info">Statut : <?php echo $statut->toString()?></div>

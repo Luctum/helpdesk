@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 4.2.11
+-- version 4.5.0.2
 -- http://www.phpmyadmin.net
 --
 -- Client :  127.0.0.1
--- Généré le :  Jeu 14 Mai 2015 à 20:26
--- Version du serveur :  5.6.21
--- Version de PHP :  5.6.3
+-- Généré le :  Mar 03 Novembre 2015 à 17:08
+-- Version du serveur :  10.0.17-MariaDB
+-- Version de PHP :  5.6.14
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET time_zone = "+00:00";
@@ -14,13 +14,11 @@ SET time_zone = "+00:00";
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
 /*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
-/*!40101 SET NAMES utf8 */;
+/*!40101 SET NAMES utf8mb4 */;
 
 --
 -- Base de données :  `helpdesk`
 --
-CREATE DATABASE IF NOT EXISTS `helpdesk` DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;
-USE `helpdesk`;
 
 -- --------------------------------------------------------
 
@@ -28,12 +26,11 @@ USE `helpdesk`;
 -- Structure de la table `categorie`
 --
 
-DROP TABLE IF EXISTS `categorie`;
-CREATE TABLE IF NOT EXISTS `categorie` (
-`id` int(11) NOT NULL,
+CREATE TABLE `categorie` (
+  `id` int(11) NOT NULL,
   `libelle` varchar(100) NOT NULL,
   `idCategorie` int(11) DEFAULT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Contenu de la table `categorie`
@@ -53,12 +50,24 @@ INSERT INTO `categorie` (`id`, `libelle`, `idCategorie`) VALUES
 -- --------------------------------------------------------
 
 --
+-- Structure de la table `custom`
+--
+
+CREATE TABLE `custom` (
+  `id` int(11) NOT NULL,
+  `libelle` varchar(255) NOT NULL,
+  `type` varchar(255) NOT NULL,
+  `affiche` tinyint(4) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
 -- Structure de la table `faq`
 --
 
-DROP TABLE IF EXISTS `faq`;
-CREATE TABLE IF NOT EXISTS `faq` (
-`id` int(11) NOT NULL,
+CREATE TABLE `faq` (
+  `id` int(11) NOT NULL,
   `titre` varchar(100) NOT NULL,
   `contenu` text NOT NULL,
   `dateCreation` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
@@ -66,16 +75,19 @@ CREATE TABLE IF NOT EXISTS `faq` (
   `idUser` int(11) NOT NULL,
   `version` varchar(20) NOT NULL DEFAULT '1.0',
   `popularity` int(11) NOT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Contenu de la table `faq`
 --
 
 INSERT INTO `faq` (`id`, `titre`, `contenu`, `dateCreation`, `idCategorie`, `idUser`, `version`, `popularity`) VALUES
-(1, 'Comment formuler une demande à partir de l''interface web ?\r\n', 'L''adresse de l''application est https://...\r\n\r\nL''accès à l''interface web du HelpDesk requiert votre connexion sur le service d''authentification.  Une fois connecté, vous retrouverez tout ce qui concerne votre demande : groupe attributaire, technicien chargé du traitement, suivis, solution, …\r\n\r\nPour formuler une nouvelle demande, vous devez commencer par utiliser l''entrée du menu ou l''icône associée à « Créer un ticket ».\r\n\r\nDans le formulaire qui vous est alors proposé, seuls trois champs sont obligatoires :\r\n\r\nCatégorie : elle permet l''attribution de votre demande au groupe concerné ;\r\nTitre : il est utilisé pour afficher l''ensemble des demandes, aussi veillez à ce qu''il soit concis, à la fois synthétique et précis\r\nDescription : faites figurer ici toutes les informations que vous jugerez utiles pour permettre le traitement de votre demande.  Des informations complémentaires pourront vous être demandées si nécessaire.\r\nLes autres champs, bien qu''optionnels, peuvent être utiles voire nécessaires au traitement de votre demande :\r\n\r\nType : Incident (par défaut) en cas de dysfonctionnement, ou simple demande\r\nUrgence : Elle est croisée avec l''impact évalué par le technicien pour définir la priorité utilisée pour trier l''ensemble des demandes.\r\nSuivi par courriel : Choisissez « Non » si vous ne souhaitez pas recevoir d''information concernant votre demande par mél.\r\nÉlement associé : Si nécessaire et s''il est automatiquement identifié, vous pourrez ici associer votre poste de travail ou l''un de ses logiciels à votre demande.\r\nFichier : À utiliser pour joindre un fichier à votre demande.\r\nUne fois le formulaire rempli, créer votre ticket en cliquant sur le bouton « Envoyer message ».  Un compte-rendu apparaît alors dans lequel figure le numéro associé à votre demande – le ticket – que vous pourrez utiliser pour obtenir des informations a posteriori.', '2015-05-10 17:43:47', 11, 1, '1.0', 0),
-(2, 'À quoi sert le HelpDesk ?\r\n', 'Le HelpDesk correspond au projet 2 « Évolution de l''outil d''assistance » du programme 6 « Accompagner la consolidation et la transformation de la fonction SI au sein de notre établissement ».\r\n\r\nL''un des objectifs stratégiques à l''origine du projet est d''homogénéiser la prestation d''assistance sur tous les sites et pour tous les usagers afin d''offrir un niveau de service équitablement accessible.\r\n\r\nEn termes opérationnels, l''outil développé permet de disposer d’un guichet d’assistance unique, de mettre en œuvre des outils et des procédures communes et d''identifier les problèmes redondants.\r\n\r\nDu point de vue de l''usager, il apporte l''assurance d''un enregistrement formel des demandes et des fonctionnalités d''information et de suivi systématiques.', '2015-05-14 10:43:57', 11, 1, '1.0', 5),
-(3, 'Procédure de changement de mot de passe', '<h2>Objet</h2>\r\n\r\nCette procédure a pour but de fournir des conseils et des recommandations pour la création d''un mot de passe fort.\r\n\r\n<h2>Domaine d''application</h2>\r\n\r\nCette procédure s''adresse à tous les utilisateurs disposant d''un compte d''accès au système d''information\r\n\r\n<h2>Descriptif</h2>\r\n\r\n<h3>Pré-requis :</h3>\r\n\r\nUn bon mot de passe est un mot de passe suffisamment long, facile à retenir et très difficile à deviner. Votre mot de passse doit être constitué d''au moins 8 caractères dont une majuscule et un chiffre. Il peut contenir des lettres non accentuées, des chiffres, et certains caractères spéciaux : _ ! @ # $ % - + = < > ( ) { } [ ] | : ; , . ? ~ &\r\n\r\n<h3>Quelques procédés ou comment faire ?</h3>\r\n<ul>\r\n<li>Accoler mots et chiffres : Faire3Pas</li>\r\n<li>Créer un rébus : 71fame3MAIC&O (c''est un fameux 3 mâts Hisse et Ho)</li>\r\n<li>Pensez à une chanson ou un poème et extrayez les premières lettres : ottoc4ocR! (one, two, three, o''clock, four o''clock, rock !)</li>\r\n<li>Choisissez un mot de passe en y insérant des caractères spéciaux g1M2p#DUtI1 (j''ai un mot de passe différent du tien)</li>\r\n<li>Ne pas utiliser de mot de passe ayant un rapport avec soi (noms, dates de naissance,..)</li>\r\n<li>Vous avez tout intérêt à mélanger les possibilités offertes : lettres, chiffres et caractères spéciaux.</li>\r\n</ul>\r\n<h3>Respectez les règles</h3>\r\n\r\nVous êtes responsable de l''usage qui est fait de votre compte d''accès au système d''information. Pour garantir la sécurité de votre mot de passe, nous vous invitons à suivre les conseils ci-dessous:\r\n<ul>\r\n<li>Ne le communiquez à personne (il garantit votre identité et vous identifie personnellement dans notre système d''information</li>\r\n<li>Ne le notez pas sur un post-it</li>\r\n<li>Verrouillez ou fermez systématiquement votre session en quittant votre poste de travail</li>\r\n<li>Changez-le régulièrement</li>\r\n<li>N''utilisez pas le mot de passe de votre compte d''accès au système d''information pour un autre compte</li>\r\n</ul>', '2015-05-14 09:36:17', 12, 1, '1.0', 22);
+(2, 'À quoi sert le HelpDesk ?', '<p>Le HelpDesk correspond au projet 2 &laquo; &Eacute;volution de l&#39;outil d&#39;assistance &raquo; du programme 6 &laquo; Accompagner la consolidation et la transformation de la fonction SI au sein de notre &eacute;tablissement &raquo;. L&#39;un des objectifs strat&eacute;giques &agrave; l&#39;origine du projet est d&#39;homog&eacute;n&eacute;iser la prestation d&#39;assistance sur tous les sites et pour tous les usagers afin d&#39;offrir un niveau de service &eacute;quitablement accessible. En termes op&eacute;rationnels, l&#39;outil d&eacute;velopp&eacute; permet de disposer d&rsquo;un guichet d&rsquo;assistance unique, de mettre en &oelig;uvre des outils et des proc&eacute;dures communes et d&#39;identifier les probl&egrave;mes redondants. Du point de vue de l&#39;usager, il apporte l&#39;assurance d&#39;un enregistrement formel des demandes et des fonctionnalit&eacute;s d&#39;information et de suivi syst&eacute;matiques. test</p>\r\n', '2015-10-22 23:15:39', 11, 1, '1.0', 5),
+(3, 'Procédure de changement de mot de passe', '<h2>Objet</h2>\r\n\r\n<p>Cette proc&eacute;dure a pour but de fournir des conseils et des recommandations pour la cr&eacute;ation d&#39;un mot de passe fort.</p>\r\n\r\n<h2>Domaine d&#39;application</h2>\r\n\r\n<p>Cette proc&eacute;dure s&#39;adresse &agrave; tous les utilisateurs disposant d&#39;un compte d&#39;acc&egrave;s au syst&egrave;me d&#39;information</p>\r\n\r\n<h2>Descriptif</h2>\r\n\r\n<h3>Pr&eacute;-requis :</h3>\r\n\r\n<p>Un bon mot de passe est un mot de passe suffisamment long, facile &agrave; retenir et tr&egrave;s difficile &agrave; deviner. Votre mot de passse doit &ecirc;tre constitu&eacute; d&#39;au moins 8 caract&egrave;res dont une majuscule et un chiffre. Il peut contenir des lettres non accentu&eacute;es, des chiffres, et certains caract&egrave;res sp&eacute;ciaux : _ ! @ # $ % - + = &lt; &gt; ( ) { } [ ] | : ; , . ? ~ &amp;</p>\r\n\r\n<h3>Quelques proc&eacute;d&eacute;s ou comment faire ?</h3>\r\n\r\n<ul>\r\n	<li>Accoler mots et chiffres : Faire3Pas</li>\r\n	<li>Cr&eacute;er un r&eacute;bus : 71fame3MAIC&amp;O (c&#39;est un fameux 3 m&acirc;ts Hisse et Ho)</li>\r\n	<li>Pensez &agrave; une chanson ou un po&egrave;me et extrayez les premi&egrave;res lettres : ottoc4ocR! (one, two, three, o&#39;clock, four o&#39;clock, rock !)</li>\r\n	<li>Choisissez un mot de passe en y ins&eacute;rant des caract&egrave;res sp&eacute;ciaux g1M2p#DUtI1 (j&#39;ai un mot de passe diff&eacute;rent du tien)</li>\r\n	<li>Ne pas utiliser de mot de passe ayant un rapport avec soi (noms, dates de naissance,..)</li>\r\n	<li>Vous avez tout int&eacute;r&ecirc;t &agrave; m&eacute;langer les possibilit&eacute;s offertes : lettres, chiffres et caract&egrave;res sp&eacute;ciaux.</li>\r\n</ul>\r\n\r\n<h3>Respectez les r&egrave;gles</h3>\r\n\r\n<p>Vous &ecirc;tes responsable de l&#39;usage qui est fait de votre compte d&#39;acc&egrave;s au syst&egrave;me d&#39;information. Pour garantir la s&eacute;curit&eacute; de votre mot de passe, nous vous invitons &agrave; suivre les conseils ci-dessous:</p>\r\n\r\n<ul>\r\n	<li>Ne le communiquez &agrave; personne (il garantit votre identit&eacute; et vous identifie personnellement dans notre syst&egrave;me d&#39;information</li>\r\n	<li>Ne le notez pas sur un post-it</li>\r\n	<li>Verrouillez ou fermez syst&eacute;matiquement votre session en quittant votre poste de travail</li>\r\n	<li>Changez-le r&eacute;guli&egrave;rement</li>\r\n	<li>N&#39;utilisez pas le mot de passe de votre compte d&#39;acc&egrave;s au syst&egrave;me d&#39;information pour un autre compte</li>\r\n</ul>\r\n', '2015-10-22 23:31:32', 12, 1, '1.0', 22),
+(9, 'rzaea', '<p>salut1</p>\r\n', '2015-10-22 23:24:09', 4, 1, '1.0', 0),
+(10, 'salut', '<p>raz</p>\r\n', '2015-10-27 12:22:33', 10, 1, '1.0', 0),
+(11, 'ezae', '<p>razr</p>\r\n', '2015-10-30 14:59:20', 4, 1, '1.0', 0),
+(12, 'ezae', '<p>razr</p>\r\n', '2015-10-30 15:12:34', 4, 1, '1.0', 0);
 
 -- --------------------------------------------------------
 
@@ -83,22 +95,64 @@ INSERT INTO `faq` (`id`, `titre`, `contenu`, `dateCreation`, `idCategorie`, `idU
 -- Structure de la table `message`
 --
 
-DROP TABLE IF EXISTS `message`;
-CREATE TABLE IF NOT EXISTS `message` (
-`id` int(11) NOT NULL,
+CREATE TABLE `message` (
+  `id` int(11) NOT NULL,
   `contenu` text NOT NULL,
   `date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `idUser` int(11) NOT NULL,
-  `idTicket` int(11) NOT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+  `idTicket` int(11) NOT NULL,
+  `lu` tinyint(1) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Contenu de la table `message`
 --
 
-INSERT INTO `message` (`id`, `contenu`, `date`, `idUser`, `idTicket`) VALUES
-(1, 'Reçu<br>\r\nPouvez-vous préciser le message affiché ?<br>\r\nMerci', '2015-05-10 22:55:31', 1, 1),
-(2, 'Le message est <strong>`vidage de la mémoire physique...`</strong>', '2015-05-10 23:20:30', 2, 1);
+INSERT INTO `message` (`id`, `contenu`, `date`, `idUser`, `idTicket`, `lu`) VALUES
+(94, 'Une modification à été effectué sur ce ticket (concernant le statut ou le titre)', '2015-10-31 21:45:28', 1, 34, 0),
+(95, 'Une modification à été effectué sur ce ticket (concernant le statut ou le titre)', '2015-10-31 21:45:38', 1, 35, 1),
+(98, 'Une modification à été effectué sur ce ticket (concernant le statut ou le titre)', '2015-11-02 10:50:59', 1, 36, 0),
+(99, '<p>Bonjour</p>\r\n', '2015-11-03 12:58:57', 1, 37, 1);
+
+-- --------------------------------------------------------
+
+--
+-- Structure de la table `notification`
+--
+
+CREATE TABLE `notification` (
+  `id` int(11) NOT NULL,
+  `idUser` int(11) NOT NULL,
+  `idTicket` int(11) NOT NULL,
+  `date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Contenu de la table `notification`
+--
+
+INSERT INTO `notification` (`id`, `idUser`, `idTicket`, `date`) VALUES
+(1, 1, 37, '2015-11-03 12:58:57');
+
+-- --------------------------------------------------------
+
+--
+-- Structure de la table `rang`
+--
+
+CREATE TABLE `rang` (
+  `id` int(11) NOT NULL,
+  `libelle` varchar(40) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Contenu de la table `rang`
+--
+
+INSERT INTO `rang` (`id`, `libelle`) VALUES
+(1, 'Administrateur'),
+(2, 'Technicien'),
+(3, 'Utilisateur');
 
 -- --------------------------------------------------------
 
@@ -106,13 +160,12 @@ INSERT INTO `message` (`id`, `contenu`, `date`, `idUser`, `idTicket`) VALUES
 -- Structure de la table `statut`
 --
 
-DROP TABLE IF EXISTS `statut`;
-CREATE TABLE IF NOT EXISTS `statut` (
-`id` int(11) NOT NULL,
+CREATE TABLE `statut` (
+  `id` int(11) NOT NULL,
   `libelle` varchar(30) NOT NULL,
   `ordre` int(11) NOT NULL,
   `icon` varchar(20) NOT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Contenu de la table `statut`
@@ -120,7 +173,7 @@ CREATE TABLE IF NOT EXISTS `statut` (
 
 INSERT INTO `statut` (`id`, `libelle`, `ordre`, `icon`) VALUES
 (1, 'Nouveau', 0, 'flag'),
-(2, 'Attribué', 1, 'user'),
+(2, 'Attribué', 1, 'User'),
 (3, 'En attente', 2, 'hourglass'),
 (4, 'Résolu', 3, 'check'),
 (5, 'Clos', 5, 'off');
@@ -131,25 +184,27 @@ INSERT INTO `statut` (`id`, `libelle`, `ordre`, `icon`) VALUES
 -- Structure de la table `ticket`
 --
 
-DROP TABLE IF EXISTS `ticket`;
-CREATE TABLE IF NOT EXISTS `ticket` (
-`id` int(11) NOT NULL,
+CREATE TABLE `ticket` (
+  `id` int(11) NOT NULL,
   `type` set('demande','incident') NOT NULL DEFAULT 'demande',
   `idCategorie` int(11) NOT NULL,
   `titre` varchar(100) NOT NULL,
   `description` text NOT NULL,
   `idStatut` int(11) NOT NULL,
   `idUser` int(11) NOT NULL,
-  `dateCreation` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+  `dateCreation` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `attribuer` int(11) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Contenu de la table `ticket`
 --
 
-INSERT INTO `ticket` (`id`, `type`, `idCategorie`, `titre`, `description`, `idStatut`, `idUser`, `dateCreation`) VALUES
-(1, 'incident', 8, 'Ecran bleu', 'Ecran bleu sur ouverture session windows', 2, 2, '2015-05-10 16:27:29'),
-(2, 'incident', 12, 'impossible de se connecter', 'Impossible de se connecter à mon compte :\r\nLe message affiché est "Les informations de compte n''ont pas permis votre authentification".\r\n\r\nJe n''ai pas trouvé la procédure de récupération de mot de passe.', 1, 3, '2015-05-14 10:40:40');
+INSERT INTO `ticket` (`id`, `type`, `idCategorie`, `titre`, `description`, `idStatut`, `idUser`, `dateCreation`, `attribuer`) VALUES
+(34, '', 8, 'Test ticket admin', '<p>Ceci est un test</p>\r\n', 1, 1, '2015-10-31 21:01:47', NULL),
+(35, 'demande', 1, 'Test ticket user', '<p>Blabla</p>\r\n', 3, 2, '2015-10-31 21:07:04', 3),
+(36, '', 9, 'Test ticket user 2 ', '<p>bloblo</p>\r\n', 3, 2, '2015-10-31 21:07:20', NULL),
+(37, '', 2, 'Ticket AutreUser ', '<p>ezaeaze</p>\r\n', 3, 3, '2015-10-31 21:07:47', 1);
 
 -- --------------------------------------------------------
 
@@ -157,24 +212,28 @@ INSERT INTO `ticket` (`id`, `type`, `idCategorie`, `titre`, `description`, `idSt
 -- Structure de la table `user`
 --
 
-DROP TABLE IF EXISTS `user`;
-CREATE TABLE IF NOT EXISTS `user` (
-`id` int(11) NOT NULL,
+CREATE TABLE `user` (
+  `id` int(11) NOT NULL,
   `login` varchar(20) NOT NULL,
-  `password` varchar(20) NOT NULL,
+  `password` varchar(255) NOT NULL,
   `mail` varchar(255) NOT NULL,
-  `admin` tinyint(1) NOT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
+  `idRang` int(11) NOT NULL,
+  `notifie` int(1) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Contenu de la table `user`
 --
 
-INSERT INTO `user` (`id`, `login`, `password`, `mail`, `admin`) VALUES
-(1, 'admin', 'admin', 'admin@local.fr', 1),
-(2, 'user', 'user', 'user@local.fr', 0),
-(3, 'autreUser', 'autreuser', 'autreuser@local.fr', 0),
-(4, 'moi', '123456789', 'moi@local.fr', 0);
+INSERT INTO `user` (`id`, `login`, `password`, `mail`, `idRang`, `notifie`) VALUES
+(1, 'admin', '$2y$10$JcCy2P.RgdBfS2St4kb/L.uiAD26zQ5nUxD0JVEDIFxb3/gmabaM2', 'adminz@local.fr', 1, 0),
+(2, 'user', '$2y$10$CERtFz627gtB6ASB6kCK1uPQpetwrQYLZScMlAAkyXmyEtcbbTgMC', 'user1@local.fr', 3, 1),
+(3, 'autreUser', '$2y$10$r9kagO0vE9O7bR0fBtWJd.2/xVjQRmlgx1FDkfwm0L4uscJ6KGI0u', 'autreUser@local.fr', 2, 0),
+(4, 'moi', '$2y$10$kWgFW0orN8Jou2ysd.wWLeIks.UUTa5/reZQBJ8YY9OnhxWv38A0K', 'moi@local.fr', 2, 0),
+(5, 'pomme', '$2y$10$m8FvAmVSBf2qxAsqe8kSpu7l1s7l7cuvaIzxIJV2GSGpVtFGZDlaG', 'pomme@pomme.fr', 3, 0),
+(6, 'Tech', '$2y$10$WITJVHiL1GEnrYHBC0NGOe3MJyMsuZuIfFiYM.E/N6xLhwlkRx0XK', 'test@yopmail.com', 3, 0),
+(9, 'yolo', '$2y$10$UgiYi9yIOYEJov9fhVw32Oo./WZGHg.B3LxDKJyLUaWwLpK6PvBHi', 'yoloswag@zae.fr', 3, 0),
+(10, 'ezar', '$2y$10$3sCtB..3eIJCYQ.8FrwgCedx9iwNTOO7BP62La6FnPbx61NOcSeDW', 'yoloswag@zaae.fr', 1, 0);
 
 --
 -- Index pour les tables exportées
@@ -184,37 +243,68 @@ INSERT INTO `user` (`id`, `login`, `password`, `mail`, `admin`) VALUES
 -- Index pour la table `categorie`
 --
 ALTER TABLE `categorie`
- ADD PRIMARY KEY (`id`), ADD KEY `idCategorie` (`idCategorie`);
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `idCategorie` (`idCategorie`);
+
+--
+-- Index pour la table `custom`
+--
+ALTER TABLE `custom`
+  ADD PRIMARY KEY (`id`);
 
 --
 -- Index pour la table `faq`
 --
 ALTER TABLE `faq`
- ADD PRIMARY KEY (`id`), ADD KEY `idCategorie` (`idCategorie`,`idUser`), ADD KEY `idUser` (`idUser`);
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `idCategorie` (`idCategorie`,`idUser`),
+  ADD KEY `idUser` (`idUser`);
 
 --
 -- Index pour la table `message`
 --
 ALTER TABLE `message`
- ADD PRIMARY KEY (`id`), ADD KEY `idUser` (`idUser`), ADD KEY `idTicket` (`idTicket`);
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `idUser` (`idUser`),
+  ADD KEY `idTicket` (`idTicket`);
+
+--
+-- Index pour la table `notification`
+--
+ALTER TABLE `notification`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `fk_User` (`idUser`),
+  ADD KEY `fk_Ticket` (`idTicket`);
+
+--
+-- Index pour la table `rang`
+--
+ALTER TABLE `rang`
+  ADD PRIMARY KEY (`id`);
 
 --
 -- Index pour la table `statut`
 --
 ALTER TABLE `statut`
- ADD PRIMARY KEY (`id`);
+  ADD PRIMARY KEY (`id`);
 
 --
 -- Index pour la table `ticket`
 --
 ALTER TABLE `ticket`
- ADD PRIMARY KEY (`id`), ADD KEY `idCategorie` (`idCategorie`), ADD KEY `idStatut` (`idStatut`,`idUser`), ADD KEY `idUser` (`idUser`);
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `idCategorie` (`idCategorie`),
+  ADD KEY `idStatut` (`idStatut`,`idUser`),
+  ADD KEY `idUser` (`idUser`),
+  ADD KEY `fk_attribuer` (`attribuer`);
 
 --
 -- Index pour la table `user`
 --
 ALTER TABLE `user`
- ADD PRIMARY KEY (`id`), ADD UNIQUE KEY `login` (`login`);
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `login` (`login`),
+  ADD KEY `fk_rang` (`idRang`);
 
 --
 -- AUTO_INCREMENT pour les tables exportées
@@ -224,32 +314,47 @@ ALTER TABLE `user`
 -- AUTO_INCREMENT pour la table `categorie`
 --
 ALTER TABLE `categorie`
-MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=14;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+--
+-- AUTO_INCREMENT pour la table `custom`
+--
+ALTER TABLE `custom`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 --
 -- AUTO_INCREMENT pour la table `faq`
 --
 ALTER TABLE `faq`
-MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=4;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 --
 -- AUTO_INCREMENT pour la table `message`
 --
 ALTER TABLE `message`
-MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=3;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=100;
+--
+-- AUTO_INCREMENT pour la table `notification`
+--
+ALTER TABLE `notification`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+--
+-- AUTO_INCREMENT pour la table `rang`
+--
+ALTER TABLE `rang`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 --
 -- AUTO_INCREMENT pour la table `statut`
 --
 ALTER TABLE `statut`
-MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=8;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 --
 -- AUTO_INCREMENT pour la table `ticket`
 --
 ALTER TABLE `ticket`
-MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=3;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=38;
 --
 -- AUTO_INCREMENT pour la table `user`
 --
 ALTER TABLE `user`
-MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=7;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 --
 -- Contraintes pour les tables exportées
 --
@@ -258,29 +363,43 @@ MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=7;
 -- Contraintes pour la table `categorie`
 --
 ALTER TABLE `categorie`
-ADD CONSTRAINT `categorie_ibfk_1` FOREIGN KEY (`idCategorie`) REFERENCES `categorie` (`id`) ON DELETE SET NULL ON UPDATE SET NULL;
+  ADD CONSTRAINT `Categorie_ibfk_1` FOREIGN KEY (`idCategorie`) REFERENCES `categorie` (`id`) ON DELETE SET NULL ON UPDATE SET NULL;
 
 --
 -- Contraintes pour la table `faq`
 --
 ALTER TABLE `faq`
-ADD CONSTRAINT `faq_ibfk_1` FOREIGN KEY (`idCategorie`) REFERENCES `categorie` (`id`) ON DELETE SET NULL ON UPDATE CASCADE,
-ADD CONSTRAINT `faq_ibfk_2` FOREIGN KEY (`idUser`) REFERENCES `user` (`id`);
+  ADD CONSTRAINT `Faq_ibfk_1` FOREIGN KEY (`idCategorie`) REFERENCES `categorie` (`id`) ON DELETE SET NULL ON UPDATE CASCADE,
+  ADD CONSTRAINT `Faq_ibfk_2` FOREIGN KEY (`idUser`) REFERENCES `user` (`id`);
 
 --
 -- Contraintes pour la table `message`
 --
 ALTER TABLE `message`
-ADD CONSTRAINT `message_ibfk_1` FOREIGN KEY (`idUser`) REFERENCES `user` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
-ADD CONSTRAINT `message_ibfk_2` FOREIGN KEY (`idTicket`) REFERENCES `ticket` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+  ADD CONSTRAINT `Message_ibfk_1` FOREIGN KEY (`idUser`) REFERENCES `user` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `Message_ibfk_2` FOREIGN KEY (`idTicket`) REFERENCES `ticket` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Contraintes pour la table `notification`
+--
+ALTER TABLE `notification`
+  ADD CONSTRAINT `fk_Ticket` FOREIGN KEY (`idTicket`) REFERENCES `ticket` (`id`) ON DELETE CASCADE,
+  ADD CONSTRAINT `fk_User` FOREIGN KEY (`idUser`) REFERENCES `user` (`id`) ON DELETE CASCADE;
 
 --
 -- Contraintes pour la table `ticket`
 --
 ALTER TABLE `ticket`
-ADD CONSTRAINT `ticket_ibfk_1` FOREIGN KEY (`idCategorie`) REFERENCES `categorie` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
-ADD CONSTRAINT `ticket_ibfk_2` FOREIGN KEY (`idStatut`) REFERENCES `statut` (`id`),
-ADD CONSTRAINT `ticket_ibfk_3` FOREIGN KEY (`idUser`) REFERENCES `user` (`id`) ON UPDATE CASCADE;
+  ADD CONSTRAINT `Ticket_ibfk_1` FOREIGN KEY (`idCategorie`) REFERENCES `categorie` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `Ticket_ibfk_2` FOREIGN KEY (`idStatut`) REFERENCES `statut` (`id`) ON DELETE CASCADE,
+  ADD CONSTRAINT `Ticket_ibfk_3` FOREIGN KEY (`idUser`) REFERENCES `user` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `fk_attribuer` FOREIGN KEY (`attribuer`) REFERENCES `user` (`id`) ON DELETE CASCADE;
+
+--
+-- Contraintes pour la table `user`
+--
+ALTER TABLE `user`
+  ADD CONSTRAINT `fk_rang` FOREIGN KEY (`idRang`) REFERENCES `rang` (`id`);
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;

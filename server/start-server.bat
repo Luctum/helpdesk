@@ -1,0 +1,1 @@
+java -jar selenium-server-standalone-2.47.1.jar -Dwebdriver.firefox.bin="C:\Program Files (x86)\Mozilla Firefox\firefox.exe"

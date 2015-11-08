@@ -10,6 +10,8 @@ class Notification extends Base{
 	 * @Id
 	 */
 	private $id;
+	private $date;
+	
 	/**
 	 * @ManyToOne
 	 * @JoinColumn(name="idUser",className="User",nullable=false)
@@ -45,6 +47,15 @@ class Notification extends Base{
 	public function setTicket($ticket) {
 		$this->ticket = $ticket;
 		return $this;
+	}
+
+	public function getDate(){
+		return $this->date;
+	}
+	
+	public function setDate($date){
+		$this->date=$date;
+		return $this->date;
 	}
 	
 }

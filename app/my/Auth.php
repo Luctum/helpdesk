@@ -33,11 +33,10 @@ class Auth {
 	 */
 	public static function isAdmin(){
 		$user=self::getUser();
-		if($user instanceof User){
-			return $user->getAdmin();
-		}else{
-			return false;
-		}
+        if($user instanceof User && ($user->getAdmin() || $user->getTech())){
+        $admin= true;
+        }else{$admin = false;}
+        return $admin;
 	}
 
 	/**
@@ -50,7 +49,7 @@ class Auth {
 		
 		if(isset($user)){
 			$userId=self::getUser()->getId();
-			$infoUser="<a class='btn btn-primary' href='users/frm/$userId'>Editer mon profil <span class='label label-success'>".$user."</span></a>";
+			$infoUser="<a class='btn btn-primary' id='edit' href='Users/frm/$userId'>Editer mon profil <span class='label label-success'>".$user."</span></a>";
 		}else{
 			$infoUser='<div class="btn-group">
 							<button type="button" class="btn btn-'.$style.' dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
