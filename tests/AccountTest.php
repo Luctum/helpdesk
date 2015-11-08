@@ -30,7 +30,7 @@ class AccountTest extends AjaxUnitTest {
         
 		$user = DAO::getOne("User", "login='user'");
         //L'utilisateur entre des valeurs et clique sur valider
-        $this->setField("mail", "user1@local.fr");     
+        $this->setField("mail", "user2@local.fr");
         $btok=$this->getElementBySelector("input.btn");
         $btok->click();
         

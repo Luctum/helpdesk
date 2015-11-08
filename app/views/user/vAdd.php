@@ -20,7 +20,7 @@
 	Voulez vous être notifié ? :
 	<input type="checkbox" name="notifie" id="notifie" value="1" <?php if($user->getNotifie() == 1){echo"checked";}?>><br/>
     <input type="hidden" name="rang" value="<?= $user->getRang()->getLibelle();?>">
-    <?php if(Auth::isAdmin() && $user->getRang()->getId() != 1){ ?>
+    <?php if(Auth::isAdmin() && $user->getRang()->getId() != 1 && Auth::getUser()->getRang()->getId() != 2){ ?>
 
        Administrateur <input type="radio" name="rang" value="Administrateur" ><br/>
        Technicien <input type="radio" name="rang" value="Technicien" <?php if($user->getRang()->getId() == 2){echo"checked";}?>><br/>

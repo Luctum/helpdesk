@@ -23,7 +23,7 @@ class TicketTest extends AjaxUnitTest {
 		$bt->click();
 		$this->get("Tickets/postes");
 		self::$webDriver->manage()->timeouts()->implicitlyWait(5);
-		$this->assertPageContainsText("Test ticket");
+		$this->assertPageContainsText("dsqd");
 
 	}
 	
