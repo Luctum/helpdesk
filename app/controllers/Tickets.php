@@ -321,7 +321,7 @@ class Tickets extends \_DefaultController {
         //Permet d'ajouter un controle sur les formulaires, si jamais un utilisateur non autorisé tente d'acceder a un formulaire alors il est renvoyé vers la page de création du formulaire
         if($id != NULL && ($ticket->getUser()->getId() != Auth::getUser()->getId() || Auth::isAdmin() == false)){
             $id = null;
-            $ticket=$this->getInstance($id)
+            $ticket=$this->getInstance($id);
         }
 		$categories=DAO::getAll("Categorie");
         $users = DAO::getAll("User","idRang=2 OR idRang=1");
