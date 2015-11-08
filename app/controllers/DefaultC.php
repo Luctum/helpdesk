@@ -48,12 +48,16 @@ class DefaultC extends BaseController {
 			    if(empty($notif)){
                     echo "Pas de nouvelles notifications";
                 }else{
+                    $passage = false; //vérifie le passage dans la condition en dessous
                     foreach($notif as $n){
-                        $idTicket =  $n->getTicket()->getId();
-                            if($auth->getId() != $n->getUser()->getId()){
+                        $idTicket = $n->getTicket()->getId();
+                        $ticket = DAO::getOne("Ticket","id=".$idTicket);
+                            if($auth->getId() != $n->getUser()->getId() && $ticket->getUser()->getId() == $auth->getId()){
+                                $passage = true;
                                 echo "<tr><td><b>".$n->getUser()." </b> a modifié <a href='Tickets/messages/$idTicket'>".$n->getTicket() ." </a> le ".$n->getDate()."</td><tr>";
-                            }else{echo "Pas de nouvelles notifications";}
+                            }
                     }
+                    if($passage == false){echo "Pas de nouvelles notifications";}
                 }
 			}
 			echo "</div>";
@@ -65,7 +69,8 @@ class DefaultC extends BaseController {
                 $lastTicket = DAO::getAll("Ticket","iduser =". Auth::getUser()->getId()." ORDER BY dateCreation Desc LIMIT 1 ");
             //Where 1=1 est là pour que le where fonctionne..
                 $faq = DAO::getAll("Faq", "1=1 ORDER BY dateCreation Desc LIMIT 3");
-                $this->loadView("main/vDefault", array("ticket" => $lastTicket, "faq"=> $faq));
+                $user = DAO::getAll("User", "idrang = 1 OR idrang = 2");
+                $this->loadView("main/vDefault", array("ticket" => $lastTicket, "faq"=> $faq, "user"=> $user));
 		}
 		else{
 			$this->loadView("User/vConnect");

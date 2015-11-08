@@ -1,3 +1,42 @@
+<?php use micro\orm\DAO; ?>
+<script type="text/javascript" src="https://www.google.com/jsapi"></script>
+<script type="text/javascript">
+
+    // Load the Visualization API and the piechart package.
+    google.load('visualization', '1.0', {'packages':['corechart']});
+
+    // Set a callback to run when the Google Visualization API is loaded.
+    google.setOnLoadCallback(drawChart);
+
+    // Callback that creates and populates a data table,
+    // instantiates the pie chart, passes in the data and
+    // draws it.
+    function drawChart() {
+
+        // Create the data table.
+        var data = new google.visualization.DataTable();
+        data.addColumn('string', 'Topping');
+        data.addColumn('number', 'Slices');
+        data.addRows([
+            <?php foreach($user as $u){
+                $attrib = DAO::getAll("Ticket", "attribuer =".$u->getId());
+                if(!empty($attrib)){
+                $count = count($attrib); }else{$count = 0;}?>
+
+                ['<?= $u->getLogin() ?>', <?= $count ?>],
+            <?php } ?>
+        ]);
+
+        // Set chart options
+        var options = {'title':'Répartition des tickets attribués',
+            'width':400,
+            'height':300};
+
+        // Instantiate and draw our chart, passing in some options.
+        var chart = new google.visualization.PieChart(document.getElementById('chart_div'));
+        chart.draw(data, options);
+    }
+</script>
 
 <div class="container">
 
@@ -23,16 +62,18 @@
         </table>
     </div>
     <?php if(Auth::isAdmin()){ ?>
-	<div class="well well-lg">
-		<div id="main">
+     <div id="chart_div" style="display: inline-block"></div>
+	<div style="display: inline-block; vertical-align:top">
+
+        <div id="main" >
 			<fieldset>
-				<legend>Données</legend>
-				<a class="btn btn-link" href="#">Accueil</a>
-				<a class="btn btn-default" href="Users">Utilisateurs</a>
-				<a class="btn btn-primary" href="Categories">Catégories</a>
-				<a class="btn btn-info" href="Tickets">Tickets</a>
-				<a class="btn btn-success" href="Statuts">Statuts</a>
-				<a class="btn btn-warning" href="Faqs">Faq</a>
+                <ul>
+                    <li><a class="btn btn-default" href="Users">Utilisateurs</a></li>
+                    <li><a class="btn btn-primary" href="Categories">Catégories</a></li>
+                    <li><a class="btn btn-info" href="Tickets">Tickets</a></li>
+                    <li><a class="btn btn-success" href="Statuts">Statuts</a></li>
+                    <li><a class="btn btn-warning" href="Faqs">Faq</a></li>
+                </ul>
 			</fieldset>
 		</div>
 		<div id="response"></div>

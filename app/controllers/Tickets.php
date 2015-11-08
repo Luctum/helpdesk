@@ -150,11 +150,7 @@ class Tickets extends \_DefaultController {
                         echo "<td>".$object2->getUser()."</td>";
                     }
 
-
-
-
                     $button = "<td class='btn-success'></td>";
-
 
                     foreach($notifications as $n2){
 
@@ -321,9 +317,12 @@ class Tickets extends \_DefaultController {
 	}
 	
 	public function frm($id=NULL){
+
 		$ticket=$this->getInstance($id);
+        if(Auth::getUser()->getId() == $ticket->getUser()->getId() || Auth::isAdmin()){
 		$categories=DAO::getAll("Categorie");
         $users = DAO::getAll("User","idRang=2 OR idRang=1");
+
 		if($ticket->getCategorie()==null){
 			$cat=-1;
 		}else{
@@ -344,7 +343,10 @@ class Tickets extends \_DefaultController {
 		$this->loadView("ticket/vAdd",array("ticket"=>$ticket,"listCat"=>$listCat,"listType"=>$listType,"listStatuts"=>$listStatuts, "users"=>$users));
 		echo Jquery::setOn("click", ".modif-statut", "#idStatut","$(event.target).attr('datatype')");
 		echo Jquery::execute("CKEDITOR.replace( 'description');");
-	}
+	}else{
+            echo "Vous ne disposez pas des droits..";
+        }
+    }
 
 	
 	/* (non-PHPdoc)
@@ -356,6 +358,7 @@ class Tickets extends \_DefaultController {
 		$object->setCategorie($categorie);
 		$user=DAO::getOne("User", $_POST["idUser"]);
 		$object->setUser($user);
+
         if(!empty($_POST["attribuer"])){
             $attribuer=DAO::getOne("User", $_POST["attribuer"]);
             $object->setAttribuer($attribuer);
