@@ -138,6 +138,12 @@ class Faqs extends \_DefaultController {
 
     public function frm($id = NULL){
         $faq=$this->getInstance($id);
+        //Permet d'ajouter un controle sur les formulaires, si jamais un utilisateur non autorisé tente d'acceder a un formulaire alors il est renvoyé vers la page de création du formulaire
+        if($id != NULL && ($faq->getUser()->getId() != Auth::getUser()->getId() || Auth::isAdmin() == false)){
+            $id = null;
+            $faq=$this->getInstance($id);
+        }
+
         $categories=DAO::getAll("Categorie");
 
         if($faq->getCategorie()==null){
@@ -149,7 +155,8 @@ class Faqs extends \_DefaultController {
 
         $this->loadView("faq/vAdd",array("faq"=>$faq,"listCat"=>$listCat,"id"=>$id));
         echo Jquery::execute("CKEDITOR.replace( 'contenu');");
-    }
+
+}
 
 	/* (non-PHPdoc)
 	 * @see _DefaultController::setValuesToObject()

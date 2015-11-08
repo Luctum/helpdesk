@@ -317,9 +317,12 @@ class Tickets extends \_DefaultController {
 	}
 	
 	public function frm($id=NULL){
-
 		$ticket=$this->getInstance($id);
-        if(Auth::getUser()->getId() == $ticket->getUser()->getId() || Auth::isAdmin()){
+        //Permet d'ajouter un controle sur les formulaires, si jamais un utilisateur non autorisé tente d'acceder a un formulaire alors il est renvoyé vers la page de création du formulaire
+        if($id != NULL && ($ticket->getUser()->getId() != Auth::getUser()->getId() || Auth::isAdmin() == false)){
+            $id = null;
+            $ticket=$this->getInstance($id)
+        }
 		$categories=DAO::getAll("Categorie");
         $users = DAO::getAll("User","idRang=2 OR idRang=1");
 
@@ -343,9 +346,7 @@ class Tickets extends \_DefaultController {
 		$this->loadView("ticket/vAdd",array("ticket"=>$ticket,"listCat"=>$listCat,"listType"=>$listType,"listStatuts"=>$listStatuts, "users"=>$users));
 		echo Jquery::setOn("click", ".modif-statut", "#idStatut","$(event.target).attr('datatype')");
 		echo Jquery::execute("CKEDITOR.replace( 'description');");
-	}else{
-            echo "Vous ne disposez pas des droits..";
-        }
+
     }
 
 	
