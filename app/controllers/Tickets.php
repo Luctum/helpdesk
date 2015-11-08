@@ -32,15 +32,15 @@ class Tickets extends \_DefaultController {
 
         echo "<a class='btn btn-primary' href='".$config["siteUrl"].$baseHref."/frm'>Ajouter...</a>";
 
-        echo "<h3>Mes Tickets<p class='glyphicon glyphicon-collapse-down btn-xs' id='showP'></p><p class='glyphicon glyphicon-collapse-up btn-xs' id='hideP'></p></h3>";
+        echo "<h3>Mes Tickets<span class='glyphicon glyphicon-collapse-down btn-xs' id='showP'></span><span class='glyphicon glyphicon-collapse-up btn-xs' id='hideP'></span></h3>";
         echo "<div id='postes' ></div>";
 
         if(Auth::isAdmin() || Auth::getUser()->getRang()->getId() != 3){
-            echo "<h3>Interventions<p class='glyphicon glyphicon-collapse-down btn-xs' id='showI'></p><p class='glyphicon glyphicon-collapse-up btn-xs' id='hideI'></p></h3>";
+            echo "<h3>Interventions<span class='glyphicon glyphicon-collapse-down btn-xs' id='showI'></span><span class='glyphicon glyphicon-collapse-up btn-xs' id='hideI'></span></h3>";
             echo "<div id='intervenu' ></div>";
 
 
-            echo "<h3>Nouveaux<span class='btn btn-info' style='border-radius:50%;'>".count($nouveau)."</span><p class='glyphicon glyphicon-collapse-down btn-xs' id='showN'></p><p class='glyphicon glyphicon-collapse-up btn-xs' id='hideN'></p></h3>";
+            echo "<h3>Nouveaux<span class='btn btn-info' style='border-radius:50%;'>".count($nouveau)."</span><span class='glyphicon glyphicon-collapse-down btn-xs' id='showN'></span><span class='glyphicon glyphicon-collapse-up btn-xs' id='hideN'></span></h3>";
             echo "<div id='nouveau' ></div>";
         }
 
@@ -319,9 +319,12 @@ class Tickets extends \_DefaultController {
 	public function frm($id=NULL){
 		$ticket=$this->getInstance($id);
         //Permet d'ajouter un controle sur les formulaires, si jamais un utilisateur non autorisé tente d'acceder a un formulaire alors il est renvoyé vers la page de création du formulaire
-        if($id != NULL && ($ticket->getUser()->getId() != Auth::getUser()->getId() || Auth::isAdmin() == false)){
-            $id = null;
-            $ticket=$this->getInstance($id);
+        if($id != NULL && $ticket->getUser()->getId() != Auth::getUser()->getId()){
+            if(Auth::isAdmin()==false){
+
+                $id = null;
+                $ticket=$this->getInstance($id);
+            }
         }
 		$categories=DAO::getAll("Categorie");
         $users = DAO::getAll("User","idRang=2 OR idRang=1");

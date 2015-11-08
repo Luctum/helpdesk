@@ -43,7 +43,7 @@ class Faqs extends \_DefaultController {
             echo "<tbody>";
 
             foreach ($objects as $o) {
-                if($o->getUser() == Auth::getUser()){
+                if($o->getUser()->getId() == Auth::getUser()->getId()){
                     echo "<tr>";
                     echo "<td>" . $o->toString() . "</td>";
                     if (is_callable(array($o, "getUser"))) {
@@ -139,9 +139,11 @@ class Faqs extends \_DefaultController {
     public function frm($id = NULL){
         $faq=$this->getInstance($id);
         //Permet d'ajouter un controle sur les formulaires, si jamais un utilisateur non autorisé tente d'acceder a un formulaire alors il est renvoyé vers la page de création du formulaire
-        if($id != NULL && ($faq->getUser()->getId() != Auth::getUser()->getId() || Auth::isAdmin() == false)){
-            $id = null;
-            $faq=$this->getInstance($id);
+        if($id != NULL && $faq->getUser()->getId() != Auth::getUser()->getId()){
+            if(Auth::isAdmin() == false){
+                $id = null;
+                $faq=$this->getInstance($id);
+            }
         }
 
         $categories=DAO::getAll("Categorie");
