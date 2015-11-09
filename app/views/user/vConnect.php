@@ -10,7 +10,8 @@
                 <input type="checkbox" name="retenir" id="retenir"> - Rester connecter</input>
 
 
-                <p style="text-align: center;">Vous n'avez pas de compte ? Inscrivez-vous ! <a href="Users/frm">S'inscrire</a></p>
+                <p style="">Vous n'avez pas de compte ? Inscrivez-vous ! <a href="Users/frm">S'inscrire</a></p>
+                <p style=""><a href="Users/forgotmdp"> Mot de passe oublié </a></p>
 
                 <div style="margin: 0;">
                     <input type="submit" value="Valider" id="submit" class="btn btn-default">
